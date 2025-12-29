@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
-// @ts-ignore - Nextra types may not be fully compatible
-import withNextra from "nextra";
+import nextra from "nextra";
 
 const nextConfig: NextConfig = {
 	/* config options here */
@@ -10,7 +9,6 @@ const nextConfig: NextConfig = {
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 initOpenNextCloudflareForDev();
 
-export default withNextra({
-	theme: "nextra-theme-docs",
-	themeConfig: "./theme.config.tsx",
-} as any)(nextConfig);
+export default nextra({
+	// Nextra 4.x configuration
+})(nextConfig);
