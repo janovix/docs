@@ -1,3 +1,0 @@
-# Artículo 26: Presentación de Avisos a través de Entidades Colegiadas
-
-Las personas que realicen Actividades Vulnerables, incluidas quienes actúen por medio de fideicomisos, y deban presentar Avisos conforme a lo previsto por la Sección Segunda de este Capítulo, podrán presentarlos por conducto de una Entidad Colegiada que deberá cumplir los requisitos que establezca esta Ley.

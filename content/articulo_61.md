@@ -1,0 +1,3 @@
+# Artículo 61: Medios de Impugnación de Sanciones Administrativas
+
+Las sanciones administrativas impuestas conforme a la presente Ley podrán impugnarse ante la propia Secretaría, mediante el recurso de revisión previsto en la Ley Federal de Procedimiento Administrativo o directamente ante el Tribunal Federal de Justicia Administrativa a través del procedimiento contencioso administrativo.

@@ -1,4 +1,0 @@
-# Artículo 42: Valor probatorio limitado de los Avisos
-
-Los Avisos  que se presenten  en términos  de esta Ley en ningún  caso  tendrán,  por sí mismos,  valor  probatorio pleno.
-En ningún  caso  el Ministerio Público  de la Federación  podrá  sostener  su investigación  exclusivamente  en los Avisos  a que se refiere  la presente Ley, por lo que la misma  estará  sustentada en las pruebas  que acrediten  el acto u operación  objeto  de los Avisos.

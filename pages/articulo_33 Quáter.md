@@ -1,3 +1,0 @@
-# Artículo 33 Quáter: Promoción para que sociedades y asociaciones civiles identifiquen a su Beneficiario Controlador
-
-La Secretaría, a través de la unidad administrativa facultada conforme a las  disposiciones aplicables, promoverá entre las autoridades competentes de las Entidades Federativas que las sociedades y asociaciones civiles identifiquen a su respectiva persona Beneficiario Controlador, tomando en consideración lo dispuesto en las reglas de carácter general que al efecto emita la Secretaría conforme a esta Ley.

@@ -1,0 +1,3 @@
+# Artículo 14: Actos y servicios de Entidades Financieras como Actividades Vulnerables
+
+Para los efectos de esta Sección, los actos, operaciones y servicios que realizan las Entidades Financieras de conformidad con las leyes que en cada caso las regulan, se consideran Actividades Vulnerables, las cuales se regirán en los términos de esta Sección.

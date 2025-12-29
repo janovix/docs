@@ -1,4 +1,0 @@
-# Artículo 34: Facultad de la Secretaría para verificar y requerir información en cualquier tiempo
-
-La Secretaría podrá comprobar, de oficio y en cualquier tiempo, el cumplimiento de las obligaciones previstas en esta Ley, mediante la práctica de visitas de verificación o requerimientos de información, documentación, datos e imágenes a quienes realicen las Actividades Vulnerables previstas en la Sección Segunda del Capítulo III de esta Ley, a las Entidades Colegiadas a que se refiere el artículo 26 de esta Ley o, en su caso, al órgano concentrador previsto en el penúltimo párrafo del artículo 27 de la mis ma.
-Las personas requeridas o visitadas deberán proporcionar exclusivamente la información, datos, imágenes y documentación soporte con que cuenten que esté directamente relacionada con las Actividades Vulnerables que realicen.

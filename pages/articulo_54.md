@@ -1,6 +1,0 @@
-# Artículo 54: Montos de multas aplicables según el tipo de infracción
-
-Las multas  aplicables  para los supuestos  del artículo  anterior  de esta Ley serán  las siguientes:  
-I. Se aplicará multa equivalente a doscientos y hasta dos mil veces el valor diario de la UMA en el caso de las fracciones I, II, III y IV del artículo 53 de esta Ley;  
-II. Se aplicará multa equivalente a dos mil y hasta diez mil veces el valor diario de la UMA en el caso de la fracción V del artículo 53 de esta Ley, y   
-III. Se aplicará multa equivalente a diez mil y hasta sesenta y cinco mil veces el valor diario de la UMA, o del diez al cien por ciento del valor del acto u operación, cuando sean cuantificables en dinero, la que resulte mayor en el caso de las fracciones VI y VII del artículo 53 de esta Ley.

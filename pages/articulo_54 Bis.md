@@ -1,3 +1,0 @@
-# Artículo 54 Bis: Suspensión temporal de operaciones con Clientes o Usuarios
-
-La Secretaría podrá determinar, conforme a los mecanismos que para tal efecto se emitan en términos de las reglas de carácter general,  que quienes realizan Actividades Vulnerables suspendan de manera temporal la realización de actos u operaciones con determinadas personas Clientes o Usuarias en tanto se subsane o resuelva el procedimiento establecido en dichos mecanismos.

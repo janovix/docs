@@ -1,3 +1,0 @@
-# Artículo 25: Facultad de la Secretaría para requerir documentación y soportes
-
-La Secretaría podrá requerir a quienes realizan Actividades Vulnerables, por escrito o durante las visitas de verificación, la documentación, información, dato s e imágenes soporte de los actos u operaciones que lleven a cabo con las personas Clientes o Usuarias, así como de los Avisos e Informes.

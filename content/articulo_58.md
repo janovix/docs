@@ -1,0 +1,7 @@
+# Artículo 58: Notorias deficiencias de notarios y corredores públicos y comunicación a autoridades de fe pública
+
+Cuando la Secretaría determine que una persona notaria o corredora Pública ha incurrido en notorias deficiencias relacionadas con el cumplimiento de esta Ley, informará a la a utoridad competente para supervisar el ejercicio de la fe pública, a efecto de que instaure el procedimiento sancionador correspondiente.
+Para efectos de lo dispuesto en el párrafo anterior, se consideran notorias deficiencias:  
+I. La reincidencia en la violación de lo dispuesto en el artículo 53, en sus fracciones I, II, III, IV y V, y
+II. La violación a lo previsto en las fracciones VI y VII del artículo 53.
+La imposición de sanciones por parte de la autoridad competente para supervisar el ejercicio de la fe pública, se llevará a cabo sin perjuicio de las demás que resulten aplicables en términos de la presente Ley.
