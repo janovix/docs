@@ -1,0 +1,4 @@
+# Artículo 64: Agravantes e Inhabilitación por Delitos en Materia PLD
+
+Las penas  previstas  en los artículos  62 y 63, fracción  II, de  esta Ley se duplicarán  en caso  de que quien cometa  el ilícito  sea al momento  de come terlo o haya  sido dentro  de los dos años  anteriores  a ello, servidor  público encargado  de prevenir,  detectar,  investigar  o juzgar  delitos.  
+A quienes  incurran  en cualquiera  de los delitos  previstos  en los artículos  62 y 63 de esta Ley, se les aplicará,  además,  una sanción de inhabilitación para desempeñar  el servicio  público  por un tiempo  igual al de la pena  de prisión que haya sido impuesta,  la cual comenzará a correr  a partir  de que se haya  cumplido  la pena de prisión.

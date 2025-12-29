@@ -1,0 +1,5 @@
+# Artículo 50: Obligación de reserva y confidencialidad sobre información de Avisos y operaciones
+
+Las personas servidoras públicas de la Secretaría, la Fiscalía y las personas que deban presenta r Avisos en términos de la presente Ley, que conozcan de información, documentación, datos o noticias de actos u operaciones objeto de la presente Ley y que hayan sido presentados ante la Secretaría, se abstendrán de divulgarla o proporcionarla, bajo cualquier medio, a quien no esté expresamente autorizado en la misma.  
+Para que se pueda proporcionar información, documentación, datos e imágenes a las personas servidoras públicas de las entidades federativas,  éstas deberán estar sujetas a obligaciones legales en materia de guarda, reserva y confidencialidad  respecto de aquello que se les proporcione en términos de esta Ley y su inobservancia esté penalmente sancionada.  
+La violación  a las reservas  que esta Ley impone,  será sancionada  en los términos  de las disposiciones  legales aplicables.

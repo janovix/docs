@@ -1,0 +1,3 @@
+# Artículo 32: Restricción de efectivo
+
+Queda prohibido dar cumplimiento a obligaciones y, en general, liquidar o pagar, así como aceptar la liquidación o el pago, de actos u operaciones mediante el uso de monedas y billetes , en moneda nacional o divisas y Metales Preciosos, aun cuando la liquidación o el pago se realice en efectivo por conducto de una Entidad Financiera, en los supuestos siguientes:

@@ -1,0 +1,6 @@
+# Artículo 17. I.: Juegos con apuesta, concursos y sorteos
+
+I. Las vinculadas a la práctica de juegos con apuesta, concursos o sorteos que realicen organismos descentralizados conforme a las dis posiciones legales aplicables, o se lleven a cabo al amparo de los permisos o autorizaciones vigentes concedidos por la Secretaría de Gobernación bajo el régimen de la Ley Federal de Juegos y Sorteos y su Reglamento. En estos casos, únicamente cuando se ll even a cabo bajo las siguientes modalidades y montos:  
+La venta de boletos, fichas o cualquier otro tipo de comprobante similar para la práctica de dichos juegos, concursos o sorteos, así como el pago del valor que representen dichos boletos, fichas o recibos o, en general, la entrega o pago de premios y la realización de cualquier operación financiera, ya sea que se lleve a cabo de manera individual o en serie de transacciones vinculadas entre sí en apariencia, con las personas que participen en dichos juegos, concursos o sorteos, 
+siempre que el valor de cualquiera de esas operaciones sea por una cantidad igual o superior al equivalente a trescientas veinticinco veces el valor diario de la UMA.  
+Serán objeto de Aviso ante la Secretaría las actividades anteriores, cuando el monto del acto u operación sea igual o superior al equivalente a seiscientas cuarenta y cinco veces el valor diario de la UMA;

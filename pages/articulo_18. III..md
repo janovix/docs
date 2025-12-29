@@ -1,0 +1,4 @@
+# Artículo 18. III.: Identificación del Beneficiario Controlador
+
+III. Cuando la Cliente o Usuaria sea persona moral, fideicomiso u otra figura jurídica, recabar documentos u otros medios de identificación con reconocimiento oficial que permita identificar a su Beneficiario Controlador, de conformidad con las Reglas de carácter general que emita la Secretaría. 
+Cuando la Cliente o Usuaria sea persona física, recabar la declar ación acerca de si tiene o no conocimiento de la existencia de una persona Beneficiario Controlador y, en su caso, la documentación que permita identificarla, de conformidad con las Reglas de carácter general que emita la Secretaría;

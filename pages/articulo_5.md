@@ -1,0 +1,3 @@
+# Artículo 5: Facultad de la Secretaría como autoridad competente
+
+La Secretaría será la autoridad competente  para aplicar e interpretar, en el ámbito administrativo, la presente Ley, su Reglamento y las reglas de carácter general que emita la propia Secretaría conforme a esta Ley.

@@ -1,0 +1,3 @@
+# Artículo 11: Programas de capacitación obligatoria para autoridades en materia PLD
+
+La Secretaría, la Fiscalía, la Secretaría de Seguridad y Protección Ciudadana y la Guardia Nacional deberán establecer programas de capacitación, actualización y especialización dirigidos al personal adscrito a sus respectivas áreas encargadas de la prevención, detección y combate de los Delitos de Operaciones con Recursos de Proce dencia Ilícita, los Delitos relacionados con estos y con las estructuras financieras de las organizaciones delictivas, así como evitar el uso de los recursos para su financiamiento.

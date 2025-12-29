@@ -1,0 +1,4 @@
+# Artículo 18. IV. Bis: Alta, registro y actualización en el Padrón de Personas que realizan Actividades Vulnerables
+
+IV Bis. Realizar su alta y registro o, en su caso, modificación o baja del Padrón de personas que realizan Actividades Vulnerables, a través del Portal en Internet, de conformidad con lo establecido en la Ley, el Reglamento, y las reglas de carácter general. 
+Para realizar el alta y registro y sus actualizaciones, quienes realicen las Actividades  Vulnerables establecidas en el artículo 17 de la Ley deberán enviar la información,  documentación, datos e imágenes a través de los medios electrónicos y en el formato oficial  que para tales efectos determine la Secretaría, los cuales deberán ser publicados en el  Diario Oficial de la Federación, así como sus modificaciones;

@@ -1,0 +1,3 @@
+# Artículo 22: Avisos a la Secretaría: excepción a deberes de secreto
+
+La presentación ante la Secretaría de los Avisos, información, documentación, datos e imágenes a que se refiere esta Ley, por parte de quienes realic en las Actividades Vulnerables no implicará para éstos, transgresión alguna a las obligaciones de confidencialidad o secreto legal, profesional, fiscal, bancario, fiduciario o cualquier otro que prevean las leyes, ni podrá ser objeto de cláusula de confidencialidad en convenio, contrato o acto jurídico alguno.

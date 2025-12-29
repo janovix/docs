@@ -1,0 +1,3 @@
+# Artículo 32. III.: Prohibición de pagar en efectivo joyería, metales, piedras preciosas u obras de arte
+
+III. Transmisiones de propiedad de relojes, joyería, Metales Preciosos y Piedras Preciosas, ya sea por pieza o por lote, y de obras de arte, por un valor igual o superior al equivalente a tres mil doscientas diez ve ces el valor diario de la UMA, al día en que se realice el pago o se cumpla la obligación;

@@ -1,0 +1,9 @@
+# Artículo 4: Aplicación supletoria de otras leyes
+
+En lo no previsto  por la presente  Ley, se aplicarán,  conforme a su naturaleza  y de forma  supletoria,  las disposiciones contenidas  en: 
+I. El Código  de Comercio;  
+II. El Código  Civil Federal;  
+II Bis. La Ley General de Títulos y Operaciones de Crédito;  
+III. La Ley Federal  de Procedimiento  Administrativo;  
+IV. La Ley General de Transparencia y Acceso a la Información Pública, y  
+V. La Ley Federal  de Protección  de Datos  Personales en Posesión  de Particulares.

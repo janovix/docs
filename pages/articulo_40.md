@@ -1,0 +1,4 @@
+# Artículo 40: Obligación de denunciar actos u operaciones sospechosas y seguimiento semestral
+
+La Secretaría deberá denunciar ante la Fiscalía cualquier acto u operación que derive de una Actividad Vulnerable que pudiera dar lugar a la existencia de un delito del fuero federal que se identifique con motivo de la aplicación de la presente Ley.
+La Unidad deberá informar semestralmente a la Secretaría el estado de las denuncias presentadas.
