@@ -11,4 +11,5 @@ initOpenNextCloudflareForDev();
 
 export default nextra({
 	// Nextra 4.x configuration
+	contentDirBasePath: "/",
 })(nextConfig);
