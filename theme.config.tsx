@@ -3,9 +3,9 @@ import React from "react";
 const config = {
 	logo: <span>Documentación Legal</span>,
 	project: {
-		link: "https://github.com",
+		link: "https://github.com/janovix/docs",
 	},
-	docsRepositoryBase: "https://github.com",
+	docsRepositoryBase: "https://github.com/janovix/docs",
 	footer: {
 		text: "Documentación Legal © 2024",
 	},
