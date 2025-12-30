@@ -1,3 +1,28 @@
-// Nextra 4.x catch-all route for App Router
-// This allows Nextra to handle all routes including the root (/)
-export { default, generateStaticParams, generateMetadata } from "nextra/catch-all";
+import { generateStaticParamsFor, importPage } from "nextra/pages";
+import { useMDXComponents as getMDXComponents } from "@/mdx-components";
+
+export const generateStaticParams = generateStaticParamsFor("slug");
+
+// Get MDX components wrapper for rendering
+const Wrapper = getMDXComponents({}).wrapper;
+
+export async function generateMetadata(props: {
+	params: Promise<{ slug?: string[] }>;
+}) {
+	const params = await props.params;
+	const { metadata } = await importPage(params.slug);
+	return metadata;
+}
+
+export default async function Page(props: {
+	params: Promise<{ slug?: string[] }>;
+}) {
+	const params = await props.params;
+	const result = await importPage(params.slug);
+	const { default: MDXContent, toc, metadata } = result;
+	return (
+		<Wrapper toc={toc} metadata={metadata}>
+			<MDXContent {...props} params={params} />
+		</Wrapper>
+	);
+}
