@@ -20,10 +20,10 @@ export default async function Page(props: {
 	const params = await props.params;
 	// Handle root route (undefined slug) by passing empty array
 	const result = await importPage(params.slug ?? []);
-	const { default: MDXContent, toc, metadata } = result;
+	const { default: MDXContent, toc, metadata, sourceCode } = result;
 
 	return (
-		<Wrapper toc={toc} metadata={metadata}>
+		<Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
 			<MDXContent {...props} params={params} />
 		</Wrapper>
 	);
