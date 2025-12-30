@@ -1,4 +1,5 @@
 import { generateStaticParamsFor, importPage } from "nextra/pages";
+import { Layout } from "nextra-theme-docs";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
 
 export const generateStaticParams = generateStaticParamsFor("slug");
@@ -20,13 +21,12 @@ export default async function Page(props: {
 	const result = await importPage(params.slug ?? []);
 	const { default: MDXContent, toc, metadata } = result;
 
-	// Get MDX components wrapper for rendering
+	// Get MDX components for rendering
 	const components = getMDXComponents({});
-	const Wrapper = components.wrapper;
 
 	return (
-		<Wrapper toc={toc} metadata={metadata}>
-			<MDXContent />
-		</Wrapper>
+		<Layout toc={toc} metadata={metadata}>
+			<MDXContent components={components} />
+		</Layout>
 	);
 }
