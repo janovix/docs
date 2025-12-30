@@ -1,11 +1,15 @@
 import type { NextConfig } from "next";
+import nextra from "nextra";
 
 const nextConfig: NextConfig = {
 	/* config options here */
 };
 
-export default nextConfig;
-
 // added by create cloudflare to enable calling `getCloudflareContext()` in `next dev`
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 initOpenNextCloudflareForDev();
+
+export default nextra({
+	// Nextra 4.x configuration
+	contentDirBasePath: "/",
+})(nextConfig);

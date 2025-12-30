@@ -1,0 +1,3 @@
+# Artículo 18. IX.: Selección de personal y programas anuales de capacitación obligatoria
+
+IX. Desarrollar procesos para la selección de personal, así como adoptar programas de capacitación anuales, dirigidos a quienes integran su órgano de administración o persona administradora única, directivas, personas representantes encargadas de cumplimiento y empleadas o empleados que tengan relación directa con las personas Clientes o Usuarias, según corresponda, que contemplen la difusión de la Ley y su normativa secundaria, así como del Manual de Políticas Internas señalado en la fracción VIII de este ar tículo, en términos de las reglas de carácter general que emita la Secretaría;

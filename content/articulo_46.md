@@ -1,0 +1,4 @@
+# Artículo 46: Verificación de información a solicitud de la Unidad o del Ministerio Público
+
+La Unidad podrá solicitar a la Secretaría la verificación de información y documentación, en relación con la identidad de personas, domicilios, números telefónicos, direcciones de correos electrónicos, operaciones, negocios o actos jurídicos de quienes realicen Actividades Vulnerables, así como de otras referencias específicas, contenidas en los Avisos y demás información que reciba conforme a esta Ley.
+El Ministerio Público de la Federación podrá solicitar a la Secretaría que ejerza las facultades prevista s en esta Ley, en los términos de los acuerdos de colaboración que al efecto suscriban.

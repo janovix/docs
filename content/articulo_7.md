@@ -1,0 +1,6 @@
+# Artículo 7: Creación y funciones de la Unidad Especializada en Análisis Financiero
+
+La Fiscalía contará con una Unidad Especializada en Análisis Financiero, como órgano especializado en análisis financiero y contable relacionado con operaciones con recursos de procedencia ilícita.  
+La Unidad, cuyo titular tendrá el carácter de agente del Ministerio Público de la Federación, contará con oficiales ministeriales y personal especializados en las materias relacionadas con el objeto de la presente Ley, y estará adscrita a la  
+oficina del Fiscal General de la República.  
+La Unidad podrá utilizar las técnicas y medidas de investigación previstas en el Código Nacional de Procedimientos Penales.
