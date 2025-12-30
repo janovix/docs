@@ -14,5 +14,7 @@ if (process.env.NODE_ENV === "development" && !process.env.CI) {
 
 export default nextra({
 	// Nextra 4.x configuration
+	theme: "nextra-theme-docs",
+	themeConfig: "./theme.config.tsx",
 	contentDirBasePath: "/",
 })(nextConfig);
