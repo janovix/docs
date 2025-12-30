@@ -1,3 +1,17 @@
+# 1.0.0 (2025-12-30)
+
+
+### Features
+
+* Add cross-env dependency to pnpm-lock.yaml ([1699c74](https://github.com/janovix/docs/commit/1699c74d03b6013558928804b679bc570ef82993))
+* Add Navbar and Footer to Layout ([d53373d](https://github.com/janovix/docs/commit/d53373df6b9c122dc9ffba2266ec5e749077bfd3))
+* Add Nextra catch-all route for App Router ([e72d805](https://github.com/janovix/docs/commit/e72d805e684c13688c0ca02b5120056d8e21e291))
+* Add Nextra documentation theme ([21eb0f2](https://github.com/janovix/docs/commit/21eb0f2267ffcd3ca0eb5822f6675b3034765565))
+* Conditionally init dev server and set prod env for builds ([92140ab](https://github.com/janovix/docs/commit/92140abadc00cc0bdef9f8768c367293fae203b0))
+* Configure Nextra theme and update page rendering ([466cdb2](https://github.com/janovix/docs/commit/466cdb26a74b21a8067cf96608198f4f04b39c8d))
+* Ignore .open-next and set contentDirBasePath ([3341026](https://github.com/janovix/docs/commit/334102630f73443031c0ac0aff556bca5d5d5812))
+* Import nextra-theme-docs styles ([6deec2e](https://github.com/janovix/docs/commit/6deec2e73468e1b262a21b10bfb033f50ecfe525))
+
 # [1.2.0](https://github.com/algtools/next-template/compare/v1.1.0...v1.2.0) (2025-12-18)
 
 
