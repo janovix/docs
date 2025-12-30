@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
 };
 
 // added by create cloudflare to enable calling `getCloudflareContext()` in `next dev`
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-initOpenNextCloudflareForDev();
+// Only initialize in development mode, not during builds (which can cause build loops in CI)
+if (process.env.NODE_ENV === "development" && !process.env.CI) {
+	const { initOpenNextCloudflareForDev } = require("@opennextjs/cloudflare");
+	initOpenNextCloudflareForDev();
+}
 
 export default nextra({
 	// Nextra 4.x configuration
