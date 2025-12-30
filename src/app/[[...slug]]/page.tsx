@@ -1,4 +1,6 @@
 import { generateStaticParamsFor, importPage } from "nextra/pages";
+import { getPageMap } from "nextra/page-map";
+import { Layout } from "nextra-theme-docs";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
 
 export const generateStaticParams = generateStaticParamsFor("slug");
@@ -12,8 +14,6 @@ export async function generateMetadata(props: {
 	return metadata;
 }
 
-const Wrapper = getMDXComponents({}).wrapper;
-
 export default async function Page(props: {
 	params: Promise<{ slug?: string[] }>;
 }) {
@@ -22,9 +22,15 @@ export default async function Page(props: {
 	const result = await importPage(params.slug ?? []);
 	const { default: MDXContent, toc, metadata, sourceCode } = result;
 
+	// Get pageMap for ConfigProvider
+	const pageMap = await getPageMap();
+
+	// Get MDX components
+	const components = getMDXComponents({});
+
 	return (
-		<Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
-			<MDXContent {...props} params={params} />
-		</Wrapper>
+		<Layout pageMap={pageMap}>
+			<MDXContent components={components} />
+		</Layout>
 	);
 }
