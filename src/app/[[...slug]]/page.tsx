@@ -1,7 +1,8 @@
 import { generateStaticParamsFor, importPage } from "nextra/pages";
 import { getPageMap } from "nextra/page-map";
-import { Layout } from "nextra-theme-docs";
+import { Layout, Navbar, Footer } from "nextra-theme-docs";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
+import themeConfig from "../../../theme.config";
 
 export const generateStaticParams = generateStaticParamsFor("slug");
 
@@ -28,9 +29,22 @@ export default async function Page(props: {
 	// Get MDX components
 	const components = getMDXComponents({});
 
+	const Wrapper = components.wrapper;
+
 	return (
-		<Layout pageMap={pageMap}>
-			<MDXContent components={components} />
+		<Layout
+			pageMap={pageMap}
+			navbar={
+				<Navbar
+					logo={themeConfig.logo}
+					projectLink={themeConfig.project?.link}
+				/>
+			}
+			footer={<Footer />}
+		>
+			<Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
+				<MDXContent {...props} params={params} />
+			</Wrapper>
 		</Layout>
 	);
 }
