@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/janovix/docs/compare/v1.4.0...v1.5.0) (2026-02-18)
+
+
+### Features
+
+* add resultDisplayTitle function to enhance search result titles ([8456500](https://github.com/janovix/docs/commit/8456500236d4d856f856a295d1d0672d891fca42))
+
 # [1.4.0](https://github.com/janovix/docs/compare/v1.3.0...v1.4.0) (2026-02-18)
 
 
