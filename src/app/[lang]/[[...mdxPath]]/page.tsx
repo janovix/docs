@@ -87,6 +87,11 @@ export default async function Page(props: {
 				{ locale: "es", name: "Español" },
 			]}
 			search={<Search />}
+			editLink={null}
+			feedback={{
+				content: "Question? Give us feedback",
+				link: "https://www.janovix.com/contact",
+			}}
 			navbar={
 				<Navbar
 					logo={

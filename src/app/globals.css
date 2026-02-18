@@ -239,6 +239,16 @@ article td {
 	overflow-wrap: break-word;
 }
 
+/* Fluid layout on large screens: remove Nextra's max-width and auto horizontal margin
+   so navbar, content wrapper, and footer use full width (no empty side margins). */
+.x\:mx-auto {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+.x\:max-w-\(--nextra-content-width\) {
+	max-width: none !important;
+}
+
 /* Ensure content wrapper takes available space between navbar and footer */
 div:has(> .nextra-sidebar) {
 	flex: 1 0 auto;
