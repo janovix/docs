@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/janovix/docs/compare/v1.1.0...v1.1.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* update routes in documentation for consistency and correct locale paths ([1be991d](https://github.com/janovix/docs/commit/1be991dfea4b0047ab90140cce5749beaf5f0b6a))
+
 # [1.1.0](https://github.com/janovix/docs/compare/v1.0.0...v1.1.0) (2026-02-18)
 
 
