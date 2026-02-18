@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/janovix/docs/compare/v1.2.0...v1.3.0) (2026-02-18)
+
+
+### Features
+
+* enhance locale handling with dynamic copy button text and localized search functionality ([3db7e93](https://github.com/janovix/docs/commit/3db7e939c0fd654a94bf114cc26344f4d1cba49f))
+
 # [1.2.0](https://github.com/janovix/docs/compare/v1.1.2...v1.2.0) (2026-02-18)
 
 
