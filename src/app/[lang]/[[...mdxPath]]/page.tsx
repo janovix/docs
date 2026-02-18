@@ -79,6 +79,7 @@ export default async function Page(props: {
 	const pageMap = await getPageMap(`/${params.lang}`);
 	const components = getMDXComponents({});
 	const Wrapper = components.wrapper;
+	const isEs = params.lang === "es";
 
 	return (
 		<Layout
@@ -89,10 +90,19 @@ export default async function Page(props: {
 			]}
 			search={<Search />}
 			editLink={null}
+			toc={{
+				title: isEs ? "En Esta Página" : "On This Page",
+				backToTop: isEs ? "Volver arriba" : "Scroll to top",
+			}}
 			feedback={{
-				content: "Question? Give us feedback",
+				content: isEs
+					? "¿Preguntas? Envíanos comentarios"
+					: "Question? Give us feedback",
 				link: "https://www.janovix.com/contact",
 			}}
+			themeSwitch={
+				isEs ? { dark: "Oscuro", light: "Claro", system: "Sistema" } : undefined
+			}
 			navbar={
 				<Navbar
 					logo={

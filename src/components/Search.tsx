@@ -175,7 +175,7 @@ export function Search() {
 				aria-label={t.triggerLabel}
 			>
 				<SearchIcon className="h-3.5 w-3.5" />
-				<span className="hidden sm:inline">{t.triggerShort}</span>
+				<span>{t.triggerShort}</span>
 				<kbd className="ml-1 hidden rounded border border-neutral-200 px-1 py-0.5 font-mono text-xs text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:inline">
 					⌘K
 				</kbd>

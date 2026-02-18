@@ -1,11 +1,10 @@
 {
-	"index": {
-		"title": "Inicio",
-		"display": "hidden"
-	},
-	"introduction": "Introducción",
-	"settings": "Manual de Configuración",
-	"aml": "Manual AML",
-	"watchlist": "Manual de Watchlist",
-	"api": "Integración API"
+	"index": "Documentación de Janovix",
+	"what-is-janovix": "¿Qué es Janovix?",
+	"legal-background": "Marco Legal (LFPIORPI)",
+	"mission": "Misión y Propósito",
+	"settings": "Configuración",
+	"aml": "AML",
+	"watchlist": "Watchlist",
+	"api": "API"
 }

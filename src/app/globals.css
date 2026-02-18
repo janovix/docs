@@ -230,13 +230,13 @@ article.nextra-body-typesetting-article {
 	-webkit-overflow-scrolling: touch;
 }
 
-/* Tables: allow long cell text to wrap so they overflow less on narrow viewports */
-main th,
-main td,
-article th,
-article td {
-	word-break: break-word;
-	overflow-wrap: break-word;
+/* Tables: horizontally scrollable on narrow viewports instead of squeezing columns */
+main table,
+article table {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	white-space: normal;
 }
 
 /* Fluid layout on large screens: remove Nextra's max-width and auto horizontal margin
