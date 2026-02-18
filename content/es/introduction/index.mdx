@@ -1,0 +1,75 @@
+---
+title: ¿Qué es Janovix?
+description: Descripción general de la plataforma de cumplimiento Janovix
+---
+
+import { Callout } from "nextra/components";
+
+{/* IMAGE: public/images/introduction/platform-architecture.png - Diagrama de arquitectura de alto nivel mostrando servicios AML, Auth y Watchlist y cómo se conectan */}
+
+# ¿Qué es Janovix?
+
+Janovix es una **plataforma de cumplimiento contra el lavado de dinero (AML)** nativa de la nube construida específicamente para empresas mexicanas que realizan _actividades vulnerables_ bajo la [LFPIORPI](/es/introduction/legal-background).
+
+La plataforma cubre todo el ciclo de cumplimiento — desde la incorporación de clientes y registro de transacciones, hasta la detección automática de actividades sospechosas, generación de avisos al SAT y mantenimiento de un registro de auditoría completo.
+
+## Componentes de la Plataforma
+
+Janovix se compone de tres aplicaciones integradas:
+
+|| Aplicación | Propósito |
+|| ------------- | ------------------------------------------------------------------------------------------------ |
+|| **AML** | Gestionar clientes, operaciones, alertas, avisos, reportes y sesiones KYC |
+|| **Watchlist** | Ejecutar screening inteligente contra listas OFAC, UNSC, SAT 69-B, PEP y medios adversos |
+|| **Configuración** | Configurar tu organización, equipo, claves de API, facturación y configuración de cumplimiento |
+
+## ¿Para quién es Janovix?
+
+Janovix está diseñado para los **sujetos obligados** listados en el Artículo 17 de la LFPIORPI — empresas que operan en sectores como:
+
+- Desarrollo y corretaje de bienes raíces
+- Venta de vehículos (terrestres, marinos y aéreos)
+- Joyas, metales preciosos y piedras
+- Arte y antigüedades
+- Juegos y loterías
+- Servicios de blindaje
+- Servicios profesionales legales y notariales
+- Servicios de préstamos y crédito
+- Tarjetas prepagadas e instrumentos financieros
+
+<Callout type="info">
+	Si tu empresa realiza cualquiera de las 20 actividades vulnerables definidas
+	en el Art. 17 de la LFPIORPI, legalmente estás obligado a registrarte con el
+	SAT, recopilar datos KYC de tus clientes y presentar avisos periódicos.
+	Janovix automatiza todo esto.
+</Callout>
+
+## Capacidades Clave
+
+### Gestión de Clientes y KYC
+
+Registra personas físicas, entidades morales (jurídicas) y fideicomisos. Realiza seguimiento del estado de cumplimiento KYC, recopila documentos, identifica accionistas y controladores beneficiarios e inicia screening automático de watchlist en el registro de clientes.
+
+### Seguimiento de Transacciones (Operaciones)
+
+Registra todas las transacciones cubiertas por la LFPIORPI en 20 tipos de actividades. El sistema calcula automáticamente umbrales UMA para determinar qué operaciones requieren avisos al SAT.
+
+### Detección de Alertas
+
+Motor de reglas configurable que analiza operaciones en tiempo real y genera alertas de cumplimiento. Soporta generación automática de XML del SAT y seguimiento de envío.
+
+### Presentación de Avisos al SAT
+
+Genera avisos mensuales en el formato XML requerido por el SAT. Realiza seguimiento del estado de envío y reconocimientos del portal SAT.
+
+### Screening de Watchlist
+
+Búsqueda híbrida semántica + coincidencia exacta en SDN de OFAC, Consejo de Seguridad de la ONU, SAT 69-B, bases de datos PEP y fuentes de medios adversos. Se ejecuta automáticamente en el registro de cliente y controlador beneficiario.
+
+### Reportes y Análisis
+
+Genera resúmenes ejecutivos, reportes de estado de cumplimiento, análisis de transacciones y desgloses de alertas. Exporta a PDF.
+
+### API-First
+
+Cada característica está disponible a través de una API REST documentada, permitiendo integración sin problemas con tus sistemas ERP, CRM o de gestión notarial existentes.

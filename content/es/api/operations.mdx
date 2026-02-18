@@ -1,0 +1,242 @@
+---
+title: Operations API
+description: Record and manage vulnerable activity transactions via the API
+---
+
+import { Tabs, Callout } from "nextra/components";
+
+# Operations API
+
+The Operations API handles the recording and management of vulnerable activity transactions.
+
+**Base path:** `/api/v1/operations`
+
+## Endpoints
+
+| Method   | Path                                       | Description                                |
+| -------- | ------------------------------------------ | ------------------------------------------ |
+| `GET`    | `/operations`                              | List operations                            |
+| `GET`    | `/operations/activities`                   | List all 20 activity types with thresholds |
+| `GET`    | `/operations/activities/:code/fields`      | Get field metadata for an activity         |
+| `GET`    | `/operations/thresholds`                   | UMA thresholds for all activities          |
+| `GET`    | `/operations/:id`                          | Get an operation                           |
+| `POST`   | `/operations`                              | Create an operation                        |
+| `POST`   | `/operations/bulk-import`                  | Bulk create (max 100)                      |
+| `PUT`    | `/operations/:id`                          | Full update                                |
+| `DELETE` | `/operations/:id`                          | Soft delete                                |
+| `GET`    | `/operations/client/:clientId/accumulated` | Client's 6-month accumulated totals        |
+
+## Create an Operation
+
+### Request
+
+```
+POST /api/v1/operations
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python', 'Ruby', 'PHP']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.janovix.com/api/v1/operations \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "clnt_01J...",
+    "activityCode": "VEH",
+    "operationDate": "2025-07-15",
+    "amount": 850000,
+    "currency": "MXN",
+    "vehicleExtension": {
+      "vehicleType": "TERRESTRIAL",
+      "brand": "Toyota",
+      "model": "Land Cruiser",
+      "year": 2024,
+      "isNew": true
+    },
+    "payments": [
+      { "method": "BANK_TRANSFER", "amount": 850000, "currency": "MXN" }
+    ]
+  }'
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+interface CreateOperationInput {
+  clientId: string;
+  activityCode: string;
+  operationDate: string; // YYYY-MM-DD
+  amount: number;
+  currency: string; // ISO 4217
+  // Activity-specific extension (only one should be provided)
+  vehicleExtension?: VehicleExtension;
+  realEstateExtension?: RealEstateExtension;
+  jewelryExtension?: JewelryExtension;
+  // ... other extensions
+  payments: PaymentInput[];
+  notes?: string;
+}
+
+const operation = await janovixFetch<{ data: Operation }>("/operations", {
+method: "POST",
+body: JSON.stringify({
+clientId: "clnt_01J...",
+activityCode: "VEH",
+operationDate: "2025-07-15",
+amount: 850000,
+currency: "MXN",
+vehicleExtension: {
+vehicleType: "TERRESTRIAL",
+brand: "Toyota",
+model: "Land Cruiser",
+year: 2024,
+isNew: true,
+},
+payments: [
+{ method: "BANK_TRANSFER", amount: 850000, currency: "MXN" },
+],
+} satisfies CreateOperationInput),
+});
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+operation = session.post(f"{BASE_URL}/operations", json={
+    "clientId": "clnt_01J...",
+    "activityCode": "VEH",
+    "operationDate": "2025-07-15",
+    "amount": 850000,
+    "currency": "MXN",
+    "vehicleExtension": {
+        "vehicleType": "TERRESTRIAL",
+        "brand": "Toyota",
+        "model": "Land Cruiser",
+        "year": 2024,
+        "isNew": True,
+    },
+    "payments": [
+        {"method": "BANK_TRANSFER", "amount": 850000, "currency": "MXN"},
+    ],
+}).json()["data"]
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+operation = janovix_post("/operations", {
+  clientId:      "clnt_01J...",
+  activityCode:  "VEH",
+  operationDate: "2025-07-15",
+  amount:        850000,
+  currency:      "MXN",
+  vehicleExtension: {
+    vehicleType: "TERRESTRIAL",
+    brand:  "Toyota",
+    model:  "Land Cruiser",
+    year:   2024,
+    isNew:  true,
+  },
+  payments: [
+    { method: "BANK_TRANSFER", amount: 850000, currency: "MXN" },
+  ],
+})["data"]
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+$operation = janovixPost("/operations", [
+    "clientId"      => "clnt_01J...",
+    "activityCode"  => "VEH",
+    "operationDate" => "2025-07-15",
+    "amount"        => 850000,
+    "currency"      => "MXN",
+    "vehicleExtension" => [
+        "vehicleType" => "TERRESTRIAL",
+        "brand"  => "Toyota",
+        "model"  => "Land Cruiser",
+        "year"   => 2024,
+        "isNew"  => true,
+    ],
+    "payments" => [
+        ["method" => "BANK_TRANSFER", "amount" => 850000, "currency" => "MXN"],
+    ],
+])["data"];
+```
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json
+{
+  "data": {
+    "id": "op_01J...",
+    "clientId": "clnt_01J...",
+    "activityCode": "VEH",
+    "operationDate": "2025-07-15",
+    "amount": 850000,
+    "currency": "MXN",
+    "umaValue": 113.14,
+    "umaEquivalent": 7513.74,
+    "isAboveNoticeThreshold": true,
+    "noticeThresholdUma": 6420,
+    "vehicleExtension": { ... },
+    "payments": [ ... ],
+    "alertsGenerated": 1,
+    "createdAt": "2025-07-16T10:05:00.000Z"
+  }
+}
+```
+
+<Callout type="info">
+	The `umaEquivalent` and `isAboveNoticeThreshold` fields are calculated
+	automatically. `alertsGenerated` indicates how many alert rules fired for this
+	operation.
+</Callout>
+
+## Get Activity Fields
+
+Before creating an operation, use this endpoint to get the required and optional fields for a specific activity:
+
+```
+GET /api/v1/operations/activities/VEH/fields
+```
+
+```json
+{
+	"data": {
+		"activityCode": "VEH",
+		"name": "Comercialización o distribución de vehículos",
+		"extensionFields": [
+			{
+				"name": "vehicleType",
+				"required": true,
+				"type": "enum",
+				"options": ["TERRESTRIAL", "MARITIME", "AIR"]
+			},
+			{ "name": "brand", "required": true, "type": "string" },
+			{ "name": "model", "required": true, "type": "string" },
+			{ "name": "year", "required": true, "type": "integer" },
+			{ "name": "vin", "required": false, "type": "string" },
+			{ "name": "isNew", "required": true, "type": "boolean" }
+		]
+	}
+}
+```
+
+## Bulk Import
+
+```
+POST /api/v1/operations/bulk-import
+```
+
+```json
+{
+  "operations": [
+    { "clientId": "...", "activityCode": "VEH", "amount": 850000, ... },
+    { "clientId": "...", "activityCode": "INM", "amount": 3500000, ... }
+  ]
+}
+```
+
+Maximum 100 operations per batch. Returns per-item success/error results.

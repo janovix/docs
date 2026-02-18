@@ -1,0 +1,201 @@
+---
+title: Authentication
+description: Authenticate with the Janovix API using organization-scoped API keys
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+{/* IMAGE: public/images/api/auth-flow.png - Sequence diagram: your server sends API key → api.janovix.com validates with auth-svc → ephemeral JWT issued internally → aml-svc serves the request */}
+
+# Authentication
+
+The Janovix Public API (`api.janovix.com`) uses **organization-scoped API keys** for authentication. API keys are the only supported authentication method for third-party integrations.
+
+<Callout type="info">
+	**Internal JWT flow:** The gateway exchanges your API key for a short-lived
+	JWT (30–60 s) on every request and forwards it to the AML service. This is
+	entirely transparent — you only ever deal with your `sk_live_...` key.
+</Callout>
+
+## Creating an API Key
+
+Create API keys in **[auth.janovix.com/settings](https://auth.janovix.com/settings) → API Keys**. See the [API Keys settings guide](/settings/api-keys) for full instructions.
+
+Key format: `sk_live_` followed by a random string.
+
+<Callout type="error">
+	**The full key value is shown only once** — at creation time. Copy it
+	immediately and store it in a secret manager (AWS Secrets Manager, HashiCorp
+	Vault, Cloudflare Secrets, etc.). Never commit API keys to source code
+	repositories.
+</Callout>
+
+## Using Your API Key
+
+Include the key in the `Authorization` header of every request as a Bearer token:
+
+```http
+GET https://api.janovix.com/api/v1/clients
+Authorization: Bearer sk_live_your_api_key_here
+Content-Type: application/json
+```
+
+{/* IMAGE: public/images/api/api-key-usage.png - Diagram: your server → Authorization: Bearer sk_live_... → api.janovix.com → validated → aml-svc response */}
+
+## Code Examples
+
+<Tabs items={['cURL', 'TypeScript', 'Python', 'Ruby', 'PHP']}>
+<Tabs.Tab>
+```bash
+curl https://api.janovix.com/api/v1/clients \
+  -H "Authorization: Bearer sk_live_your_api_key_here" \
+  -H "Content-Type: application/json"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const BASE_URL = "https://api.janovix.com/api/v1";
+
+async function janovixFetch<T>(
+path: string,
+options: RequestInit = {}
+): Promise<T> {
+const res = await fetch(`${BASE_URL}${path}`, {
+...options,
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+"Content-Type": "application/json",
+...options.headers,
+},
+});
+
+if (!res.ok) {
+const err = await res.json().catch(() => ({ message: res.statusText }));
+throw new Error((err as { message?: string }).message ?? `HTTP ${res.status}`);
+}
+
+return res.json() as Promise<T>;
+}
+
+// Usage
+const { data } = await janovixFetch<{ data: unknown[] }>("/clients");
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import os
+import requests
+
+BASE_URL = "https://api.janovix.com/api/v1"
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": f"Bearer {os.environ['JANOVIX_API_KEY']}",
+    "Content-Type": "application/json",
+})
+
+def api_get(path: str, **params) -> dict:
+    res = session.get(f"{BASE_URL}{path}", params=params)
+    res.raise_for_status()
+    return res.json()
+
+def api_post(path: str, body: dict) -> dict:
+    res = session.post(f"{BASE_URL}{path}", json=body)
+    res.raise_for_status()
+    return res.json()
+
+# Usage
+clients = api_get("/clients")["data"]
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require "net/http"
+require "json"
+require "uri"
+
+BASE_URL = "https://api.janovix.com/api/v1"
+API_KEY = ENV.fetch("JANOVIX_API_KEY")
+
+def janovix_request(method, path, body: nil)
+uri = URI("#{BASE_URL}#{path}")
+klass = { "GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post,
+"PUT" => Net::HTTP::Put, "PATCH" => Net::HTTP::Patch,
+"DELETE" => Net::HTTP::Delete }.fetch(method)
+req = klass.new(uri)
+req["Authorization"] = "Bearer #{API_KEY}"
+req["Content-Type"] = "application/json"
+req.body = body.to_json if body
+
+Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
+.then { |res| JSON.parse(res.body) }
+end
+
+# Usage
+
+clients = janovix_request("GET", "/clients")["data"]
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+define('JANOVIX_BASE_URL', 'https://api.janovix.com/api/v1');
+define('JANOVIX_API_KEY', getenv('JANOVIX_API_KEY'));
+
+function janovix_request(string $method, string $path, ?array $body = null): array {
+    $ch = curl_init(JANOVIX_BASE_URL . $path);
+    $headers = [
+        'Authorization: Bearer ' . JANOVIX_API_KEY,
+        'Content-Type: application/json',
+    ];
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST  => $method,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_POSTFIELDS     => $body ? json_encode($body) : null,
+    ]);
+    $response = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($code >= 400) {
+        throw new RuntimeException("API error {$code}: {$response}");
+    }
+    return json_decode($response, true);
+}
+
+// Usage
+$clients = janovix_request('GET', '/clients')['data'];
+````
+
+</Tabs.Tab>
+</Tabs>
+
+## Authentication Errors
+
+| HTTP Code | Error                                                 | Cause                                        |
+| --------- | ----------------------------------------------------- | -------------------------------------------- |
+| `401`     | `Missing API key.`                                    | No `Authorization` header or no Bearer token |
+| `401`     | `Invalid API key.`                                    | Key not found in the system                  |
+| `401`     | `Invalid API key format.`                             | Malformed key string                         |
+| `403`     | `This API key has been revoked.`                      | Key was revoked in Settings                  |
+| `403`     | `This API key has expired.`                           | Key passed its expiry date                   |
+| `403`     | `Your subscription plan does not include API access.` | Plan must be Pro or Ultra for API access     |
+| `503`     | `Authentication service unavailable.`                 | Transient — retry with exponential backoff   |
+
+## Plan Requirements
+
+API access requires a **Pro** or **Ultra** subscription. Business plan organizations will receive a `403` when attempting to use the API. Upgrade your plan in [Settings → Billing](/settings/billing).
+
+## Best Practices
+
+| Practice                      | Recommendation                                                                         |
+| ----------------------------- | -------------------------------------------------------------------------------------- |
+| **Server-side only**          | Never include API keys in browser JavaScript, mobile apps, or any client-side code     |
+| **One key per integration**   | Create a dedicated key per system so you can revoke one without breaking others        |
+| **Use environment variables** | Store keys in environment variables or a secret manager, never in source code          |
+| **Rotate regularly**          | Rotate API keys every 90 days as a security hygiene practice                           |
+| **Monitor last used**         | Revoke keys that haven't been used in >90 days (visible in Settings → API Keys)        |
+| **Handle 503 gracefully**     | The gateway or upstream may be temporarily unavailable — implement exponential backoff |

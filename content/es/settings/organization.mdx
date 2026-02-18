@@ -1,0 +1,68 @@
+---
+title: Organization
+description: Manage organization details, switch between organizations, and transfer ownership
+---
+
+import { Callout } from "nextra/components";
+
+# Organization
+
+The **Organization** section lets you manage the settings for the currently active organization and switch between organizations you belong to.
+
+{/* IMAGE: public/images/settings/settings-org.png - Organization settings page showing name, logo upload, timezone, and clock format fields */}
+
+## Organization Details
+
+| Field            | Description                                                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**         | The display name for your organization, shown in the navigation and reports                                                        |
+| **Logo**         | Organization logo (used in PDF reports and the navigation bar)                                                                     |
+| **Slug**         | URL-friendly identifier used in application URLs (e.g., `https://aml.janovix.com/{slug}/`). Set at creation and cannot be changed. |
+| **Timezone**     | Default timezone for the organization. Individual users can override this in their [Personal Settings](/settings/personal).        |
+| **Clock Format** | 12-hour or 24-hour display for time values across the organization                                                                 |
+
+<Callout type="info">
+	Only **organization owners** can update organization details. Members with
+	`admin` or `member` roles can view but not modify.
+</Callout>
+
+## Switching Organizations
+
+{/* IMAGE: public/images/settings/org-switcher.png - Organization switcher dropdown in the top-left corner showing two organizations and a Create New button */}
+
+If you belong to multiple organizations, switch between them using the **organization switcher** in the top-left corner of any Janovix application. Click your current organization name to open the dropdown:
+
+- All organizations you belong to are listed with your role in each
+- A **Create New Organization** option is available (subject to your plan's organization limit)
+- The selected organization determines which data you see across all modules
+
+## Roles
+
+| Role     | Permissions                                                                   |
+| -------- | ----------------------------------------------------------------------------- |
+| `owner`  | Full access; can transfer ownership, update billing, delete organization      |
+| `admin`  | Full access to all features except ownership transfer and plan cancellation   |
+| `member` | Access to AML and Watchlist modules; cannot change settings or manage billing |
+
+## Creating a New Organization
+
+1. Open the organization switcher
+2. Click **Create New Organization**
+3. Enter the organization name — the slug is auto-generated
+4. Configure [Compliance Settings](/settings/compliance) to link to your SAT activity registration
+
+<Callout type="warning">
+	The number of organizations you can create is determined by your subscription
+	plan. Check [Billing & Plans](/settings/billing) to see your limit.
+</Callout>
+
+## Transferring Ownership
+
+Only the current owner can transfer ownership to another member:
+
+1. Navigate to **Settings → Organization**
+2. Click **Transfer Ownership**
+3. Select the new owner from the current team members list
+4. Confirm the transfer
+
+After transferring, your role becomes `admin`.

@@ -1,0 +1,126 @@
+---
+title: Alerts
+description: Compliance alert detection, review, and SAT XML file management
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Alerts
+
+**Alerts** are notifications generated when the system detects potentially suspicious activity or when a transaction exceeds the reporting threshold defined in Art. 17. Compliance officers review, investigate, and resolve each alert — or escalate it to a SAT notice.
+
+{/* IMAGE: public/images/aml/alert-list.png - Alert list with severity color badges (CRITICAL/HIGH/MEDIUM/LOW), status chips, and client names */}
+
+## Alert Lifecycle
+
+```
+DETECTED → FILE_GENERATED → SUBMITTED
+              ↕
+           OVERDUE
+              ↕
+           CANCELLED
+```
+
+| Status           | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `DETECTED`       | Alert generated; awaiting compliance officer review            |
+| `FILE_GENERATED` | SAT XML file has been generated for this alert                 |
+| `SUBMITTED`      | Alert has been reported to the SAT                             |
+| `OVERDUE`        | Submission deadline has passed without filing                  |
+| `CANCELLED`      | Alert was investigated and determined not to require reporting |
+
+## Alert Severity Levels
+
+| Severity   | Color  | Typical Trigger                                                       |
+| ---------- | ------ | --------------------------------------------------------------------- |
+| `CRITICAL` | Red    | Sanctioned client (OFAC/UNSC match), immediate SAT reporting required |
+| `HIGH`     | Orange | Transaction significantly above threshold, PEP involved               |
+| `MEDIUM`   | Yellow | Transaction at or near threshold, first occurrence                    |
+| `LOW`      | Blue   | Informational — pattern detected, monitoring recommended              |
+
+## How Alerts Are Generated
+
+Alerts can be generated two ways:
+
+### Automatic (Rule-Based)
+
+The alert rules engine evaluates every operation the moment it is recorded. Rules can be configured to fire based on:
+
+- Transaction amount vs. Art. 17 thresholds
+- Accumulated 6-month totals exceeding notice threshold
+- Client watchlist flags (PEP, OFAC, UNSC, SAT 69-B)
+- Activity-specific patterns (e.g., split transactions)
+- Custom business rules
+
+{/* IMAGE: public/images/aml/alert-rules.png - Alert rules configuration screen showing active rules, their severity, and activity codes they apply to */}
+
+### Manual
+
+Compliance officers can create manual alerts for situations not covered by automated rules:
+
+1. Navigate to **Alerts** → **+ New Alert**
+2. Link the alert to a client and/or operation
+3. Set severity and describe the reason
+4. The alert enters the `DETECTED` state
+
+## Reviewing an Alert
+
+{/* IMAGE: public/images/aml/alert-detail.png - Alert detail page showing client info, operation details, timeline of status changes, and action buttons */}
+
+<Steps>
+### Open the Alert
+Click an alert in the list to open its detail page. You will see:
+- The triggering operation(s)
+- Client information including watchlist screening results
+- Alert metadata (severity, creation date, deadline)
+
+### Investigate
+
+Review the client's transaction history, identify the operation that triggered the rule, and assess whether it constitutes suspicious activity.
+
+### Take Action
+
+**Option A — Generate SAT File and Submit**
+If the alert requires reporting:
+
+- Click **Generate SAT File** — the system produces a compliant SAT XML
+- Review the XML file
+- Download and submit via the SAT portal, then click **Mark as Submitted** in Janovix
+
+**Option B — Cancel the Alert**
+If investigation determines the activity is legitimate:
+
+- Click **Cancel Alert**
+- Provide a brief justification (this is logged in the audit trail)
+  </Steps>
+
+<Callout type="warning">
+	**Urgent alerts (CRITICAL severity):** Art. 18 requires filing an aviso within
+	**24 hours** of detecting suspicious activity. Janovix displays a countdown
+	timer on critical alerts showing time remaining before the deadline.
+</Callout>
+
+## Alert Rules Configuration
+
+Navigate to **Alerts → Rules** to manage your rule set. Each rule has:
+
+| Field             | Description                                                           |
+| ----------------- | --------------------------------------------------------------------- |
+| **Rule Type**     | The detection logic (threshold, accumulation, watchlist match, etc.)  |
+| **Activity Code** | Which activity this rule applies to (or all activities)               |
+| **Severity**      | The severity assigned when the rule fires                             |
+| **Active**        | Enable/disable the rule without deleting it                           |
+| **Manual Only**   | Rule fires but creates an alert only when a user manually triggers it |
+| **Configuration** | Rule-specific key-value parameters (e.g., threshold multiplier)       |
+
+<Callout type="info">
+	The default rule set covers all Art. 17 notice thresholds. You can add custom
+	rules on top of the defaults — for example, to flag clients with more than 5
+	operations in a single month regardless of individual amounts.
+</Callout>
+
+{/* VIDEO: 2 min video showing an automatic alert being generated from an operation, then reviewed and resolved with a SAT file submission */}
+
+## Idempotency
+
+Each alert has an `idempotencyKey` field. When an operation triggers a rule, the system checks whether an identical alert was already generated for the same operation+rule combination. This prevents duplicate alerts from accumulating when an operation is updated.

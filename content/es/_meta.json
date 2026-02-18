@@ -1,0 +1,11 @@
+{
+	"index": {
+		"title": "Inicio",
+		"display": "hidden"
+	},
+	"introduction": "Introducción",
+	"aml": "Manual AML",
+	"settings": "Manual de Configuración",
+	"watchlist": "Manual de Watchlist",
+	"api": "Integración API"
+}

@@ -1,0 +1,63 @@
+---
+title: Query History
+description: Review past watchlist searches, track results, and maintain the compliance audit trail
+---
+
+import { Callout } from "nextra/components";
+
+# Query History
+
+Every watchlist search you run is automatically saved as a **Query** with a persistent audit trail. This is critical for compliance audits — the LFPIORPI requires that you document your client identification and screening process.
+
+{/* IMAGE: public/images/watchlist/watchlist-history.png - Query history list showing query text, dataset filters used, result count, highest match score, status badge, and timestamp */}
+
+## Query List
+
+The Query History page shows all searches run by members of your organization, sorted by most recent first. For each query you can see:
+
+| Column            | Description                                                          |
+| ----------------- | -------------------------------------------------------------------- |
+| **Query**         | The name or identifier that was searched                             |
+| **Datasets**      | Which lists were searched (OFAC, UNSC, SAT 69-B, PEP, Adverse Media) |
+| **Results**       | Total number of matches returned above the threshold                 |
+| **Highest Score** | The top match confidence score across all datasets                   |
+| **Status**        | `PENDING` (async results still incoming), `COMPLETE`                 |
+| **Run By**        | The team member who ran the search                                   |
+| **Date**          | When the search was executed                                         |
+
+## Filtering Queries
+
+Filter the query history by:
+
+- Date range
+- Dataset
+- Team member
+- Minimum score threshold
+- Status
+
+## Viewing a Query's Results
+
+Click any query to open the full results view — identical to the search result view, including all score breakdowns, entity details, and any PEP or adverse media findings.
+
+## Why Query History Matters
+
+When the SHCP conducts a verification visit, you may be asked to demonstrate that you screened clients and beneficial controllers against relevant lists. The query history provides:
+
+1. **Timestamped evidence** that a search was run at the time of onboarding
+2. **The exact search terms** used (prevents claims of inadequate screening)
+3. **The results and scores returned** at that time
+4. **The team member responsible** for the screening
+
+<Callout type="info">
+	In the AML module, automatic watchlist screening links back to the
+	corresponding query in the Watchlist history. From a client's profile, the
+	watchlist screening results section shows a direct link to the query record.
+</Callout>
+
+## Retention
+
+Query records are retained indefinitely as part of your compliance audit trail. They cannot be deleted by regular users. Only system administrators can archive query records, and archiving is logged in the audit trail.
+
+## Exporting Query History
+
+Contact support or use the API (`GET /queries` with pagination) to export query history for an audit period. The export includes all query metadata and result summaries.

@@ -1,0 +1,85 @@
+---
+title: AML Compliance Settings
+description: Configure your organization's activity code, RFC, and KYC self-service behavior
+---
+
+import { Callout } from "nextra/components";
+
+# AML Compliance Settings
+
+The **AML Compliance** section is where you configure your organization's regulatory identity — the information that drives threshold calculations, SAT notice generation, and KYC self-service behavior.
+
+{/* IMAGE: public/images/settings/settings-compliance.png - Compliance settings page showing obligated subject RFC, activity code selector, self-service mode toggle, expiry hours, and required sections */}
+
+## Required Configuration
+
+Before recording any operations or generating SAT notices, you **must** complete the compliance settings. Missing configuration will block notice generation.
+
+### Obligated Subject Key (RFC)
+
+| Field                                             | Description                                                                                                                               |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Obligated Subject RFC** (`obligatedSubjectKey`) | Your organization's 12-character RFC registered with the SAT as an _sujeto obligado_. This appears in the header of every SAT notice XML. |
+
+<Callout type="error">
+	This RFC must exactly match your SAT registration. An incorrect RFC will cause
+	notice rejections at the SAT portal.
+</Callout>
+
+### Activity Code
+
+| Field                             | Description                                                                                                                         |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Activity Code** (`activityKey`) | The Art. 17 fraction code corresponding to your primary vulnerable activity (e.g., `VEH` for vehicle sales, `INM` for real estate). |
+
+The activity code determines:
+
+- Which UMA thresholds are applied to your operations
+- The XML format variant used for SAT notices
+- Default alert rules applied to new operations
+
+If your organization carries out **multiple vulnerable activities**, configure the primary one here. You can record operations under any of the 20 activity codes regardless of this setting — it primarily affects SAT notice filing.
+
+## KYC Self-Service Configuration
+
+### Self-Service Mode
+
+| Setting     | Description                                                                                               |
+| ----------- | --------------------------------------------------------------------------------------------------------- |
+| `disabled`  | KYC self-service is turned off. All client data must be entered manually by your team.                    |
+| `manual`    | Your compliance officers can create KYC sessions on demand for individual clients.                        |
+| `automatic` | A KYC session is automatically created and the invitation email sent whenever a new client is registered. |
+
+### Session Expiry (Hours)
+
+Sets how many hours a KYC session link remains valid before it expires. The client must complete and submit their KYC within this window.
+
+**Default:** 72 hours (3 days)
+**Minimum:** 24 hours
+**Maximum:** 720 hours (30 days)
+
+### Required Sections
+
+Configure which sections of the KYC form clients must complete before they are allowed to submit. Available sections:
+
+| Section Key              | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| `personal_info`          | Basic identification data (name, RFC, birth date, nationality) |
+| `documents`              | At least one identity document uploaded                        |
+| `address`                | At least one registered address                                |
+| `shareholders`           | Shareholder structure (recommended for moral persons)          |
+| `beneficial_controllers` | Beneficial controllers / ultimate beneficial owners            |
+
+<Callout type="info">
+	The LFPIORPI requires collecting beneficial controller information for moral
+	persons and trusts (Art. 18-III). We recommend including
+	`beneficial_controllers` in your required sections for these client types.
+</Callout>
+
+## UMA Values
+
+The compliance settings page also shows the current active **UMA value** used for threshold calculations. To update or add future UMA values, contact your system administrator (requires API access via `POST /api/v1/uma-values`).
+
+## Saving Your Settings
+
+Click **Save** after making changes. Settings take effect immediately for new operations. Existing records are not retroactively affected.

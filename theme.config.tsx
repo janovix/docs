@@ -1,25 +1,10 @@
 import React from "react";
 
 const config = {
-	logo: (
-		<span
-			style={{ fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.01em" }}
-		>
-			Janovix <span style={{ fontWeight: 400, opacity: 0.6 }}>Docs</span>
-		</span>
-	),
 	project: {
 		link: "https://github.com/janovix",
 	},
 	docsRepositoryBase: "https://github.com/janovix/docs",
-	footer: {
-		text: (
-			<span>
-				© {new Date().getFullYear()} Janovix. Platform for AML compliance and
-				KYC management.
-			</span>
-		),
-	},
 	sidebar: {
 		defaultMenuCollapseLevel: 1,
 	},

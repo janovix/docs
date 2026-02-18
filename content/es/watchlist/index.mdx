@@ -1,0 +1,56 @@
+---
+title: Watchlist Manual
+description: Run intelligent sanctions and PEP screening across OFAC, UNSC, SAT 69-B, PEP, and adverse media databases
+---
+
+import { Cards, Callout } from "nextra/components";
+
+{/* IMAGE: public/images/watchlist/watchlist-overview.png - Watchlist app main screen showing the search interface with background animation and recent queries */}
+
+# Watchlist Manual
+
+The **Watchlist** application is available at **[watchlist.janovix.com](https://watchlist.janovix.com)**. It provides intelligent screening against multiple sanctions and compliance databases. It uses a hybrid search approach combining exact identifier matching, vector semantic search, and name similarity to deliver accurate results even with name variations, transliterations, and aliases.
+
+## Why Watchlist Screening?
+
+The LFPIORPI (Art. 18-I) requires obligated subjects to verify client identity, and the 2025 reforms explicitly add obligations around **Politically Exposed Persons (PEPs)**. Beyond legal requirements, screening clients against sanctions lists is essential to:
+
+- Avoid criminal liability for transacting with sanctioned individuals or entities
+- Detect PEPs that require enhanced due diligence
+- Identify clients listed in the SAT 69-B for non-existent operations
+
+## Databases Covered
+
+| Database          | Source                                         | Coverage                                                          |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
+| **OFAC SDN**      | U.S. Treasury Office of Foreign Assets Control | Individuals, entities, vessels, aircraft globally                 |
+| **UNSC**          | UN Security Council                            | Sanctions regimes for multiple countries and groups               |
+| **SAT 69-B**      | Mexican Tax Authority (SAT)                    | Mexican taxpayers with non-existent or simulated operations       |
+| **PEP**           | AI-powered database                            | Politically Exposed Persons — current and former public officials |
+| **Adverse Media** | AI-powered web analysis                        | News articles linking individuals/entities to criminal activity   |
+
+<Callout type="info">
+	Automatic watchlist screening runs on every new client and beneficial
+	controller registration in the AML module. The standalone Watchlist app is for
+	ad-hoc manual queries and detailed result review.
+</Callout>
+
+## Explore the Watchlist Manual
+
+<Cards>
+	<Cards.Card
+		title="Running a Search"
+		href="/watchlist/search"
+		description="How to search, interpret scores, and act on results."
+	/>
+	<Cards.Card
+		title="Watchlist Datasets"
+		href="/watchlist/datasets"
+		description="Details on OFAC, UNSC, SAT 69-B, PEP, and adverse media data."
+	/>
+	<Cards.Card
+		title="Query History"
+		href="/watchlist/query-history"
+		description="Review past queries, track results, and maintain your audit trail."
+	/>
+</Cards>

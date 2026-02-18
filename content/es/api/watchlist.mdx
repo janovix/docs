@@ -1,0 +1,234 @@
+---
+title: Watchlist API
+description: Run sanctions and PEP screening searches programmatically
+---
+
+import { Tabs, Callout } from "nextra/components";
+
+# Watchlist API
+
+**Base URL:** `https://watchlist.janovix.com`
+
+The Watchlist API is a separate service from the AML API. All requests must include your API key (same key works for both services).
+
+## Endpoints
+
+| Method | Path                | Description                                       |
+| ------ | ------------------- | ------------------------------------------------- |
+| `POST` | `/search`           | Hybrid search across all datasets                 |
+| `POST` | `/search/ofac`      | OFAC-only search                                  |
+| `POST` | `/search/unsc`      | UNSC-only search                                  |
+| `POST` | `/search/sat69b`    | SAT 69-B-only search                              |
+| `GET`  | `/queries`          | List past queries                                 |
+| `GET`  | `/queries/:queryId` | Get query with full results                       |
+| `GET`  | `/events`           | SSE stream for async results (PEP, Adverse Media) |
+
+## Hybrid Search
+
+```
+POST https://watchlist.janovix.com/search
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python', 'Ruby', 'PHP']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://watchlist.janovix.com/search \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Juan García Martínez",
+    "datasets": ["ofac_sdn", "unsc", "sat_69b", "pep", "adverse_media"],
+    "entityType": "person",
+    "topK": 5,
+    "threshold": 0.6
+  }'
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const WATCHLIST_URL = "https://watchlist.janovix.com";
+
+interface SearchInput {
+query: string;
+datasets?: ("ofac_sdn" | "unsc" | "sat_69b" | "pep" | "adverse_media")[];
+entityType?: "person" | "organization";
+topK?: number; // default: 5
+threshold?: number; // 0–1, default: 0.6
+birthDate?: string; // YYYY-MM-DD for higher accuracy
+identifiers?: { type: string; value: string }[];
+}
+
+async function screenName(input: SearchInput) {
+const res = await fetch(`${WATCHLIST_URL}/search`, {
+method: "POST",
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+"Content-Type": "application/json",
+},
+body: JSON.stringify(input),
+});
+return res.json();
+}
+
+const results = await screenName({
+query: "Juan García Martínez",
+datasets: ["ofac_sdn", "unsc", "sat_69b"],
+entityType: "person",
+threshold: 0.65,
+});
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+WATCHLIST_URL = "https://watchlist.janovix.com"
+
+watchlist_session = requests.Session()
+watchlist_session.headers.update({
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+})
+
+def screen_name(query: str, **kwargs) -> dict:
+    return watchlist_session.post(f"{WATCHLIST_URL}/search", json={
+        "query": query,
+        "datasets": ["ofac_sdn", "unsc", "sat_69b", "pep", "adverse_media"],
+        **kwargs,
+    }).json()
+
+results = screen_name("Juan García Martínez", threshold=0.65)
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+WATCHLIST_URL = "https://watchlist.janovix.com"
+
+def watchlist_search(query, **opts)
+uri = URI("#{WATCHLIST_URL}/search")
+req = Net::HTTP::Post.new(uri)
+req["Authorization"] = "Bearer #{API_KEY}"
+req["Content-Type"] = "application/json"
+req.body = { query: query, **opts }.to_json
+res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
+JSON.parse(res.body)
+end
+
+results = watchlist_search("Juan García Martínez",
+datasets: %w[ofac_sdn unsc sat_69b],
+threshold: 0.65)
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+function watchlistSearch(string $query, array $options = []): array {
+    global $apiKey;
+    $payload = array_merge(["query" => $query], $options);
+    $ch = curl_init("https://watchlist.janovix.com/search");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode($payload),
+        CURLOPT_HTTPHEADER     => [
+            "Authorization: Bearer {$apiKey}",
+            "Content-Type: application/json",
+        ],
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response, true);
+}
+
+$results = watchlistSearch("Juan García Martínez", [
+    "datasets"  => ["ofac_sdn", "unsc", "sat_69b"],
+    "threshold" => 0.65,
+]);
+````
+
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json
+{
+	"queryId": "qry_01J...",
+	"status": "partial",
+	"synchronousResults": [
+		{
+			"dataset": "ofac_sdn",
+			"matches": [
+				{
+					"id": "ofac_12345",
+					"name": "GARCIA MARTINEZ, Juan Carlos",
+					"entityType": "individual",
+					"score": 0.72,
+					"scoreBreakdown": {
+						"nameScore": 0.85,
+						"vectorScore": 0.68,
+						"metadataScore": 0.55,
+						"identifierMatch": false
+					},
+					"details": {
+						"programs": ["SDGT"],
+						"nationality": "MX",
+						"aliases": ["Juan Carlos Garcia"]
+					}
+				}
+			]
+		}
+	],
+	"asyncStatus": {
+		"pep": "pending",
+		"adverseMedia": "pending"
+	}
+}
+```
+
+<Callout type="info">
+	The `queryId` is returned immediately. PEP and adverse media results arrive
+	asynchronously. Poll `GET /queries/:queryId` or subscribe to the SSE stream at
+	`GET /events` to receive results when ready.
+</Callout>
+
+## Polling for Async Results
+
+```
+GET https://watchlist.janovix.com/queries/:queryId
+```
+
+<Tabs items={['TypeScript', 'Python']}>
+<Tabs.Tab>
+```typescript
+async function pollQuery(queryId: string, maxAttempts = 10) {
+  for (let i = 0; i < maxAttempts; i++) {
+    const res = await fetch(`${WATCHLIST_URL}/queries/${queryId}`, {
+      headers: { Authorization: `Bearer ${process.env.JANOVIX_API_KEY}` },
+    });
+    const data = await res.json();
+    if (data.status === "complete") return data;
+    await new Promise((r) => setTimeout(r, 3000)); // wait 3s
+  }
+  throw new Error("Query timed out");
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import time
+
+def poll*query(query_id: str, max_attempts: int = 10) -> dict:
+for * in range(max_attempts):
+result = watchlist_session.get(
+f"{WATCHLIST_URL}/queries/{query_id}"
+).json()
+if result["status"] == "complete":
+return result
+time.sleep(3)
+raise TimeoutError("Query did not complete in time")
+
+```
+</Tabs.Tab>
+</Tabs>
+```

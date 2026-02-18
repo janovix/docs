@@ -1,0 +1,107 @@
+---
+title: Bulk Import
+description: Import clients and operations in bulk via CSV with real-time progress tracking
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Bulk Import
+
+The **Bulk Import** module lets you migrate existing data into Janovix or load large batches of clients and operations without entering records one by one.
+
+{/* IMAGE: public/images/aml/import-wizard.png - Import wizard showing entity type selector (CLIENT/OPERATION), file upload area, and template download button */}
+
+## Supported Entity Types
+
+| Entity      | Description                                 |
+| ----------- | ------------------------------------------- |
+| `CLIENT`    | Physical persons, moral persons, and trusts |
+| `OPERATION` | Operations for any activity code            |
+
+## Getting the CSV Template
+
+Always start from the official Janovix CSV template to ensure the correct column headers and data format. Templates are available without authentication:
+
+- **Client template:** `GET /api/v1/imports/templates/CLIENT`
+- **Operation template (activity-specific):** `GET /api/v1/imports/templates/OPERATION/{activityCode}`
+
+Each template includes:
+
+- Required and optional columns
+- Accepted values for enum fields
+- Format notes in a header row
+
+<Callout type="warning">
+	Do not modify column headers in the CSV template. The import processor
+	performs a strict header match. Extra or renamed columns will cause the import
+	to fail.
+</Callout>
+
+## Running an Import
+
+{/* VIDEO: 2 min walkthrough showing a bulk client import: download template, fill data, upload, review progress, and handle errors */}
+
+<Steps>
+### Prepare Your CSV File
+Open the downloaded template in Excel or Google Sheets. Fill in your data:
+- One row per client or operation
+- Follow the data types specified in the template notes
+- RFC must be the correct length for the entity type
+- Dates must be in `YYYY-MM-DD` format
+
+### Upload the File
+
+Navigate to **Data Management → Import** and click **+ New Import**:
+
+1. Select entity type (CLIENT or OPERATION)
+2. For operations, select the activity code
+3. Click **Choose File** and select your CSV
+
+### Monitor Progress
+
+{/* IMAGE: public/images/aml/import-progress.png - Import progress screen with a progress bar, phase labels (VALIDATING/PROCESSING), and real-time row counter */}
+
+The import runs asynchronously. Progress is streamed in real time via Server-Sent Events (SSE):
+
+| Phase        | Description                               |
+| ------------ | ----------------------------------------- |
+| `PENDING`    | Upload received, waiting to start         |
+| `VALIDATING` | Checking all rows for data format errors  |
+| `PROCESSING` | Creating records in the database          |
+| `COMPLETED`  | All rows processed successfully           |
+| `FAILED`     | Import terminated due to a critical error |
+
+### Review Results
+
+{/* IMAGE: public/images/aml/import-results.png - Import results table showing row number, status (SUCCESS/ERROR), and error message for failed rows */}
+
+After the import completes, open the **Results** view to see:
+
+- Total rows processed
+- Successful imports
+- Failed rows with specific error messages per row (e.g., "RFC format invalid", "Client not found")
+
+Download the results report to fix errors and re-import only the failed rows.
+
+</Steps>
+
+## Import Limits
+
+| Limit                 | Value                            |
+| --------------------- | -------------------------------- |
+| Maximum rows per file | 100 rows per batch               |
+| Maximum file size     | Determined by your plan          |
+| Concurrent imports    | 1 active import per organization |
+
+<Callout type="info">
+	For datasets larger than 100 rows, split your CSV into multiple files and
+	upload them sequentially. Wait for each import to complete before starting the
+	next.
+</Callout>
+
+## Tips for Clean Imports
+
+1. **Validate RFCs** before uploading — use a local RFC validator or the SAT's online tool
+2. **Resolve clients first** — if importing operations, ensure all client RFCs are already in the system or in the same batch
+3. **Use the preview** — the import validates all rows before processing, so a validation run will catch most errors without creating any records
+4. **Check for duplicates** — the importer will reject clients with duplicate RFCs within the same organization

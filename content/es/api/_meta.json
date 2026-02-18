@@ -1,0 +1,12 @@
+{
+	"index": "Descripción General",
+	"authentication": "Autenticación",
+	"clients": "API de Clientes",
+	"operations": "API de Operaciones",
+	"alerts": "API de Alertas",
+	"watchlist": "API de Watchlist",
+	"notices": "API de Notificaciones",
+	"reports": "API de Reportes",
+	"catalogs": "API de Catálogos",
+	"webhooks": "Webhooks"
+}

@@ -1,0 +1,105 @@
+---
+title: Misión y Propósito
+description: Misión de Janovix, valores y por qué construimos esta plataforma
+---
+
+import { Callout } from "nextra/components";
+
+{/* IMAGE: public/images/introduction/compliance-workflow.png - Diagrama mostrando el flujo de trabajo de cumplimiento de extremo a extremo: incorporar cliente → registrar operaciones → detectar alertas → presentar avisos */}
+
+# Misión y Propósito
+
+## Nuestra Misión
+
+En Janovix, nuestra misión es **hacer que el cumplimiento regulatorio sea accesible, asequible y automático** para cada empresa mexicana sujeta a la ley antilavado de dinero.
+
+El cumplimiento de la LFPIORPI es obligatorio — pero históricamente ha sido costoso, complejo y propenso a errores, requiriendo asesoría legal especializada e ingreso manual de datos en portales gubernamentales. Janovix cambia eso.
+
+> **Creemos que cada sujeto obligado — desde una pequeña joyería hasta un gran desarrollador inmobiliario — merece una herramienta de cumplimiento tan poderosa como la usada por grandes instituciones financieras, a un precio que tenga sentido para su negocio.**
+
+## El Problema que Resolvemos
+
+### Complejidad
+
+La LFPIORPI requiere que los negocios:
+
+1. Se registren como _sujeto obligado_ con el SAT
+2. Recopilen y verifiquen datos KYC en cada cliente superior al umbral
+3. Hagan screening de clientes contra listas de sanciones (OFAC, UNSC, SAT 69-B, PEP)
+4. Registren cada transacción calificada con datos específicos de actividad detallados
+5. Detecten e investiguen patrones de actividad sospechosa
+6. Presenten avisos electrónicos mensuales al SAT antes de la fecha límite
+7. Mantengan registros durante un mínimo de 10 años
+
+Hacer esto manualmente consume mucho tiempo y es muy propenso a errores. Perder una fecha límite o presentar datos incorrectos expone a los negocios a sanciones administrativas severas.
+
+### Nuestra Solución
+
+Janovix automatiza cada paso de este proceso:
+
+|| Proceso Manual | Automatización de Janovix |
+|| --------------------------------------------- | -------------------------------------------------------- |
+|| Recopilación manual de datos KYC | Portal KYC de auto-servicio — clientes completan sus datos |
+|| Screening de sanciones manual | Screening automático en el registro de cliente |
+|| Cálculos de umbrales en hojas de cálculo | Cálculo de UMA en tiempo real por transacción |
+|| Revisión manual de alertas | Detección automática de alertas basada en reglas |
+|| Construcción manual de archivos XML del SAT | Generación de avisos SAT de un clic |
+|| Preparación de reportes | Reportes de cumplimiento automáticos con gráficos |
+
+## Nuestros Valores
+
+### Cumplimiento como Característica, No como Carga
+
+Diseñamos cada flujo de trabajo alrededor del trabajo real del oficial de cumplimiento — no alrededor de una interpretación teórica de la ley. Las características se construyen para coincidir con cómo operan realmente los negocios.
+
+### Transparencia
+
+Rastros de auditoría completos en cada acción. Cada decisión KYC, cada alerta, cada envío de aviso se registra e inmutable.
+
+### Seguridad
+
+Arquitectura multi-tenant con aislamiento de datos estricto a nivel de organización. Autenticación basada en JWT. Todos los datos cifrados en reposo y en tránsito.
+
+### Escalabilidad
+
+Construido en Cloudflare Workers — distribuido globalmente, sin arranques en frío, se ejecuta en el perímetro. Ya sea que proceses 10 operaciones al mes o 10,000, el rendimiento es el mismo.
+
+## El Flujo de Trabajo de Cumplimiento
+
+{/* IMAGE: public/images/introduction/compliance-workflow.png - Diagrama paso a paso del ciclo de cumplimiento completo */}
+
+El diagrama a continuación ilustra el ciclo de vida de cumplimiento completo soportado por Janovix:
+
+```
+1. Configurar Organización
+   └─ Establecer código de actividad (Art. 17 fracción), RFC, modo auto-servicio
+
+2. Incorporar Cliente
+   ├─ Recopilar datos KYC (nombre, RFC, dirección, documentos)
+   ├─ Identificar accionistas y controladores beneficiarios
+   └─ Auto-screening contra watchlists (OFAC, UNSC, SAT 69-B, PEP)
+
+3. Registrar Operaciones
+   ├─ Registrar cada transacción de actividad vulnerable
+   ├─ Sistema calcula equivalentes UMA
+   └─ Soporte de múltiples métodos de pago
+
+4. Detección de Alertas
+   ├─ Motor de reglas evalúa cada operación
+   ├─ Genera alerta si se supera umbral o se empareja patrón
+   └─ Oficial de cumplimiento revisa y resuelve
+
+5. Aviso Mensual
+   ├─ Sistema agrega operaciones calificadas
+   ├─ Genera XML compatible con SAT
+   └─ Oficial revisa, envía y reconoce
+
+6. Reportes
+   └─ Generar resúmenes ejecutivos, comparaciones de período, perfiles de riesgo
+```
+
+<Callout type="warning">
+	El incumplimiento de la LFPIORPI puede resultar en multas administrativas que
+	van desde 200 hasta 65,000 UMAs (aproximadamente MXN $24,000 a MXN $7.7
+	millones a partir de 2025) y, en casos severos, responsabilidad penal.
+</Callout>

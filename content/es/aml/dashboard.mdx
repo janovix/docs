@@ -1,0 +1,80 @@
+---
+title: Panel de Control
+description: Descripción general de KPIs del panel AML y métricas de cumplimiento en tiempo real
+---
+
+import { Callout } from "nextra/components";
+
+# Panel de Control
+
+El Panel de Control es la primera pantalla que ves cuando abres la aplicación AML. Te ofrece una vista en tiempo real de tu postura de cumplimiento.
+
+{/* IMAGE: public/images/aml/dashboard-overview.png - Panel completo con tarjetas KPI, gráficos y feed de actividad reciente */}
+
+## Indicadores Clave de Rendimiento (KPIs)
+
+La fila superior del panel muestra cuatro tarjetas KPI:
+
+|| KPI | Descripción |
+|| ---------------------------------- | ----------------------------------------------------------------- |
+|| **Clientes Totales** | Número de clientes activos registrados en tu organización |
+|| **Alertas Pendientes** | Alertas en estado `DETECTADA` awaiting review |
+|| **Operaciones (30 días)** | Operaciones registradas en los últimos 30 días |
+|| **Avisos Vencidos** | Avisos SAT que se aproximan o están pasados su fecha límite |
+
+Al hacer clic en cualquier tarjeta KPI te navega directamente al módulo relevante con el filtro apropiado pre-aplicado.
+
+## Gráficos y Análisis
+
+### Operaciones a lo Largo del Tiempo
+
+Un gráfico de barras mostrando el volumen de operaciones registradas por día o por semana durante el período seleccionado. Úsalo para identificar picos inusuales en volumen de transacciones.
+
+### Distribución de Alertas por Severidad
+
+Un gráfico de dona mostrando el desglose de alertas abiertas por nivel de severidad: `CRÍTICA`, `ALTA`, `MEDIA` y `BAJA`.
+
+### Estado KYC del Cliente
+
+Un anillo de progreso mostrando el porcentaje de clientes activos con KYC completo vs. KYC incompleto o expirado.
+
+### Actividades Principales por Volumen
+
+Un gráfico de barras horizontal clasificando tus actividades vulnerables más frecuentemente registradas por cantidad de transacciones y valor total en el período seleccionado.
+
+{/* IMAGE: public/images/aml/dashboard-filters.png - Selector de rango de fechas y controles de filtro en encabezado del panel */}
+
+## Filtro de Rango de Fechas
+
+El panel respeta un filtro de rango de fechas global en la esquina superior derecha. Puedes seleccionar:
+
+- **Últimos 7 días**
+- **Últimos 30 días** (default)
+- **Últimos 90 días**
+- **Este año**
+- **Rango personalizado** (date picker)
+
+<Callout type="info">
+	El rango de fechas seleccionado se persiste en la URL como parámetros de
+	query, así que puedes compartir una vista de ventana temporal específica del
+	panel copiando la URL.
+</Callout>
+
+## Feed de Actividad Reciente
+
+La parte inferior del panel muestra un feed combinado de eventos recientes en la plataforma:
+
+- Nuevos clientes registrados
+- Operaciones registradas por encima del umbral
+- Alertas generadas
+- Envíos de avisos
+
+Cada elemento vincula al registro correspondiente para navegación rápida.
+
+## Qué Hacer Primero
+
+Si estás configurando Janovix por primera vez:
+
+1. Ve a [Configuración → Cumplimiento](/es/settings/compliance) y configura el código de actividad y RFC de tu organización
+2. Regresa al Panel — los KPIs se actualizarán mientras agregas datos
+3. Comienza [registrando tus clientes](/es/aml/clients)

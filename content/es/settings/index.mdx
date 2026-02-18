@@ -1,0 +1,69 @@
+---
+title: Settings Manual
+description: Configure your Janovix account, organization, team, and compliance settings
+---
+
+import { Cards } from "nextra/components";
+
+{/* IMAGE: public/images/settings/settings-sidebar.png - Settings app sidebar showing all navigation sections: Personal, Billing, Organization, Compliance, Team, API Keys */}
+
+# Settings Manual
+
+The **Settings** application is your control center for managing your Janovix account, organization, team members, compliance configuration, and billing.
+
+Access it at **[auth.janovix.com/settings](https://auth.janovix.com/settings)**, or from any Janovix application by clicking your avatar in the top-right corner and selecting **Settings**.
+
+## Navigation
+
+The Settings sidebar has two sections:
+
+### User Settings
+
+Applies to your personal account across all organizations:
+
+- **Personal** — Profile, avatar, timezone, theme, language
+- **Billing** — Your subscription plan, usage metrics, and payment
+
+### Organization Settings
+
+Applies to the currently selected organization:
+
+- **Organization** — Name, logo, timezone, clock format
+- **AML Compliance** — Activity code, RFC, KYC self-service configuration
+- **Team** — Members, roles, and pending invitations
+- **API Keys** — Create and manage API keys for programmatic access
+
+## Explore Settings
+
+<Cards>
+	<Cards.Card
+		title="Personal Settings"
+		href="/settings/personal"
+		description="Update your profile, avatar, theme, and language preferences."
+	/>
+	<Cards.Card
+		title="Organization"
+		href="/settings/organization"
+		description="Configure organization details and switch between organizations."
+	/>
+	<Cards.Card
+		title="AML Compliance"
+		href="/settings/compliance"
+		description="Set your activity code, RFC, and KYC self-service mode."
+	/>
+	<Cards.Card
+		title="Team"
+		href="/settings/team"
+		description="Invite team members, manage roles, and handle pending invitations."
+	/>
+	<Cards.Card
+		title="API Keys"
+		href="/settings/api-keys"
+		description="Create, rotate, and revoke API keys for system integrations."
+	/>
+	<Cards.Card
+		title="Billing & Plans"
+		href="/settings/billing"
+		description="View your plan, usage, and manage your subscription."
+	/>
+</Cards>

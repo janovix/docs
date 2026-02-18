@@ -1,0 +1,161 @@
+---
+title: Alerts API
+description: Retrieve, manage, and resolve compliance alerts via the API
+---
+
+import { Tabs } from "nextra/components";
+
+# Alerts API
+
+**Base path:** `/api/v1/alerts`
+
+## Endpoints
+
+| Method   | Path                 | Description           |
+| -------- | -------------------- | --------------------- |
+| `GET`    | `/alerts`            | List alerts           |
+| `GET`    | `/alerts/:id`        | Get an alert          |
+| `POST`   | `/alerts`            | Create a manual alert |
+| `PUT`    | `/alerts/:id`        | Full update           |
+| `PATCH`  | `/alerts/:id`        | Partial update        |
+| `POST`   | `/alerts/:id/cancel` | Cancel an alert       |
+| `DELETE` | `/alerts/:id`        | Delete an alert       |
+
+## List Alerts
+
+```
+GET /api/v1/alerts?status=DETECTED&severity=HIGH&page=1&limit=20
+```
+
+### Query Parameters
+
+| Parameter             | Description                                                       |
+| --------------------- | ----------------------------------------------------------------- |
+| `status`              | `DETECTED`, `FILE_GENERATED`, `SUBMITTED`, `OVERDUE`, `CANCELLED` |
+| `severity`            | `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`                               |
+| `clientId`            | Filter alerts for a specific client                               |
+| `activityCode`        | Filter by activity type                                           |
+| `dateFrom` / `dateTo` | Date range filter                                                 |
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+# Get all critical and high alerts that are pending review
+curl "https://api.janovix.com/api/v1/alerts?status=DETECTED&severity=HIGH,CRITICAL" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const { data: alerts } = await janovixFetch<{ data: Alert[] }>(
+  "/alerts?status=DETECTED&severity=HIGH,CRITICAL"
+);
+
+// Process each alert
+for (const alert of alerts) {
+console.log(`Alert ${alert.id}: ${alert.severity} — ${alert.clientId}`);
+}
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+alerts = session.get(f"{BASE_URL}/alerts", params={
+    "status": "DETECTED",
+    "severity": "HIGH,CRITICAL",
+}).json()["data"]
+
+for alert in alerts:
+    print(f"Alert {alert['id']}: {alert['severity']} — {alert['clientId']}")
+````
+
+</Tabs.Tab>
+</Tabs>
+
+## Create a Manual Alert
+
+```
+POST /api/v1/alerts
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.janovix.com/api/v1/alerts \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "clnt_01J...",
+    "operationId": "op_01J...",
+    "severity": "HIGH",
+    "reason": "Client reported unusual transaction pattern inconsistent with stated business",
+    "idempotencyKey": "manual-alert-2025-07-16-001"
+  }'
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const alert = await janovixFetch<{ data: Alert }>("/alerts", {
+  method: "POST",
+  body: JSON.stringify({
+    clientId: "clnt_01J...",
+    operationId: "op_01J...",
+    severity: "HIGH",
+    reason: "Unusual pattern detected",
+    idempotencyKey: `manual-${Date.now()}`,
+  }),
+});
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import uuid
+
+alert = session.post(f"{BASE_URL}/alerts", json={
+"clientId": "clnt_01J...",
+"operationId": "op_01J...",
+"severity": "HIGH",
+"reason": "Unusual pattern detected",
+"idempotencyKey": str(uuid.uuid4()),
+}).json()["data"]
+
+```
+</Tabs.Tab>
+</Tabs>
+
+## Cancel an Alert
+
+```
+
+POST /api/v1/alerts/:id/cancel
+
+````
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.janovix.com/api/v1/alerts/alrt_01J.../cancel \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"reason": "Verified as legitimate transaction — client provided documentation"}'
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+await janovixFetch(`/alerts/${alertId}/cancel`, {
+  method: "POST",
+  body: JSON.stringify({
+    reason: "Verified as legitimate transaction",
+  }),
+});
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+session.post(f"{BASE_URL}/alerts/{alert_id}/cancel", json={
+    "reason": "Verified as legitimate transaction",
+})
+```
+</Tabs.Tab>
+</Tabs>

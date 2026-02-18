@@ -1,0 +1,12 @@
+{
+	"index": "Descripción General",
+	"dashboard": "Panel de Control",
+	"clients": "Clientes y KYC",
+	"operations": "Operaciones",
+	"alerts": "Alertas",
+	"notices": "Notificaciones SAT",
+	"reports": "Reportes",
+	"invoices": "Facturas (CFDI)",
+	"import": "Importación Masiva",
+	"kyc": "Auto-servicio KYC"
+}

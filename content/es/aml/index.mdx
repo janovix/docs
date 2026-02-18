@@ -1,0 +1,94 @@
+---
+title: Manual AML
+description: Manual de usuario para la plataforma de cumplimiento AML de Janovix
+---
+
+import { Cards, Callout } from "nextra/components";
+
+{/* IMAGE: public/images/aml/aml-overview.png - Captura de pantalla de la navegación de barra lateral de la aplicación AML mostrando todos los módulos */}
+
+# Manual AML
+
+La aplicación **AML** es el núcleo de Janovix. Es donde los oficiales de cumplimiento y sus equipos gestionan el ciclo de vida completo de cumplimiento AML — desde la incorporación de clientes hasta la presentación de avisos al SAT.
+
+## Navegación
+
+La aplicación AML está organizada en dos grupos en la barra lateral:
+
+### Transacciones
+
+Gestión de datos día a día:
+
+- **Panel de Control** — KPIs, gráficos y actividad reciente de un vistazo
+- **Clientes** — Registrar y gestionar clientes (personas físicas, entidades morales, fideicomisos)
+- **Operaciones** — Registrar transacciones de actividades vulnerables
+- **Facturas** — Analizar y gestionar facturas CFDI v4.0
+
+### Cumplimiento
+
+Acciones regulatorias:
+
+- **Alertas** — Revisar patrones sospechosos detectados automáticamente
+- **Avisos SAT** — Generar y enviar avisos mensuales al SAT
+- **Reportes** — Crear reportes de cumplimiento y resúmenes ejecutivos
+
+### Gestión de Datos
+
+- **Importación** — Importación masiva de clientes y operaciones vía CSV
+
+<Callout type="info">
+	La aplicación AML usa **enrutamiento basado en organización**. Cada URL
+	incluye tu slug de organización: `https://aml.janovix.com/{org - slug}/`. Si
+	perteneces a múltiples organizaciones, cambia entre ellas usando el selector
+	de organización en la esquina superior izquierda.
+</Callout>
+
+## Explora el Manual AML
+
+<Cards>
+	<Cards.Card
+		title="Panel de Control"
+		href="/es/aml/dashboard"
+		description="Monitorea KPIs de cumplimiento y actividad reciente en tiempo real."
+	/>
+	<Cards.Card
+		title="Clientes y KYC"
+		href="/es/aml/clients"
+		description="Registra clientes, recopila datos KYC y gestiona documentos."
+	/>
+	<Cards.Card
+		title="Operaciones"
+		href="/es/aml/operations"
+		description="Registra transacciones para 20 actividades vulnerables."
+	/>
+	<Cards.Card
+		title="Alertas"
+		href="/es/aml/alerts"
+		description="Revisa y resuelve alertas de cumplimiento detectadas automáticamente."
+	/>
+	<Cards.Card
+		title="Avisos SAT"
+		href="/es/aml/notices"
+		description="Genera, revisa y envía avisos mensuales al SAT."
+	/>
+	<Cards.Card
+		title="Reportes"
+		href="/es/aml/reports"
+		description="Reportes de cumplimiento, resúmenes ejecutivos y análisis."
+	/>
+	<Cards.Card
+		title="Facturas (CFDI)"
+		href="/es/aml/invoices"
+		description="Analiza y gestiona facturas CFDI v4.0."
+	/>
+	<Cards.Card
+		title="Importación Masiva"
+		href="/es/aml/import"
+		description="Importa clientes y operaciones en masa vía CSV."
+	/>
+	<Cards.Card
+		title="Auto-servicio KYC"
+		href="/es/aml/kyc"
+		description="Envía invitaciones KYC y revisa datos enviados por clientes."
+	/>
+</Cards>
