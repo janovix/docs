@@ -30,6 +30,25 @@ function toCleanResultUrl(url: string): string {
 	return url;
 }
 
+const GENERIC_TITLES = new Set(["docs", "janovix docs", "documentation"]);
+
+/** Derive a readable title from the URL path when Pagefind returns a generic title (e.g. "Docs" from navbar h1). */
+function resultDisplayTitle(url: string, metaTitle?: string): string {
+	const trimmed = (metaTitle ?? "").trim().toLowerCase();
+	if (trimmed && !GENERIC_TITLES.has(trimmed)) return metaTitle ?? "";
+
+	const path = url.replace(/^https?:\/\/[^/]+/, "").replace(/\.html$/, "");
+	const segments = path.split("/").filter((s) => s && s !== "en" && s !== "es");
+	if (segments.length === 0) return "Documentación";
+
+	const format = (s: string) =>
+		s.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+	const last = format(segments[segments.length - 1] ?? "");
+	if (segments.length === 1) return last;
+	const parent = format(segments[segments.length - 2] ?? "");
+	return `${parent} › ${last}`;
+}
+
 const SEARCH_STRINGS = {
 	en: {
 		triggerLabel: "Search documentation",
@@ -209,7 +228,7 @@ export function Search() {
 												className="block rounded-lg px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800"
 											>
 												<p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-													{r.meta?.title ?? r.url}
+													{resultDisplayTitle(r.url, r.meta?.title)}
 												</p>
 												<p
 													className="mt-0.5 line-clamp-2 text-xs text-neutral-500 dark:text-neutral-400"
