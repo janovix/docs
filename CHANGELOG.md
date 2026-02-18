@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/janovix/docs/compare/v1.6.1...v1.7.0) (2026-02-18)
+
+
+### Features
+
+* update documentation structure and content for Janovix platform ([4357e5e](https://github.com/janovix/docs/commit/4357e5e55ec0f5bfa1082821703cc6865d513be4))
+
 ## [1.6.1](https://github.com/janovix/docs/compare/v1.6.0...v1.6.1) (2026-02-18)
 
 
