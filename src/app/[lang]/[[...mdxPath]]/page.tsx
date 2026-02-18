@@ -3,6 +3,7 @@ import path from "node:path";
 import { importPage } from "nextra/pages";
 import { getPageMap } from "nextra/page-map";
 import { Layout, Navbar, Footer } from "nextra-theme-docs";
+import { Globe } from "lucide-react";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
 import { Logo } from "@/components/Logo";
 import { Search } from "@/components/Search";
@@ -100,6 +101,8 @@ export default async function Page(props: {
 							<h1 className="text-xl font-bold">Docs</h1>
 						</div>
 					}
+					projectLink="https://janovix.com"
+					projectIcon={<Globe className="size-5" aria-hidden />}
 				/>
 			}
 			footer={

@@ -2,7 +2,7 @@ import React from "react";
 
 const config = {
 	project: {
-		link: "https://github.com/janovix",
+		link: "https://janovix.com",
 	},
 	docsRepositoryBase: "https://github.com/janovix/docs",
 	sidebar: {
