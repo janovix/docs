@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/janovix/docs/compare/v1.6.0...v1.6.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* update project link to janovix.com and add globe icon in page component ([ce5f3de](https://github.com/janovix/docs/commit/ce5f3defc1577c3aa6d003370a968eafc06b6491))
+
 # [1.6.0](https://github.com/janovix/docs/compare/v1.5.0...v1.6.0) (2026-02-18)
 
 
