@@ -24,6 +24,12 @@ declare global {
 	}
 }
 
+/** Pagefind indexes static HTML and uses .html URLs; the app uses clean URLs. Strip .html so links work. */
+function toCleanResultUrl(url: string): string {
+	if (url.endsWith(".html")) return url.slice(0, -5);
+	return url;
+}
+
 const SEARCH_STRINGS = {
 	en: {
 		triggerLabel: "Search documentation",
@@ -126,7 +132,10 @@ export function Search() {
 				}
 				const { results: raw } = await pf.search(query);
 				const settled = await Promise.all(raw.slice(0, 8).map((r) => r.data()));
-				if (!cancelled) setResults(settled);
+				if (!cancelled)
+					setResults(
+						settled.map((r) => ({ ...r, url: toCleanResultUrl(r.url) })),
+					);
 			} finally {
 				if (!cancelled) setLoading(false);
 			}

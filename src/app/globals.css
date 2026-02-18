@@ -222,9 +222,31 @@ body {
 	max-width: 100vw;
 }
 
+/* Contain main content: allow horizontal scroll inside article so wide tables don't break viewport */
+main article,
+article.nextra-body-typesetting-article {
+	min-width: 0;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Tables: allow long cell text to wrap so they overflow less on narrow viewports */
+main th,
+main td,
+article th,
+article td {
+	word-break: break-word;
+	overflow-wrap: break-word;
+}
+
 /* Ensure content wrapper takes available space between navbar and footer */
 div:has(> .nextra-sidebar) {
 	flex: 1 0 auto;
+}
+
+/* Let flex children (sidebar + content) shrink so content can be contained on mobile */
+div:has(> .nextra-sidebar) > * {
+	min-width: 0;
 }
 
 /* Fix Nextra mobile sidebar z-index: the aside must sit above the article content */
