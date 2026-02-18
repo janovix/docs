@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/janovix/docs/compare/v1.0.0...v1.1.0) (2026-02-18)
+
+
+### Features
+
+* add middleware for locale handling and enhance documentation with new AML modules ([e5b75d3](https://github.com/janovix/docs/commit/e5b75d3fe130b7239ac807aa514f2a068248914e))
+
 # 1.0.0 (2025-12-30)
 
 
