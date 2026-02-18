@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/janovix/docs/compare/v1.3.0...v1.4.0) (2026-02-18)
+
+
+### Features
+
+* improve table and article responsiveness with CSS adjustments and add URL cleaning function for search results ([afd3caa](https://github.com/janovix/docs/commit/afd3caad13516ee21b96c41dde0019af8b1183a9))
+
 # [1.3.0](https://github.com/janovix/docs/compare/v1.2.0...v1.3.0) (2026-02-18)
 
 
