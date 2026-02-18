@@ -1,0 +1,126 @@
+---
+title: Notices API
+description: Generate and manage SAT compliance notices (avisos) via the API
+---
+
+import { Tabs } from "nextra/components";
+
+# Notices API
+
+**Base path:** `/api/v1/notices`
+
+## Endpoints
+
+| Method   | Path                        | Description                               |
+| -------- | --------------------------- | ----------------------------------------- |
+| `GET`    | `/notices`                  | List notices                              |
+| `GET`    | `/notices/preview`          | Preview operations for a potential notice |
+| `GET`    | `/notices/available-months` | Months with reportable operations         |
+| `GET`    | `/notices/:id`              | Get notice with summary                   |
+| `POST`   | `/notices`                  | Create a notice                           |
+| `POST`   | `/notices/:id/generate`     | Generate SAT XML                          |
+| `POST`   | `/notices/:id/submit`       | Mark as submitted                         |
+| `POST`   | `/notices/:id/acknowledge`  | Record SAT acknowledgment                 |
+| `PATCH`  | `/notices/:id`              | Partial update                            |
+| `DELETE` | `/notices/:id`              | Delete (draft only)                       |
+
+## Preview a Notice
+
+Before creating a notice, preview which operations would be included:
+
+```
+GET /api/v1/notices/preview?year=2025&month=6
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+curl "https://api.janovix.com/api/v1/notices/preview?year=2025&month=6" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const preview = await janovixFetch<NoticePreview>(
+  "/notices/preview?year=2025&month=6"
+);
+console.log(`${preview.operationCount} operations totalling ${preview.totalAmount} MXN`);
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+preview = session.get(f"{BASE_URL}/notices/preview", params={
+    "year": 2025, "month": 6
+}).json()["data"]
+print(f"{preview['operationCount']} operations, total: {preview['totalAmount']} MXN")
+```
+</Tabs.Tab>
+</Tabs>
+
+## Create and Generate a Notice
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+# Step 1: Create the notice
+NOTICE=$(curl -X POST https://api.janovix.com/api/v1/notices \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"year": 2025, "month": 6}')
+
+NOTICE_ID=$(echo $NOTICE | jq -r '.data.id')
+
+# Step 2: Generate the XML
+
+curl -X POST "https://api.janovix.com/api/v1/notices/$NOTICE_ID/generate" \
+ -H "Authorization: Bearer YOUR_TOKEN"
+
+# Step 3: Mark as submitted (after submitting to SAT portal)
+
+curl -X POST "https://api.janovix.com/api/v1/notices/$NOTICE_ID/submit" \
+ -H "Authorization: Bearer YOUR_TOKEN" \
+ -H "Content-Type: application/json" \
+ -d '{"folioNumber": "SAT-2025-06-0001"}'
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+// Step 1: Create
+const { data: notice } = await janovixFetch<{ data: Notice }>("/notices", {
+  method: "POST",
+  body: JSON.stringify({ year: 2025, month: 6 }),
+});
+
+// Step 2: Generate XML
+await janovixFetch(`/notices/${notice.id}/generate`, { method: "POST" });
+
+// Step 3: Submit to SAT portal manually, then mark
+await janovixFetch(`/notices/${notice.id}/submit`, {
+  method: "POST",
+  body: JSON.stringify({ folioNumber: "SAT-2025-06-0001" }),
+});
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+# Step 1: Create
+notice = session.post(f"{BASE_URL}/notices", json={
+    "year": 2025, "month": 6
+}).json()["data"]
+
+# Step 2: Generate XML
+
+session.post(f"{BASE_URL}/notices/{notice['id']}/generate")
+
+# Step 3: Mark as submitted
+
+session.post(f"{BASE_URL}/notices/{notice['id']}/submit", json={
+"folioNumber": "SAT-2025-06-0001"
+})
+
+```
+</Tabs.Tab>
+</Tabs>
+```

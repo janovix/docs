@@ -1,0 +1,149 @@
+---
+title: Watchlist Datasets
+description: Details on the OFAC SDN, UNSC, SAT 69-B, PEP, and adverse media data sources and update cadence
+---
+
+import { Callout } from "nextra/components";
+
+# Watchlist Datasets
+
+{/* IMAGE: public/images/watchlist/datasets-diagram.png - Diagram showing the 5 data sources, their update cadence, and the hybrid search engine that combines them */}
+
+Janovix screens against five data sources. Understanding each helps you interpret results and manage compliance risk.
+
+## OFAC SDN (Office of Foreign Assets Control)
+
+**Source:** U.S. Department of the Treasury
+**Coverage:** Global — individuals, entities, vessels, and aircraft
+
+The OFAC SDN (Specially Designated Nationals and Blocked Persons List) is one of the most comprehensive sanctions lists in the world. Transactions with SDN-listed individuals and entities are prohibited by U.S. law — and increasingly referenced in Mexican AML practice.
+
+### Entry Types
+
+| Type         | Description              |
+| ------------ | ------------------------ |
+| `individual` | Physical persons         |
+| `entity`     | Companies, organizations |
+| `vessel`     | Ships                    |
+| `aircraft`   | Aircraft                 |
+
+### Data Fields
+
+- Name and aliases (including AKAs and transliterations)
+- Nationality and passport numbers
+- Date of birth and place of birth
+- Known addresses
+- Identifiers (passport, national ID, tax ID)
+- Programs (the sanction regime, e.g., IRAN, DPRK, SDGT)
+- Source lists (SDN, Non-SDN, SSI, CAPTA, etc.)
+
+### Update Cadence
+
+OFAC publishes updates as frequently as daily when new designations occur. Janovix synchronizes OFAC data **daily** via the official SDN XML feed.
+
+## UNSC (United Nations Security Council)
+
+**Source:** United Nations
+**Coverage:** Global
+
+The UN Security Council maintains consolidated sanctions lists for specific conflict zones and regimes. These are particularly relevant for international transactions.
+
+### Regimes Covered
+
+- Taliban (AFG)
+- Al-Qaida
+- DRC (Democratic Republic of Congo)
+- Somalia
+- Sudan
+- Libya
+- And others
+
+### Update Cadence
+
+UNSC updates when the Security Council votes to add/remove individuals. Janovix synchronizes **weekly**.
+
+## SAT 69-B (Mexican Tax Authority)
+
+**Source:** Servicio de Administración Tributaria (SAT)
+**Coverage:** Mexico-specific
+
+The SAT 69-B list contains Mexican taxpayers (RFC holders) that the SAT has determined issued _Comprobantes Fiscales Digitales_ (CFDI) for non-existent or simulated operations — a key money laundering vehicle.
+
+### SAT 69-B Phases
+
+| Phase                                      | Code                  | Description                                                                  |
+| ------------------------------------------ | --------------------- | ---------------------------------------------------------------------------- |
+| Presumption (_Presuntos_)                  | `PRESUNTO`            | SAT suspects non-existent operations; taxpayer has 15 business days to rebut |
+| Rebuttal (_En rebuttal_)                   | `EN_REBATIMIENTO`     | Taxpayer has filed a rebuttal; case under review                             |
+| Definitive (_Definitivos_)                 | `DEFINITIVO`          | SAT confirmed non-existent operations; rebuttal period expired               |
+| Favorable sentence (_Sentencia favorable_) | `SENTENCIA_FAVORABLE` | Court ruled in taxpayer's favor; removed from definitive list                |
+
+<Callout type="warning">
+	Accepting a CFDI from a **Definitivo** SAT 69-B-listed taxpayer as a
+	deductible expense can result in tax authority challenges and denial of
+	deductions. Screening suppliers against this list is a tax risk management
+	best practice beyond AML.
+</Callout>
+
+### Update Cadence
+
+The SAT publishes the 69-B list on its website. Janovix synchronizes **weekly** (or on demand via admin ingestion).
+
+## PEP (Politically Exposed Persons)
+
+**Source:** AI-powered database + public sources
+**Coverage:** Mexico and international
+
+The LFPIORPI 2025 reform explicitly added PEPs as a defined term (Art. 3, Fraction IX Bis) requiring enhanced due diligence.
+
+A **PEP** is a physical person who holds or has held a prominent public function:
+
+- Presidents, ministers, governors, legislators
+- Judges and senior judicial officials
+- Military commanders
+- Senior executives of state-owned enterprises
+- Leaders of political parties
+- International organization officials
+
+PEP status also extends to close family members and known associates.
+
+### How PEP Screening Works
+
+PEP searches run on an AI container (Grok-powered) that:
+
+1. Receives the query name
+2. Searches multiple public sources in real time
+3. Returns structured results with confidence scores
+
+**Latency:** 10–60 seconds (asynchronous). Results are delivered via SSE.
+
+**Cache:** Results are cached for 24 hours per unique query to reduce latency on repeated searches.
+
+## Adverse Media
+
+**Source:** AI-powered web analysis
+**Coverage:** Global
+
+Adverse media screening searches the web and news archives for articles linking the queried individual or entity to:
+
+- Money laundering or financial crimes
+- Drug trafficking
+- Terrorism financing
+- Corruption or bribery
+- Fraud or embezzlement
+
+### How Adverse Media Works
+
+1. An AI container receives the query
+2. Searches news archives and web sources
+3. Analyzes article sentiment and relevance
+4. Returns a structured report of relevant findings
+
+**Latency:** 10–60 seconds (asynchronous).
+
+<Callout type="info">
+	Adverse media screening is **informational** — a finding doesn't mean the
+	person is guilty, only that they have been reported in connection with the
+	topic. Use it as a trigger for enhanced due diligence, not as a definitive
+	determination.
+</Callout>

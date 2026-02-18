@@ -1,0 +1,176 @@
+---
+title: Clients & KYC
+description: Register and manage clients, collect KYC data, documents, and watchlist screening results
+---
+
+import { Callout, Steps, Tabs } from "nextra/components";
+
+# Clients & KYC
+
+The **Clients** module is the foundation of your AML compliance. Every vulnerable activity operation must be linked to a registered client with sufficient KYC data.
+
+{/* IMAGE: public/images/aml/client-list.png - Client list view with status badges, search bar, and KYC completion filters */}
+
+## Client Types
+
+Janovix supports three types of clients corresponding to the LFPIORPI's definition of _Cliente o Usuaria_:
+
+| Type                             | Description                           | RFC Length    |
+| -------------------------------- | ------------------------------------- | ------------- |
+| **Physical Person** (`PHYSICAL`) | Individual human clients              | 13 characters |
+| **Moral Person** (`MORAL`)       | Companies, corporations, associations | 12 characters |
+| **Trust** (`TRUST`)              | Fideicomiso (trust structures)        | 12 characters |
+
+## Registering a New Client
+
+{/* IMAGE: public/images/aml/client-form-physical.png - Client creation form for a physical person, showing required fields */}
+
+<Steps>
+### Open the Create Form
+Navigate to **Clients** in the sidebar and click **+ New Client** in the top-right corner.
+
+### Select Client Type
+
+Choose between Physical Person, Moral Person, or Trust. The form fields will adjust based on your selection.
+
+### Fill in Core Information
+
+**For Physical Persons:**
+
+- First name, paternal surname, maternal surname
+- RFC (13 characters)
+- Date of birth
+- Nationality and country of birth
+- CURP (optional)
+
+**For Moral Persons / Trusts:**
+
+- Business name (_razón social_)
+- RFC (12 characters)
+- Incorporation date
+- Country of incorporation
+- Tax identification in country of origin (if foreign)
+
+### Add Contact & Address
+
+Fill in the client's email, phone, and primary address. You can add multiple addresses after creation.
+
+### Save and Screen
+
+Click **Create Client**. Janovix will:
+
+1. Save the client record
+2. Automatically trigger a watchlist screening against OFAC, UNSC, SAT 69-B, and PEP databases
+3. Assign an initial KYC status based on the data provided
+   </Steps>
+
+<Callout type="warning">
+	A client with **INCOMPLETE** KYC status cannot be linked to operations that
+	require full identification under Art. 17. Complete the KYC checklist before
+	recording high-value transactions.
+</Callout>
+
+## KYC Status
+
+{/* IMAGE: public/images/aml/client-kyc-status.png - KYC status indicator showing completion percentage and missing items */}
+
+Each client has a KYC status that reflects compliance readiness:
+
+| Status                 | Meaning                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| `INCOMPLETE`           | Required data fields or documents are missing            |
+| `PENDING_VERIFICATION` | Data is submitted but awaiting compliance officer review |
+| `COMPLETE`             | All required data collected and verified                 |
+| `EXPIRED`              | Previously complete but data or documents have expired   |
+
+The KYC status considers your organization's [compliance settings](/settings/compliance) — specifically the **self-service required sections** — and the activity-specific thresholds from Art. 17.
+
+## Client Detail Page
+
+{/* IMAGE: public/images/aml/client-detail.png - Client detail page showing personal info, documents, addresses tabs and watchlist screening results */}
+
+The client detail page is organized into tabs:
+
+- **Overview** — Key information, KYC status, and watchlist screening results
+- **Documents** — Uploaded identification documents with expiry tracking
+- **Addresses** — All registered addresses (a client may have multiple)
+- **Shareholders** — Ownership structure (for moral persons and trusts)
+- **Beneficial Controllers** — Ultimate beneficial owners (_Beneficiarios Controladores_)
+- **Operations** — All operations linked to this client
+- **KYC Sessions** — History of self-service KYC sessions
+
+## Watchlist Screening Results
+
+Every client is automatically screened when created or when their information is updated. The screening covers:
+
+| List         | Description                                                                     |
+| ------------ | ------------------------------------------------------------------------------- |
+| **PEP**      | Politically Exposed Persons database                                            |
+| **OFAC SDN** | U.S. Treasury Office of Foreign Assets Control — Specially Designated Nationals |
+| **UNSC**     | UN Security Council sanctions list                                              |
+| **SAT 69-B** | Mexican taxpayers with non-existent operations                                  |
+
+Screening results appear in the client's Overview tab with a match score and classification:
+
+- `isPEP` — Client matched as a PEP
+- `ofacSanctioned` — OFAC SDN match
+- `unscSanctioned` — UN Security Council match
+- `sat69bListed` — SAT 69-B match
+
+<Callout type="error">
+	**Never proceed with a transaction for a sanctioned client** without
+	completing your internal due diligence process and, where applicable,
+	notifying the relevant authorities. Janovix will not block the operation at
+	the system level — compliance decisions remain with your team.
+</Callout>
+
+## Shareholders (Moral Persons / Trusts)
+
+For moral persons and trusts, the LFPIORPI requires identifying shareholders and beneficial controllers. In the **Shareholders** tab:
+
+- Add shareholders (individual persons or companies)
+- Specify ownership percentage
+- Hierarchical structure supported (sub-shareholders of a shareholder company)
+- Attach identification documents
+
+## Beneficial Controllers
+
+In the **Beneficial Controllers** add the _Beneficiarios Controladores_ — the physical persons who ultimately control or benefit from the moral entity:
+
+| BC Type             | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `SHAREHOLDER`       | Person who owns >25% of capital                 |
+| `LEGAL_REP`         | Legal representative                            |
+| `TRUSTEE`           | Fiduciario (trustee in a trust)                 |
+| `SETTLOR`           | Fideicomitente (settlor in a trust)             |
+| `TRUST_BENEFICIARY` | Fideicomisario (beneficiary of a trust)         |
+| `DIRECTOR`          | Director or board member with effective control |
+
+Each beneficial controller is automatically screened against watchlists upon registration.
+
+{/* VIDEO: 2-3 min walkthrough video of creating a physical person client, completing their KYC, and reviewing watchlist results */}
+
+## Documents
+
+Upload identity documents in the **Documents** tab. Supported document types vary by client type and include:
+
+- Official ID (INE, passport)
+- RFC certificate
+- Proof of address
+- Constitutive act (for moral persons)
+- Trust deed (for trusts)
+- Power of attorney
+
+The system tracks document expiry dates and will flag a client's KYC as `EXPIRED` when documents lapse.
+
+## Searching and Filtering Clients
+
+In the Clients list, use the search bar and filter controls to find clients by:
+
+- Name or business name
+- RFC
+- KYC status
+- Watchlist screening flags (PEP, OFAC, UNSC, SAT 69-B)
+- Date created
+
+All active filters are reflected in the URL, making filtered views shareable with your team.

@@ -1,0 +1,182 @@
+---
+title: API Integration Guide
+description: REST API reference and multi-language integration examples for the Janovix platform
+---
+
+import { Callout, Cards } from "nextra/components";
+
+{/* IMAGE: public/images/api/api-architecture.png - Diagram showing api.janovix.com as the gateway, auth-svc validating the API key and issuing an ephemeral JWT, then aml-svc serving the response */}
+
+# API Integration Guide
+
+The Janovix Public API gives you programmatic access to every AML compliance feature — clients, operations, alerts, watchlist screening, notices, and more. Use it to integrate Janovix into your ERP, CRM, notary management system, or custom workflow.
+
+## Base URL
+
+```
+https://api.janovix.com/api/v1
+```
+
+All endpoints use HTTPS. The gateway validates your API key, exchanges it for an ephemeral JWT internally, and proxies the request to the AML service — the JWT exchange is invisible to your code.
+
+## API Architecture
+
+```
+Your Server
+  │
+  │  Authorization: Bearer sk_live_...
+  ▼
+api.janovix.com  (Cloudflare Worker — API gateway)
+  │
+  ├─ Validates API key → auth-svc (~5-15ms)
+  ├─ Receives ephemeral JWT (30-60s expiry, automatic)
+  │
+  ▼
+aml-svc  (internal, via Cloudflare service binding — ~0ms)
+  │
+  └─ Returns your data
+```
+
+<Callout type="info">
+	The ephemeral JWT exchange happens automatically inside the gateway. You never
+	handle JWTs when using API keys — just include your `sk_live_...` key in every
+	request.
+</Callout>
+
+## Interactive API Explorer
+
+The interactive Scalar API explorer (auto-generated from OpenAPI) is available at:
+
+```
+https://api.janovix.com/docsz
+```
+
+The full OpenAPI 3.0 schema is at:
+
+```
+https://api.janovix.com/v1/openapi.json
+```
+
+Import it into Postman, Insomnia, or any OpenAPI-compatible tool with one click.
+
+## Response Format
+
+All responses follow a consistent envelope:
+
+### Success (list)
+
+```json
+{
+  "data": [ ... ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 150,
+    "totalPages": 8
+  }
+}
+```
+
+### Success (single resource)
+
+```json
+{
+  "data": { ... }
+}
+```
+
+### Error
+
+```json
+{
+  "success": false,
+  "error": "NotFound",
+  "message": "Client with ID abc123 not found",
+  "details": { ... }
+}
+```
+
+## HTTP Status Codes
+
+| Code  | Meaning                                                   |
+| ----- | --------------------------------------------------------- |
+| `200` | Success                                                   |
+| `201` | Created                                                   |
+| `400` | Validation error — check `details` for field-level errors |
+| `401` | Unauthorized — missing or invalid API key                 |
+| `403` | Forbidden — key revoked, expired, or plan not eligible    |
+| `404` | Resource not found                                        |
+| `409` | Conflict — duplicate RFC, idempotency key collision, etc. |
+| `422` | Unprocessable Entity                                      |
+| `429` | Rate limited — check `Retry-After` header                 |
+| `502` | AML service temporarily unreachable — retry               |
+| `503` | Auth service temporarily unreachable — retry              |
+
+## Rate Limits
+
+Rate limits depend on your subscription plan. When exceeded, the API returns `429 Too Many Requests` with a `Retry-After` header indicating seconds to wait.
+
+| Plan     | Requests / minute |
+| -------- | ----------------- |
+| Business | 60                |
+| Pro      | 300               |
+| Ultra    | 1,000             |
+
+## Pagination
+
+List endpoints support page-based pagination via query parameters:
+
+| Parameter | Default | Description              |
+| --------- | ------- | ------------------------ |
+| `page`    | `1`     | Page number (1-indexed)  |
+| `limit`   | `20`    | Items per page (max 100) |
+
+## Explore the API
+
+<Cards>
+	<Cards.Card
+		title="Authentication"
+		href="/api/authentication"
+		description="Get and use an API key."
+	/>
+	<Cards.Card
+		title="Clients API"
+		href="/api/clients"
+		description="CRUD for physical persons, moral persons, and trusts."
+	/>
+	<Cards.Card
+		title="Operations API"
+		href="/api/operations"
+		description="Record vulnerable activity transactions."
+	/>
+	<Cards.Card
+		title="Alerts API"
+		href="/api/alerts"
+		description="Retrieve and manage compliance alerts."
+	/>
+	<Cards.Card
+		title="Watchlist API"
+		href="/api/watchlist"
+		description="Run sanctions and PEP screening searches."
+	/>
+	<Cards.Card
+		title="Notices API"
+		href="/api/notices"
+		description="Generate and manage SAT notices."
+	/>
+	<Cards.Card
+		title="Reports API"
+		href="/api/reports"
+		description="Create and retrieve compliance reports."
+	/>
+	<Cards.Card
+		title="Catalogs API"
+		href="/api/catalogs"
+		description="Access reference data catalogs."
+	/>
+	<Cards.Card
+		title="Webhooks"
+		href="/api/webhooks"
+		description="Real-time event notifications (coming soon)."
+	/>
+</Cards>

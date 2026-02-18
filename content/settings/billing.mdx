@@ -1,0 +1,91 @@
+---
+title: Billing & Plans
+description: View your subscription plan, usage meters, upgrade or downgrade, and manage payment
+---
+
+import { Callout } from "nextra/components";
+
+# Billing & Plans
+
+The **Billing** section shows your current subscription plan, feature entitlements, usage metrics, and payment management.
+
+{/* IMAGE: public/images/settings/settings-billing.png - Billing overview page showing current plan badge, monthly usage meters (clients, operations, alerts, notices, reports), next billing date, and Upgrade button */}
+
+## Subscription Plans
+
+Janovix offers four subscription tiers:
+
+{/* IMAGE: public/images/settings/settings-plans.png - Plan comparison table showing Watchlist, Business, Pro, and Ultra tiers side-by-side with their limits and price */}
+
+| Plan          | Best For                                     | Key Limits                                     |
+| ------------- | -------------------------------------------- | ---------------------------------------------- |
+| **Watchlist** | Companies that only need sanctions screening | Watchlist queries; no AML module               |
+| **Business**  | Small to medium obligated subjects           | Limited clients, operations, notices per month |
+| **Pro**       | Growing compliance teams                     | Higher limits, multiple organizations          |
+| **Ultra**     | Large organizations or high-volume sectors   | Maximum limits, priority support               |
+
+<Callout type="info">
+	Enterprise customers (very high volume, custom SLAs, on-premise data
+	requirements) can contact our sales team for an **Enterprise License** — a
+	direct contract not managed through the subscription flow.
+</Callout>
+
+## Usage Meters
+
+The billing page shows your current usage against your plan limits:
+
+| Meter                       | Description                                         |
+| --------------------------- | --------------------------------------------------- |
+| **Clients**                 | Total active clients registered this billing period |
+| **Operations**              | Operations recorded this billing period             |
+| **Alerts**                  | Alerts generated this billing period                |
+| **Notices**                 | SAT notices generated this billing period           |
+| **Reports**                 | Reports generated this billing period               |
+| **Watchlist Queries / Day** | Daily limit on watchlist search queries             |
+| **Team Seats**              | Current members vs. seat limit                      |
+
+When you approach a limit, Janovix shows a warning. When you hit a limit, the corresponding action is gated until you upgrade or the billing period resets.
+
+## Managing Your Subscription
+
+### Upgrading
+
+Click **Upgrade Plan** to see available plans and their pricing. Upgrades take effect immediately (prorated billing).
+
+### Downgrading
+
+Click **Change Plan** and select a lower tier. Downgrades take effect at the **end of the current billing period**. Ensure your usage is within the new plan's limits before the period ends.
+
+### Cancelling
+
+Click **Cancel Subscription** at the bottom of the billing page. Your access continues until the end of the current billing period.
+
+## Payment Management
+
+Click **Manage Payment** to open the Stripe Customer Portal where you can:
+
+- Update your credit card
+- Download past invoices
+- View your billing history
+- Update billing address
+
+<Callout type="warning">
+	Janovix uses **Stripe** for payment processing. We never store raw card
+	numbers. All payment data is handled by Stripe's PCI-DSS compliant
+	infrastructure.
+</Callout>
+
+## Trial Abuse Prevention
+
+To ensure fair access to trial plans, Janovix uses card fingerprinting to prevent the same payment method from being used to start multiple trials. Each unique payment method is eligible for one trial per plan tier.
+
+## Enterprise Licenses
+
+If you have an enterprise license key:
+
+1. Navigate to **Settings → Billing**
+2. Click **Activate License Key**
+3. Enter your license key
+4. The license is validated and your entitlements are immediately updated
+
+Enterprise licenses are valid for a fixed period and cover a defined set of features and limits, independent of the subscription system.

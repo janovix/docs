@@ -1,0 +1,79 @@
+---
+title: Dashboard
+description: Overview of the AML dashboard KPIs and real-time compliance metrics
+---
+
+import { Callout } from "nextra/components";
+
+# Dashboard
+
+The Dashboard is the first screen you see when you open the AML application. It gives you a real-time snapshot of your compliance posture.
+
+{/* IMAGE: public/images/aml/dashboard-overview.png - Full dashboard with KPI cards, charts, and recent activity feed */}
+
+## Key Performance Indicators (KPIs)
+
+The top row of the dashboard shows four KPI cards:
+
+| KPI                      | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| **Total Clients**        | Number of active clients registered in your organization |
+| **Pending Alerts**       | Alerts in `DETECTED` status awaiting review              |
+| **Operations (30 days)** | Operations recorded in the last 30 days                  |
+| **Notices Due**          | SAT notices that are approaching or past their deadline  |
+
+Clicking any KPI card navigates you directly to the relevant module with the appropriate filter pre-applied.
+
+## Charts and Analytics
+
+### Operations Over Time
+
+A bar chart showing the volume of operations recorded per day or per week over the selected period. Use this to identify unusual spikes in transaction volume.
+
+### Alert Distribution by Severity
+
+A donut chart showing the breakdown of open alerts by severity level: `CRITICAL`, `HIGH`, `MEDIUM`, and `LOW`.
+
+### Client KYC Status
+
+A progress ring showing the percentage of active clients with complete KYC vs. incomplete or expired KYC.
+
+### Top Activities by Volume
+
+A horizontal bar chart ranking your most frequently recorded vulnerable activities by transaction count and total value in the selected period.
+
+{/* IMAGE: public/images/aml/dashboard-filters.png - Date range picker and filter controls in the dashboard header */}
+
+## Date Range Filter
+
+The dashboard respects a global date range filter in the top-right corner. You can select:
+
+- **Last 7 days**
+- **Last 30 days** (default)
+- **Last 90 days**
+- **This year**
+- **Custom range** (date picker)
+
+<Callout type="info">
+	The selected date range is persisted in the URL as query parameters, so you
+	can share a specific time-window view of the dashboard by copying the URL.
+</Callout>
+
+## Recent Activity Feed
+
+The bottom of the dashboard displays a combined feed of recent events across the platform:
+
+- New clients registered
+- Operations recorded above threshold
+- Alerts generated
+- Notice submissions
+
+Each item links to the corresponding record for quick navigation.
+
+## What to Do First
+
+If you are setting up Janovix for the first time:
+
+1. Go to [Settings → Compliance](/settings/compliance) and configure your organization's activity code and RFC
+2. Return to the Dashboard — the KPIs will update as you add data
+3. Start [registering your clients](/aml/clients)

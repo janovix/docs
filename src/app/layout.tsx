@@ -14,9 +14,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Documentación Legal",
+	title: {
+		default: "Janovix Documentation",
+		template: "%s – Janovix Docs",
+	},
 	description:
-		"Ley Federal para la Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita",
+		"Complete documentation for the Janovix AML compliance platform. User manuals for AML management, Settings, Watchlist screening, and full API integration guide with multi-language examples.",
+	keywords: [
+		"Janovix",
+		"AML",
+		"KYC",
+		"anti-money laundering",
+		"LFPIORPI",
+		"watchlist",
+		"compliance",
+		"API",
+	],
+	openGraph: {
+		title: "Janovix Documentation",
+		description:
+			"Complete documentation for the Janovix AML compliance platform.",
+		type: "website",
+	},
 };
 
 export default function RootLayout({
@@ -25,7 +44,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="es">
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>

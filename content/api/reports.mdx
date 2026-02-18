@@ -1,0 +1,111 @@
+---
+title: Reports API
+description: Generate and retrieve compliance reports programmatically
+---
+
+import { Tabs } from "nextra/components";
+
+# Reports API
+
+**Base path:** `/api/v1/reports`
+
+## Endpoints
+
+| Method   | Path                         | Description                          |
+| -------- | ---------------------------- | ------------------------------------ |
+| `GET`    | `/reports/templates`         | List available report templates      |
+| `GET`    | `/reports`                   | List reports                         |
+| `GET`    | `/reports/preview`           | Preview report data                  |
+| `GET`    | `/reports/aggregate/summary` | Executive summary aggregation        |
+| `GET`    | `/reports/aggregate/alerts`  | Alert metrics aggregation            |
+| `GET`    | `/reports/:id`               | Get a report                         |
+| `POST`   | `/reports`                   | Create a report                      |
+| `POST`   | `/reports/:id/generate`      | Generate the report (compile to PDF) |
+| `PATCH`  | `/reports/:id`               | Partial update                       |
+| `DELETE` | `/reports/:id`               | Delete (draft only)                  |
+
+## Get Aggregate Summary
+
+For dashboard integrations, use the aggregate endpoint directly without creating a formal report:
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+curl "https://api.janovix.com/api/v1/reports/aggregate/summary?dateFrom=2025-01-01&dateTo=2025-06-30" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const summary = await janovixFetch<AggregateSummary>(
+  "/reports/aggregate/summary?dateFrom=2025-01-01&dateTo=2025-06-30"
+);
+console.log(`Clients: ${summary.totalClients}, Alerts: ${summary.totalAlerts}`);
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+summary = session.get(f"{BASE_URL}/reports/aggregate/summary", params={
+    "dateFrom": "2025-01-01",
+    "dateTo": "2025-06-30",
+}).json()["data"]
+```
+</Tabs.Tab>
+</Tabs>
+
+## Create and Generate a Report
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+# Step 1: Create report
+REPORT=$(curl -X POST https://api.janovix.com/api/v1/reports \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "template": "EXECUTIVE_SUMMARY",
+    "title": "Q2 2025 Compliance Report",
+    "dateFrom": "2025-04-01",
+    "dateTo": "2025-06-30"
+  }')
+
+REPORT_ID=$(echo $REPORT | jq -r '.data.id')
+
+# Step 2: Generate
+
+curl -X POST "https://api.janovix.com/api/v1/reports/$REPORT_ID/generate" \
+ -H "Authorization: Bearer YOUR_TOKEN"
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const { data: report } = await janovixFetch<{ data: Report }>("/reports", {
+  method: "POST",
+  body: JSON.stringify({
+    template: "EXECUTIVE_SUMMARY",
+    title: "Q2 2025 Compliance Report",
+    dateFrom: "2025-04-01",
+    dateTo: "2025-06-30",
+  }),
+});
+
+await janovixFetch(`/reports/${report.id}/generate`, { method: "POST" });
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+report = session.post(f"{BASE_URL}/reports", json={
+    "template": "EXECUTIVE_SUMMARY",
+    "title": "Q2 2025 Compliance Report",
+    "dateFrom": "2025-04-01",
+    "dateTo": "2025-06-30",
+}).json()["data"]
+
+session.post(f"{BASE_URL}/reports/{report['id']}/generate")
+
+```
+</Tabs.Tab>
+</Tabs>
+```

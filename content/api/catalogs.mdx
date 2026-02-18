@@ -1,0 +1,162 @@
+---
+title: Catalogs API
+description: Access reference data catalogs for countries, states, currencies, and activity-specific data
+---
+
+import { Tabs } from "nextra/components";
+
+# Catalogs API
+
+Catalogs provide reference data for populating dropdowns and validating inputs across the platform.
+
+**Base path:** `/api/v1/catalogs`
+
+## Available Catalogs
+
+| Catalog Key               | Description                 | Type   |
+| ------------------------- | --------------------------- | ------ |
+| `countries`               | ISO countries               | Closed |
+| `states_mx`               | Mexican states              | Closed |
+| `currencies`              | ISO currencies              | Closed |
+| `payment_methods`         | Payment method types        | Closed |
+| `uma_values`              | Historical UMA values       | Closed |
+| `vehicle_brands_land`     | Land vehicle brands         | Open   |
+| `vehicle_brands_maritime` | Maritime vehicle brands     | Open   |
+| `vehicle_brands_air`      | Air vehicle brands          | Open   |
+| `economic_activities`     | SAT economic activity codes | Closed |
+| `cfdi_uses`               | CFDI use codes (SAT)        | Closed |
+| `cfdi_payment_methods`    | CFDI payment method codes   | Closed |
+| `cfdi_payment_forms`      | CFDI payment form codes     | Closed |
+| `cfdi_tax_regimes`        | SAT fiscal regimes          | Closed |
+
+**Closed catalogs** contain fixed reference data from the SAT or ISO standards.
+**Open catalogs** can have new items added by your organization (e.g., new vehicle brands not in the default list).
+
+## List a Catalog
+
+```
+GET /api/v1/catalogs/:catalogKey?search=Toyota&limit=20
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+# Get all Mexican states
+curl "https://api.janovix.com/api/v1/catalogs/states_mx" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# Search vehicle brands
+
+curl "https://api.janovix.com/api/v1/catalogs/vehicle_brands_land?search=Toyota" \
+ -H "Authorization: Bearer YOUR_TOKEN"
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+// Load a catalog for a form dropdown
+async function getCatalog(key: string, search?: string) {
+  const params = search ? `?search=${encodeURIComponent(search)}` : "";
+  const { data } = await janovixFetch<{ data: CatalogItem[] }>(
+    `/catalogs/${key}${params}`
+  );
+  return data;
+}
+
+const states = await getCatalog("states_mx");
+const toyotaModels = await getCatalog("vehicle_brands_land", "Toyota");
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+def get_catalog(key: str, search: str = None) -> list:
+    params = {"search": search} if search else {}
+    return session.get(
+        f"{BASE_URL}/catalogs/{key}", params=params
+    ).json()["data"]
+
+states = get_catalog("states_mx")
+brands = get_catalog("vehicle_brands_land", search="Toyota")
+
+````
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json
+{
+  "data": [
+    { "id": "cat_item_01J...", "key": "CDMX", "label": "Ciudad de México", "active": true },
+    { "id": "cat_item_02J...", "key": "JAL", "label": "Jalisco", "active": true }
+  ],
+  "pagination": { "page": 1, "limit": 50, "total": 32 }
+}
+````
+
+## Add a New Item (Open Catalogs Only)
+
+```
+POST /api/v1/catalogs/:catalogKey/items
+```
+
+<Tabs items={['cURL', 'TypeScript']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.janovix.com/api/v1/catalogs/vehicle_brands_land/items \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"key": "RIVIAN", "label": "Rivian"}'
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+await janovixFetch("/catalogs/vehicle_brands_land/items", {
+  method: "POST",
+  body: JSON.stringify({ key: "RIVIAN", label: "Rivian" }),
+});
+```
+</Tabs.Tab>
+</Tabs>
+
+## UMA Values
+
+To get the current active UMA value for threshold calculations:
+
+```
+GET /api/v1/uma-values/active
+```
+
+```json
+{
+	"data": {
+		"id": "uma_01J...",
+		"year": 2025,
+		"dailyValue": 113.14,
+		"monthlyValue": 3439.76,
+		"annualValue": 41286.12,
+		"effectiveFrom": "2025-02-01",
+		"active": true
+	}
+}
+```
+
+## Exchange Rates
+
+Get the current USD→MXN exchange rate (updated every hour):
+
+```
+GET /api/v1/exchange-rates?from=USD&to=MXN
+```
+
+```json
+{
+	"data": {
+		"from": "USD",
+		"to": "MXN",
+		"rate": 17.35,
+		"timestamp": "2025-07-16T10:00:00.000Z"
+	}
+}
+```

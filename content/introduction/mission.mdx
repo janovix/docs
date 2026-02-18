@@ -1,0 +1,105 @@
+---
+title: Mission & Purpose
+description: Janovix mission, values, and why we built this platform
+---
+
+import { Callout } from "nextra/components";
+
+{/* IMAGE: public/images/introduction/compliance-workflow.png - Diagram showing the end-to-end compliance workflow: onboard client → record operations → detect alerts → file notices */}
+
+# Mission & Purpose
+
+## Our Mission
+
+At Janovix, our mission is to **make regulatory compliance accessible, affordable, and automatic** for every Mexican business subject to anti-money laundering law.
+
+Compliance with the LFPIORPI is mandatory — but it has historically been expensive, complex, and error-prone, requiring specialized legal counsel and manual data entry into government portals. Janovix changes that.
+
+> **We believe every obligated subject — from a small jewelry shop to a large real estate developer — deserves a compliance tool as powerful as those used by large financial institutions, at a price that makes sense for their business.**
+
+## The Problem We Solve
+
+### Complexity
+
+The LFPIORPI requires businesses to:
+
+1. Register as an _sujeto obligado_ with the SAT
+2. Collect and verify KYC data on every client above the threshold
+3. Screen clients against sanctions lists (OFAC, UNSC, SAT 69-B, PEP)
+4. Record every qualifying transaction with detailed activity-specific data
+5. Detect and investigate suspicious activity patterns
+6. File monthly electronic notices (avisos) to the SAT before the deadline
+7. Maintain records for a minimum of 10 years
+
+Doing this manually is time-consuming and highly error-prone. Missing a deadline or filing incorrect data exposes businesses to severe administrative sanctions.
+
+### Our Solution
+
+Janovix automates every step of this process:
+
+| Manual Process                         | Janovix Automation                                    |
+| -------------------------------------- | ----------------------------------------------------- |
+| Manual KYC data collection             | Self-service KYC portal — clients fill their own data |
+| Manual sanctions screening             | Automatic screening on client registration            |
+| Threshold calculations in spreadsheets | Real-time UMA calculation per transaction             |
+| Manual alert review                    | Rule-based automatic alert detection                  |
+| Manually building SAT XML files        | One-click SAT notice generation                       |
+| Report preparation                     | Automatic compliance reports with charts              |
+
+## Our Values
+
+### Compliance as a Feature, Not a Burden
+
+We design every workflow around the compliance officer's actual job — not around a theoretical interpretation of the law. Features are built to match how real businesses operate.
+
+### Transparency
+
+Full audit trails on every action. Every KYC decision, every alert, every notice submission is logged and immutable.
+
+### Security
+
+Multi-tenant architecture with strict organization-level data isolation. JWT-based authentication. All data encrypted at rest and in transit.
+
+### Scalability
+
+Built on Cloudflare Workers — globally distributed, no cold starts, runs at the edge. Whether you process 10 operations a month or 10,000, performance is the same.
+
+## The Compliance Workflow
+
+{/* IMAGE: public/images/introduction/compliance-workflow.png - Step-by-step diagram of the full compliance cycle */}
+
+The diagram below illustrates the full compliance lifecycle supported by Janovix:
+
+```
+1. Configure Organization
+   └─ Set your activity code (Art. 17 fraction), RFC, self-service mode
+
+2. Onboard Client
+   ├─ Collect KYC data (name, RFC, address, documents)
+   ├─ Identify shareholders & beneficial controllers
+   └─ Auto-screen against watchlists (OFAC, UNSC, SAT 69-B, PEP)
+
+3. Record Operations
+   ├─ Log each vulnerable activity transaction
+   ├─ System calculates UMA equivalents
+   └─ Multi-payment method support
+
+4. Alert Detection
+   ├─ Rule engine evaluates each operation
+   ├─ Generates alert if threshold exceeded or pattern matched
+   └─ Compliance officer reviews & resolves
+
+5. Monthly Notice
+   ├─ System aggregates qualifying operations
+   ├─ Generates SAT-compliant XML
+   └─ Officer reviews, submits, and acknowledges
+
+6. Reporting
+   └─ Generate executive summaries, period comparisons, risk profiles
+```
+
+<Callout type="warning">
+	Non-compliance with the LFPIORPI can result in administrative fines ranging
+	from 200 to 65,000 UMAs (approximately MXN $24,000 to MXN $7.7 million as of
+	2025) and, in severe cases, criminal liability.
+</Callout>

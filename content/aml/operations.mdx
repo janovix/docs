@@ -1,0 +1,136 @@
+---
+title: Operations
+description: Record and manage vulnerable activity transactions, UMA thresholds, and activity-specific fields
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Operations
+
+**Operations** are the individual transactions you record for each vulnerable activity you carry out. They are the primary input for alert detection and SAT notice generation.
+
+{/* IMAGE: public/images/aml/operation-list.png - Operations list showing activity type column, client name, amount, UMA equivalent, and status */}
+
+## What is a Vulnerable Activity Operation?
+
+An operation is any act, transaction, or service performed in the context of one of the 20 activities listed in Art. 17 of the LFPIORPI. Janovix supports all 20 activity types with activity-specific data fields.
+
+## Supported Activity Types
+
+| Code  | Activity                           | Notice Threshold (approx. MXN 2025) |
+| ----- | ---------------------------------- | ----------------------------------- |
+| `JYS` | Juegos y Sorteos (Gambling)        | ≥ 645 × $113.14 = ~$73,026          |
+| `TSC` | Tarjetas de Servicios/Crédito      | ≥ 1,285 UMAs/month                  |
+| `TPP` | Tarjetas Prepagadas                | ≥ 645 UMAs                          |
+| `CHV` | Cheques de Viajero                 | ≥ 645 UMAs                          |
+| `MPC` | Mutuo/Préstamo/Crédito             | ≥ 1,605 UMAs                        |
+| `INM` | Inmuebles (Real Estate)            | ≥ 8,025 UMAs                        |
+| `DIN` | Desarrollo Inmobiliario            | ≥ 8,025 UMAs                        |
+| `MJR` | Metales/Joyas/Relojes              | ≥ 1,605 UMAs                        |
+| `OBA` | Obras de Arte y Antigüedades       | ≥ 4,815 UMAs                        |
+| `VEH` | Vehículos (land/air/sea)           | ≥ 6,420 UMAs                        |
+| `BLI` | Blindaje (Armoring)                | ≥ 4,815 UMAs                        |
+| `TCV` | Traslado/Custodia de Valores       | ≥ 3,210 UMAs                        |
+| `SPR` | Servicios Profesionales            | When financial transaction executed |
+| `FEP` | Fe Pública — Notario               | Varies by sub-type                  |
+| `FES` | Fe Pública — Corredor              | Always                              |
+| `DON` | Donativos                          | ≥ 3,210 UMAs                        |
+| `ARI` | Arrendamiento de Inmuebles         | ≥ 3,210 UMAs/month                  |
+| `AVI` | Activos Virtuales                  | ≥ 210 UMAs                          |
+| `TDR` | Tarjetas de Recompensa             | Activity-specific                   |
+| `CAD` | Customs (Agente/Apoderado Aduanal) | Always                              |
+
+## Recording a New Operation
+
+{/* IMAGE: public/images/aml/operation-create.png - Operation creation form showing activity selector, client selector, amount, and date fields */}
+
+<Steps>
+### Select Activity Type
+Navigate to **Operations** and click **+ New Operation**. Select the activity code that matches your transaction (e.g., `VEH` for a vehicle sale).
+
+### Link to a Client
+
+Search and select the client associated with this transaction. The client must be registered; if they aren't, [create them first](/aml/clients).
+
+### Enter Core Transaction Data
+
+- **Operation date** — The date the transaction occurred (not the recording date)
+- **Amount** — Transaction amount
+- **Currency** — MXN or foreign currency (auto-converted via daily exchange rate)
+- **UMA equivalent** — Calculated automatically based on the operation date's UMA value
+
+### Fill Activity-Specific Fields
+
+Each activity type has mandatory additional fields:
+
+{/* IMAGE: public/images/aml/operation-activity-fields.png - Vehicle activity fields showing brand, model, year, VIN, type (land/air/marine) */}
+
+**Example — Vehicles (`VEH`):**
+
+- Vehicle type (terrestrial / maritime / air)
+- Brand, model, year
+- VIN or serial number
+- New or used
+
+**Example — Real Estate (`INM`):**
+
+- Property type (house, apartment, commercial, land)
+- Cadastral value
+- Commercial value
+- Municipality and state
+
+### Add Payment Methods
+
+{/* IMAGE: public/images/aml/operation-payment-methods.png - Payment methods section showing method type, amount, and currency for each payment */}
+
+Operations can have multiple payment methods. Add each payment with:
+
+- Payment method type (cash, bank transfer, check, virtual asset, etc.)
+- Amount for this payment method
+- Currency
+
+### Save
+
+Click **Record Operation**. The operation is saved and the alert detection rules engine evaluates it immediately.
+
+</Steps>
+
+## UMA Calculations
+
+The UMA (Unidad de Medida y Actualización) is updated annually on February 1st by INEGI. Janovix automatically:
+
+- Applies the correct UMA value for the **operation date** (not the recording date)
+- Calculates the UMA equivalent for multi-currency operations using the exchange rate on the operation date
+- Compares the result against the Art. 17 thresholds to determine if the operation is notifiable
+
+<Callout type="info">
+	You can view the current and historical UMA values in **Settings →
+	Compliance**. Janovix maintains a complete table of annual UMA values.
+</Callout>
+
+## Accumulated Amounts
+
+Art. 17 of the LFPIORPI states that operations with the same client over a **6-month rolling period** that collectively exceed the notice threshold must be reported. Janovix tracks cumulative amounts per client per activity and will trigger an alert when the accumulated total crosses the threshold.
+
+To view a client's accumulated amounts:
+
+1. Open the client's detail page
+2. Navigate to **Operations**
+3. The **Accumulated (6 months)** card shows the running total per activity
+
+## Bulk Import
+
+If you have existing transaction data, use [Bulk Import](/aml/import) to upload operations via CSV instead of entering them one by one.
+
+## Filtering and Searching Operations
+
+Filter the operations list by:
+
+- Activity code
+- Client name or RFC
+- Amount range
+- Date range
+- Currency
+- Notifiable (above notice threshold)
+
+All filters persist in the URL for shareability.

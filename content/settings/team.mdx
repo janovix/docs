@@ -1,0 +1,87 @@
+---
+title: Team & Invitations
+description: Invite team members, manage roles, and handle pending invitations
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Team & Invitations
+
+The **Team** section lets owners and admins manage who has access to your Janovix organization and what level of access they have.
+
+{/* IMAGE: public/images/settings/settings-team.png - Team members list showing avatar, name, email, role badge, and Remove/Change Role actions */}
+
+## Current Team Members
+
+The team list shows all active members of your organization with:
+
+- Their name and email
+- Their current role (`owner`, `admin`, or `member`)
+- The date they joined
+
+## Roles
+
+| Role     | What They Can Do                                                                                    |
+| -------- | --------------------------------------------------------------------------------------------------- |
+| `owner`  | Everything — including billing, ownership transfer, and organization deletion                       |
+| `admin`  | All AML features, Settings management, team management; cannot change billing or transfer ownership |
+| `member` | Access to AML and Watchlist apps; cannot modify Settings                                            |
+
+## Inviting a New Team Member
+
+{/* IMAGE: public/images/settings/settings-invite.png - Invitation dialog showing email field, role selector, and Send Invite button */}
+
+<Steps>
+### Open the Invite Dialog
+Click **+ Invite Member** in the top-right of the Team page.
+
+### Enter Email and Role
+
+- **Email address** — The person must have a Janovix account or will be prompted to create one
+- **Role** — Select `admin` or `member` (you cannot invite someone as `owner`)
+
+### Send the Invitation
+
+Click **Send Invitation**. The invitee receives an email with a link to accept.
+
+### Track Pending Invitations
+
+Pending invitations appear in a separate section below the active members list. You can cancel a pending invitation before it is accepted.
+
+</Steps>
+
+<Callout type="info">
+	Pending invitations expire after **7 days**. If the invitee doesn't accept in
+	time, resend the invitation from the Pending Invitations section.
+</Callout>
+
+## Changing a Member's Role
+
+1. Locate the member in the team list
+2. Click the role badge or the **⋯** menu
+3. Select the new role
+4. Confirm the change
+
+Role changes take effect immediately.
+
+## Removing a Member
+
+1. Click the **⋯** menu next to the member's name
+2. Select **Remove from Organization**
+3. Confirm
+
+Removed members lose access immediately. Their data (operations, clients they created, etc.) remains in the system.
+
+## Accepting an Invitation
+
+If you've been invited to an organization:
+
+1. Click the link in your invitation email
+2. Sign in or create a Janovix account
+3. You'll be automatically redirected to the organization
+
+You can also accept pending invitations from **Settings → Personal** under the **Pending Invitations** section. A badge in the sidebar navigation indicates pending invitations.
+
+## Seat-Based Billing
+
+Adding members consumes seats on your plan. The current seat count is shown at the top of the Team page. If you need more seats, upgrade your plan in [Billing & Plans](/settings/billing).

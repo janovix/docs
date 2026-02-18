@@ -1,0 +1,126 @@
+---
+title: Webhooks
+description: Receive real-time event notifications from the Janovix platform
+---
+
+import { Callout } from "nextra/components";
+
+# Webhooks
+
+<Callout type="info">
+	Webhooks are on the roadmap and not yet available. This page documents the
+	planned API. Subscribe to the changelog to be notified when webhooks launch.
+</Callout>
+
+Webhooks allow your systems to receive real-time notifications when events occur in Janovix, without polling the API.
+
+## Planned Events
+
+| Event                                 | Trigger                                                |
+| ------------------------------------- | ------------------------------------------------------ |
+| `client.created`                      | A new client was registered                            |
+| `client.kyc_status_changed`           | A client's KYC status changed                          |
+| `client.watchlist_screening_complete` | Watchlist screening results are ready                  |
+| `operation.created`                   | A new operation was recorded                           |
+| `alert.created`                       | A new alert was generated                              |
+| `alert.status_changed`                | An alert's status changed (e.g., cancelled, submitted) |
+| `notice.generated`                    | A SAT notice XML was generated                         |
+| `notice.submitted`                    | A notice was marked as submitted                       |
+| `kyc_session.submitted`               | A client submitted their KYC self-service form         |
+| `kyc_session.status_changed`          | A KYC session was approved or rejected                 |
+
+## Payload Format
+
+All webhook payloads will follow this structure:
+
+```json
+{
+	"id": "evt_01J...",
+	"type": "alert.created",
+	"organizationId": "org_01J...",
+	"timestamp": "2025-07-16T10:05:00.000Z",
+	"data": {
+		// The full resource object
+	}
+}
+```
+
+## Security
+
+Webhooks will be signed with an HMAC-SHA256 signature. The signature will be included in the `X-Janovix-Signature` header.
+
+```typescript
+import crypto from "crypto";
+
+function verifyWebhookSignature(
+	payload: string,
+	signature: string,
+	secret: string,
+): boolean {
+	const expected = crypto
+		.createHmac("sha256", secret)
+		.update(payload)
+		.digest("hex");
+	return crypto.timingSafeEqual(
+		Buffer.from(signature),
+		Buffer.from(`sha256=${expected}`),
+	);
+}
+```
+
+## Current Alternative: SSE Streams
+
+While webhooks are not yet available, several endpoints provide real-time updates via **Server-Sent Events (SSE)**:
+
+| Endpoint                                   | Description                              |
+| ------------------------------------------ | ---------------------------------------- |
+| `GET /api/v1/imports/:id/events`           | Real-time progress for a bulk import job |
+| `GET /queries/:queryId/events` (Watchlist) | Async PEP and adverse media results      |
+
+### SSE Example (TypeScript)
+
+```typescript
+const es = new EventSource(
+	`https://api.janovix.com/api/v1/imports/${importId}/events`,
+	{
+		// EventSource doesn't support custom headers natively in browsers.
+		// For server-side usage, use the `eventsource` npm package.
+	},
+);
+
+es.addEventListener("progress", (e) => {
+	const data = JSON.parse(e.data);
+	console.log(`Progress: ${data.processedRows}/${data.totalRows}`);
+});
+
+es.addEventListener("complete", () => {
+	console.log("Import complete");
+	es.close();
+});
+
+es.addEventListener("error", (e) => {
+	console.error("SSE error:", e);
+	es.close();
+});
+```
+
+### SSE Example (Python)
+
+```python
+import sseclient
+import requests
+
+def watch_import(import_id: str):
+    response = session.get(
+        f"{BASE_URL}/imports/{import_id}/events",
+        stream=True,
+        headers={"Accept": "text/event-stream"},
+    )
+    client = sseclient.SSEClient(response)
+    for event in client.events():
+        data = json.loads(event.data)
+        if event.event == "complete":
+            print("Import complete!")
+            break
+        print(f"Progress: {data.get('processedRows')}/{data.get('totalRows')}")
+```

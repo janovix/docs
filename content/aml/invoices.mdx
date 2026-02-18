@@ -1,0 +1,67 @@
+---
+title: Invoices (CFDI)
+description: Parse, manage, and track CFDI v4.0 invoices linked to vulnerable activity operations
+---
+
+import { Callout } from "nextra/components";
+
+# Invoices (CFDI)
+
+The **Invoices** module allows you to import, manage, and link CFDI v4.0 (_Comprobante Fiscal Digital por Internet_) electronic invoices to your operations. This is particularly useful for businesses where transactions generate CFDI documents (e.g., vehicle sales, real estate closings, professional services).
+
+{/* IMAGE: public/images/aml/invoice-list.png - Invoice list showing CFDI UUID, issuer RFC, receiver RFC, total amounts, and date */}
+
+## What is a CFDI?
+
+A CFDI (Comprobante Fiscal Digital por Internet) is Mexico's standardized electronic invoice format, mandated by the SAT for fiscal purposes. CFDI v4.0 is the current version.
+
+Janovix supports:
+
+- Manual invoice entry
+- **XML parsing** — paste or upload a CFDI XML file and Janovix extracts all fields automatically
+
+## Importing a CFDI via XML
+
+{/* IMAGE: public/images/aml/invoice-parse-xml.png - CFDI XML upload/paste interface with extracted field preview */}
+
+1. Navigate to **Transactions → Invoices** and click **+ Import CFDI**
+2. Choose **Parse XML**
+3. Paste or upload the CFDI XML file
+4. Janovix extracts and populates:
+   - Issuer (emisor): RFC, name, fiscal regime
+   - Receiver (receptor): RFC, name, use of CFDI
+   - Financial data: subtotal, taxes, total
+   - Payment information: payment method, form of payment
+   - TFD (Timbre Fiscal Digital): UUID, certification date, SAT certificate
+5. Review the extracted data and click **Save**
+
+<Callout type="info">
+	The UUID (Folio Fiscal) is extracted from the TFD node of the CFDI XML.
+	Janovix enforces uniqueness per UUID within your organization to prevent
+	duplicate imports.
+</Callout>
+
+## Linking Invoices to Operations
+
+After importing a CFDI, you can link it to the corresponding [operation](/aml/operations):
+
+1. Open the invoice record
+2. Click **Link to Operation**
+3. Search and select the matching operation
+
+This creates a bidirectional reference between the operation and its fiscal document — useful for audit trails.
+
+## CFDI Fields Stored
+
+| Section      | Fields                                                        |
+| ------------ | ------------------------------------------------------------- |
+| **Header**   | UUID, date/time, version (4.0), currency, exchange rate       |
+| **Issuer**   | RFC, name, fiscal regime                                      |
+| **Receiver** | RFC, name, zip code, CFDI use                                 |
+| **Totals**   | Subtotal, discounts, transferred taxes, withheld taxes, total |
+| **Payment**  | Payment method, form of payment                               |
+| **TFD**      | UUID, PAC RFC, certification date, SAT certificate serial     |
+
+## Bulk CFDI Import
+
+For high-volume scenarios, use the internal API (`POST /internal/invoices/parse-xml`) to automate CFDI ingestion from your billing system. See the [API Integration Guide](/api/index) for details.

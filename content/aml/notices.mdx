@@ -1,0 +1,124 @@
+---
+title: SAT Notices
+description: Generate and submit monthly compliance notices (avisos) to the SAT in the required XML format
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# SAT Notices
+
+**SAT Notices** (Avisos) are the monthly compliance reports that obligated subjects must file with the _Secretaría de Hacienda y Crédito Público_ (SHCP) via the SAT portal. They summarize all reportable operations for the period.
+
+{/* IMAGE: public/images/aml/notice-list.png - Notice list with month labels, status badges (DRAFT/GENERATED/SUBMITTED/ACKNOWLEDGED), and action buttons */}
+
+## Notice Lifecycle
+
+{/* IMAGE: public/images/aml/notice-workflow.png - Diagram of the notice lifecycle: DRAFT → generate XML → GENERATED → submit to SAT → SUBMITTED → acknowledge → ACKNOWLEDGED */}
+
+```
+DRAFT → GENERATED → SUBMITTED → ACKNOWLEDGED
+```
+
+| Status         | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| `DRAFT`        | Notice created but SAT XML not yet generated               |
+| `GENERATED`    | SAT XML file generated and ready for submission            |
+| `SUBMITTED`    | Compliance officer has submitted the XML to the SAT portal |
+| `ACKNOWLEDGED` | SAT has responded with an acknowledgment (acuse de recibo) |
+
+## When Do You Need to File?
+
+You must file a notice for any calendar month in which you recorded operations that met or exceeded the **aviso threshold** defined for your activity in Art. 17 of the LFPIORPI.
+
+Additionally:
+
+- A notice must always be filed even if the result is **zero notifiable operations** (a "zero report"), depending on your activity type and SAT registration
+- **Urgent notices** (for suspicious activity) must be filed within **24 hours** and are created via the [Alerts](/aml/alerts) module
+
+<Callout type="info">
+	The standard filing deadline for monthly notices is the **17th calendar day of
+	the month following the reporting period**. Janovix shows the days remaining
+	until the deadline on the Notices list.
+</Callout>
+
+## Creating a Monthly Notice
+
+<Steps>
+### Navigate to Notices
+Go to **Compliance → SAT Notices** in the sidebar. The list shows all notices for your organization.
+
+### Create New Notice
+
+Click **+ New Notice** and select the reporting period (year and month). Janovix will:
+
+- Show a preview of all operations from that month that qualify for the aviso
+- Display a summary: number of operations, total value, breakdown by activity
+
+### Review the Preview
+
+{/* IMAGE: public/images/aml/notice-generate.png - Notice generation screen showing XML preview, operation count, total amount, and per-activity breakdown */}
+
+Before generating the XML, review the notice summary:
+
+- Verify the operation count and amounts match your records
+- Check that all clients are properly identified (KYC complete)
+- Confirm there are no draft operations that should be included
+
+### Generate SAT XML
+
+Click **Generate XML**. The system produces a valid SAT XML file conforming to the _Formato de Aviso en materia de Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita_ specification.
+
+The notice status changes to `GENERATED`.
+
+### Review and Download XML
+
+Expand the notice card to see the XML preview. Download the XML file to your computer.
+
+### Submit to SAT Portal
+
+Log in to the SAT's compliance portal and upload the XML file. Enter the **folio number** provided by SAT upon successful receipt.
+
+### Mark as Submitted
+
+Return to Janovix, open the notice, and click **Mark as Submitted**. Enter the SAT folio number. The notice status changes to `SUBMITTED`.
+
+### Acknowledge
+
+When you receive the SAT's acknowledgment (_acuse de recibo_), click **Acknowledge** and optionally attach the acknowledgment document. Status changes to `ACKNOWLEDGED`.
+
+</Steps>
+
+## Notice Contents
+
+The generated SAT XML includes:
+
+| Section                    | Content                                                                                                        |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Header**                 | Your organization's RFC, activity code (_clave de actividad_), period                                          |
+| **Obligated Subject**      | Your RFC, business name, registered address                                                                    |
+| **Operations**             | Each qualifying operation with: client data, operation type, amount, payment methods, activity-specific fields |
+| **Beneficial Controllers** | For each moral-person client: beneficial controller data                                                       |
+| **Folio**                  | Assigned by SAT upon acceptance                                                                                |
+
+<Callout type="warning">
+	The SAT XML format must exactly match the specification published by the SHCP.
+	Janovix keeps its XML templates up to date with SAT format changes. If you
+	encounter a rejection, check **Settings → Compliance** to ensure your
+	organization's RFC and activity code are correctly configured.
+</Callout>
+
+## Notice Preview
+
+Before generating the XML, use the **Preview** feature (available via the API at `GET /notices/preview`) to see which operations and clients will be included based on the current data. This helps catch data quality issues before the formal XML is generated.
+
+## Deleting a Notice
+
+Only notices in `DRAFT` status can be deleted. Once XML has been generated, the notice is locked. If you need to correct data:
+
+1. Cancel the `DRAFT` or `GENERATED` notice
+2. Correct the underlying operation or client data
+3. Create a new notice for the same period
+
+## Available Months
+
+The system shows only months for which there is at least one notifiable operation. Use **+ New Notice** → **Available Months** to see the complete list of periods available for your organization.

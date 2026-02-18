@@ -1,0 +1,254 @@
+---
+title: Clients API
+description: CRUD operations for managing clients — physical persons, moral persons, and trusts
+---
+
+import { Tabs, Callout } from "nextra/components";
+
+# Clients API
+
+The Clients API manages the registry of clients associated with vulnerable activity operations.
+
+**Base path:** `/api/v1/clients`
+
+## Endpoints
+
+| Method   | Path                      | Description                          |
+| -------- | ------------------------- | ------------------------------------ |
+| `GET`    | `/clients`                | List clients (paginated, filterable) |
+| `GET`    | `/clients/stats`          | Aggregate statistics                 |
+| `GET`    | `/clients/:id`            | Get a single client                  |
+| `GET`    | `/clients/:id/kyc-status` | Get KYC completion status            |
+| `POST`   | `/clients`                | Create a client                      |
+| `PUT`    | `/clients/:id`            | Full update                          |
+| `PATCH`  | `/clients/:id`            | Partial update                       |
+| `DELETE` | `/clients/:id`            | Soft delete                          |
+
+## Create a Client
+
+### Request
+
+```
+POST /api/v1/clients
+```
+
+<Tabs items={['cURL', 'TypeScript', 'Python', 'Ruby', 'PHP']}>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.janovix.com/api/v1/clients \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "personType": "PHYSICAL",
+    "firstName": "Juan",
+    "lastName": "García Martínez",
+    "rfc": "GAMJ800101HDF",
+    "dateOfBirth": "1980-01-01",
+    "nationality": "MX",
+    "countryOfBirth": "MX"
+  }'
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+interface CreateClientInput {
+  personType: "PHYSICAL" | "MORAL" | "TRUST";
+  firstName?: string;
+  lastName?: string;
+  businessName?: string;
+  rfc: string;
+  dateOfBirth?: string; // ISO 8601: YYYY-MM-DD
+  nationality?: string; // ISO 3166-1 alpha-2
+  countryOfBirth?: string;
+  email?: string;
+  phone?: string;
+}
+
+const client = await janovixFetch<{ data: Client }>("/clients", {
+method: "POST",
+body: JSON.stringify({
+personType: "PHYSICAL",
+firstName: "Juan",
+lastName: "García Martínez",
+rfc: "GAMJ800101HDF",
+dateOfBirth: "1980-01-01",
+nationality: "MX",
+countryOfBirth: "MX",
+} satisfies CreateClientInput),
+});
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+client = session.post(f"{BASE_URL}/clients", json={
+    "personType": "PHYSICAL",
+    "firstName": "Juan",
+    "lastName": "García Martínez",
+    "rfc": "GAMJ800101HDF",
+    "dateOfBirth": "1980-01-01",
+    "nationality": "MX",
+    "countryOfBirth": "MX",
+}).json()["data"]
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+def janovix_post(path, body)
+  uri = URI("#{BASE_URL}#{path}")
+  req = Net::HTTP::Post.new(uri)
+  req["Authorization"] = "Bearer #{API_KEY}"
+  req["Content-Type"]  = "application/json"
+  req.body = body.to_json
+  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
+  JSON.parse(res.body)
+end
+
+client = janovix_post("/clients", {
+personType: "PHYSICAL",
+firstName: "Juan",
+lastName: "García Martínez",
+rfc: "GAMJ800101HDF",
+dateOfBirth: "1980-01-01",
+nationality: "MX",
+countryOfBirth: "MX",
+})["data"]
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+function janovixPost(string $path, array $body): array {
+    global $baseUrl, $apiKey;
+    $ch = curl_init("{$baseUrl}{$path}");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode($body),
+        CURLOPT_HTTPHEADER     => [
+            "Authorization: Bearer {$apiKey}",
+            "Content-Type: application/json",
+        ],
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response, true);
+}
+
+$client = janovixPost("/clients", [
+    "personType"    => "PHYSICAL",
+    "firstName"     => "Juan",
+    "lastName"      => "García Martínez",
+    "rfc"           => "GAMJ800101HDF",
+    "dateOfBirth"   => "1980-01-01",
+    "nationality"   => "MX",
+    "countryOfBirth"=> "MX",
+])["data"];
+````
+
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json
+{
+	"data": {
+		"id": "clnt_01J...",
+		"personType": "PHYSICAL",
+		"firstName": "Juan",
+		"lastName": "García Martínez",
+		"rfc": "GAMJ800101HDF",
+		"kycStatus": "INCOMPLETE",
+		"isPEP": false,
+		"ofacSanctioned": false,
+		"unscSanctioned": false,
+		"sat69bListed": false,
+		"createdAt": "2025-07-16T10:00:00.000Z"
+	}
+}
+```
+
+<Callout type="info">
+	On creation, watchlist screening is triggered automatically. The `isPEP`,
+	`ofacSanctioned`, `unscSanctioned`, and `sat69bListed` fields are populated
+	asynchronously. Poll `GET /clients/:id` or use the screening callback to get
+	the final results.
+</Callout>
+
+## List Clients
+
+```
+GET /api/v1/clients?page=1&limit=20&kycStatus=INCOMPLETE
+```
+
+### Query Parameters
+
+| Parameter        | Type    | Description                               |
+| ---------------- | ------- | ----------------------------------------- |
+| `page`           | number  | Page number (default: 1)                  |
+| `limit`          | number  | Items per page (max 100, default: 20)     |
+| `search`         | string  | Search by name or RFC                     |
+| `kycStatus`      | string  | Filter by KYC status                      |
+| `personType`     | string  | Filter by `PHYSICAL`, `MORAL`, or `TRUST` |
+| `isPEP`          | boolean | Filter PEP clients                        |
+| `ofacSanctioned` | boolean | Filter OFAC-sanctioned clients            |
+
+<Tabs items={['cURL', 'TypeScript', 'Python']}>
+<Tabs.Tab>
+```bash
+curl "https://api.janovix.com/api/v1/clients?search=Garcia&kycStatus=INCOMPLETE&limit=50" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const params = new URLSearchParams({
+  search: "Garcia",
+  kycStatus: "INCOMPLETE",
+  limit: "50",
+});
+const { data, pagination } = await janovixFetch<{
+  data: Client[];
+  pagination: Pagination;
+}>(`/clients?${params}`);
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+response = session.get(f"{BASE_URL}/clients", params={
+    "search": "Garcia",
+    "kycStatus": "INCOMPLETE",
+    "limit": 50,
+})
+clients = response.json()["data"]
+pagination = response.json()["pagination"]
+```
+</Tabs.Tab>
+</Tabs>
+
+## Get KYC Status
+
+```
+GET /api/v1/clients/:id/kyc-status
+```
+
+Returns a detailed KYC completion breakdown including which sections are complete, pending, or missing:
+
+```json
+{
+	"data": {
+		"status": "INCOMPLETE",
+		"completionPercentage": 45,
+		"sections": {
+			"personalInfo": "complete",
+			"documents": "incomplete",
+			"address": "complete",
+			"shareholders": "not_applicable",
+			"beneficialControllers": "not_applicable"
+		},
+		"missingFields": ["identityDocument", "taxDocument"]
+	}
+}
+```

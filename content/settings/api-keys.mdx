@@ -1,0 +1,81 @@
+---
+title: API Keys
+description: Create, rotate, and revoke API keys for programmatic access to Janovix
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# API Keys
+
+**API Keys** allow your systems to authenticate with the Janovix API without going through the user login flow. Keys are scoped to your organization and carry the permissions of the creating user's role.
+
+{/* IMAGE: public/images/settings/settings-api-keys.png - API keys list showing key name, masked value (sk_live_••••••••), creation date, last used date, and Rotate/Revoke actions */}
+
+## Creating an API Key
+
+{/* IMAGE: public/images/settings/settings-api-key-create.png - API key creation dialog showing name field, permissions summary, and Create button */}
+
+<Steps>
+### Open the API Keys Page
+Navigate to **Settings → API Keys**.
+
+### Click Create Key
+
+Enter a descriptive name for the key (e.g., "ERP Integration", "CI Pipeline", "Billing System"). A good name helps you identify which system is using which key.
+
+### Copy the Secret
+
+After creation, **the full key value is shown only once**. Copy it immediately and store it in your secret manager (e.g., AWS Secrets Manager, HashiCorp Vault, Cloudflare Secrets).
+
+The key format is: `sk_live_` followed by a random string.
+
+</Steps>
+
+<Callout type="error">
+	**Store your API key securely.** Janovix never displays the full key value
+	again after creation. If you lose the key, you must rotate it. Never commit
+	API keys to source code repositories.
+</Callout>
+
+## Using an API Key
+
+Include the key in the `Authorization` header as a Bearer token:
+
+```http
+Authorization: Bearer sk_live_your_api_key_here
+```
+
+API keys authenticate as the organization that owns them. See [API Authentication](/api/authentication) for full details.
+
+## Rotating a Key
+
+If a key may have been compromised or you want to cycle credentials:
+
+1. Click **Rotate** next to the key
+2. Confirm the rotation
+3. A new secret value is generated — copy it immediately
+4. The old secret value is immediately invalidated
+
+<Callout type="warning">
+	Rotating a key immediately breaks any integration using the old value. Update
+	all consumers before rotating in production, or use a maintenance window.
+</Callout>
+
+## Revoking a Key
+
+To permanently delete a key:
+
+1. Click **Revoke** next to the key
+2. Confirm
+
+Revoked keys cannot be recovered. Create a new key if needed.
+
+## Best Practices
+
+| Practice                      | Recommendation                                                                                       |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **One key per integration**   | Use separate keys for each system. This way, revoking one key doesn't break unrelated systems.       |
+| **Least privilege**           | API keys inherit the role of the creating user. Don't create keys with `owner` role unless required. |
+| **Rotate regularly**          | Rotate API keys every 90 days as a security hygiene practice.                                        |
+| **Monitor last used**         | The list shows when each key was last used. Revoke keys that haven't been used in >90 days.          |
+| **Never in client-side code** | API keys must only be used server-side. Never embed them in browser JavaScript or mobile apps.       |

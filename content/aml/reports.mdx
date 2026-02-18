@@ -1,0 +1,72 @@
+---
+title: Reports
+description: Generate compliance reports, executive summaries, and analytics exports
+---
+
+import { Callout } from "nextra/components";
+
+# Reports
+
+The **Reports** module allows compliance officers and executives to generate structured compliance reports, track key metrics over time, and export data for audits or board presentations.
+
+{/* IMAGE: public/images/aml/report-templates.png - Report template selection screen showing cards for each template type */}
+
+## Report Templates
+
+Janovix provides seven report templates:
+
+| Template               | Description                                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `EXECUTIVE_SUMMARY`    | High-level compliance overview: KPIs, alert counts, notice status. Designed for board or management presentations. |
+| `COMPLIANCE_STATUS`    | Detailed compliance health: KYC completion rates, overdue notices, pending alerts.                                 |
+| `TRANSACTION_ANALYSIS` | Deep dive into operations: volume by activity type, period-over-period trends, top clients.                        |
+| `CLIENT_RISK_PROFILE`  | Breakdown of clients by risk level, KYC status, watchlist flags.                                                   |
+| `ALERT_BREAKDOWN`      | Alert metrics: count by severity, resolution rate, average time to resolution.                                     |
+| `PERIOD_COMPARISON`    | Side-by-side comparison of two periods (e.g., Q1 vs. Q2).                                                          |
+| `CUSTOM`               | Build your own report by selecting the metrics and sections you need.                                              |
+
+## Generating a Report
+
+1. Navigate to **Compliance → Reports** and click **+ New Report**
+2. Select a template
+3. Set the reporting period (date range)
+4. Preview the data using the **Preview** option
+5. Click **Generate** — the system compiles the report
+6. Once generated, download as PDF or view on-screen
+
+{/* IMAGE: public/images/aml/report-generated.png - Generated executive summary report showing charts, KPI tables, and narrative sections */}
+
+## Report Lifecycle
+
+Reports follow a simple two-state lifecycle:
+
+| Status      | Description                                 |
+| ----------- | ------------------------------------------- |
+| `DRAFT`     | Report created but not yet compiled         |
+| `GENERATED` | Report compiled and ready for download/view |
+
+<Callout type="info">
+	Reports are **point-in-time snapshots**. If you update client data or record
+	new operations after generating a report, the report will not update
+	automatically. Generate a new report to reflect the latest data.
+</Callout>
+
+## Aggregate Metrics (API)
+
+For dashboard integrations, Janovix provides pre-computed aggregate endpoints:
+
+- **Executive Summary** (`GET /reports/aggregate/summary`) — KPI totals for a period
+- **Alert Metrics** (`GET /reports/aggregate/alerts`) — Alert statistics for a period
+
+See the [API Integration Guide](/api/reports) for details.
+
+## Using Reports for Audits
+
+When the SHCP conducts a verification visit (_visita de verificación_), you will need to demonstrate:
+
+- Complete client identification records (KYC)
+- Evidence of operations recorded and notices filed
+- Alert detection and resolution history
+- Record retention policy compliance
+
+Generate a `COMPLIANCE_STATUS` report covering the audit period to have a structured summary ready.

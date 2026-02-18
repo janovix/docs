@@ -1,3 +1,0 @@
-# Artículo 18. I.: Obligación de identificar y conocer a Clientes o Usuarios
-
-I. Identificar y conocer de manera directa a las personas Clientes o Usuarias con quienes realicen la Actividad Vulnerable y verificar su identidad basándose en documentos u otros medios de identificación con reconocimiento oficial, así como recabar copia de los mismos, de conformidad con las Reglas de carácter general que emita la Secretaría;

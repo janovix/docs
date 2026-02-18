@@ -1,3 +1,0 @@
-# Artículo 35: Aplicación de la LFPA en visitas, requerimientos y sanciones
-
-El desarrollo de las visitas de verificación y los requerimientos de información, documentación, datos e imágenes, así como la imposición de sanciones administrativas previstas en esta Ley, se sujetarán a lo previsto en esta Ley, su Reglamento y las reglas de carácter general, observando de manera supletoria la Ley Federal de Procedimiento Administrativo.

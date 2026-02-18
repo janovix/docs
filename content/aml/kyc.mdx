@@ -1,0 +1,152 @@
+---
+title: KYC Self-Service
+description: Send KYC invitations to clients, monitor session status, and review submitted data
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# KYC Self-Service
+
+The **KYC Self-Service** feature lets you invite clients to complete their own KYC data via a secure, token-protected portal — eliminating the need for your team to manually enter client information on their behalf.
+
+{/* IMAGE: public/images/aml/kyc-self-service-flow.png - Diagram of the full self-service KYC flow: compliance officer creates session → client receives email → client fills data → client submits → officer reviews → approve or reject */}
+
+## How It Works
+
+```
+1. Compliance officer creates a KYC session
+   └─ Client receives an invitation email with a secure link
+
+2. Client visits the self-service portal
+   ├─ Reviews and updates their personal information
+   ├─ Uploads identity documents
+   ├─ Adds shareholders (if moral person)
+   ├─ Adds beneficial controllers
+   └─ Submits for review
+
+3. System automatically screens new beneficial controllers
+
+4. Compliance officer reviews the submission
+   ├─ Approves → client KYC status set to COMPLETE
+   └─ Rejects → client notified with reason, can resubmit
+```
+
+## Self-Service Modes
+
+Configure the mode in [Settings → Compliance](/settings/compliance):
+
+| Mode        | Behavior                                                                    |
+| ----------- | --------------------------------------------------------------------------- |
+| `disabled`  | KYC self-service is turned off; all data must be entered manually           |
+| `manual`    | Sessions can be created by compliance officers on demand                    |
+| `automatic` | A session is automatically created and sent when a new client is registered |
+
+## Creating a KYC Session
+
+{/* IMAGE: public/images/aml/kyc-session-list.png - KYC session list showing client name, status badge, expiry date, and action buttons */}
+
+<Steps>
+### Find the Client
+Navigate to the client's detail page (**Clients → [Client Name]**) and scroll to the **KYC Sessions** section.
+
+### Create Session
+
+Click **Send KYC Invite**. Janovix will:
+
+- Generate a unique, expiring secure token
+- Send an invitation email to the client's registered email address
+- Create a session record in `ACTIVE` status
+
+### Monitor Status
+
+Track the session status in real time:
+
+| Status           | Description                                             |
+| ---------------- | ------------------------------------------------------- |
+| `ACTIVE`         | Session created; email sent; client has not yet started |
+| `IN_PROGRESS`    | Client has opened the link and started filling data     |
+| `SUBMITTED`      | Client submitted the form; awaiting officer review      |
+| `PENDING_REVIEW` | Officer review has started                              |
+| `APPROVED`       | Officer approved; client's KYC marked `COMPLETE`        |
+| `REJECTED`       | Officer rejected with reason; client can be re-invited  |
+| `EXPIRED`        | Session token expired before client submitted           |
+| `REVOKED`        | Officer manually revoked the session                    |
+
+### Resend if Needed
+
+If the client hasn't responded and the session is still `ACTIVE`, click **Resend Email** to send a new invitation.
+
+</Steps>
+
+## The Client Experience
+
+{/* IMAGE: public/images/aml/kyc-client-view.png - What the client sees: the self-service portal with sections for personal info, documents, shareholders, and submit button */}
+
+The client receives an email with a link to the Janovix KYC portal. The portal is pre-filled with any data your team has already entered. The client can:
+
+- **Review and correct** personal information (name, RFC, address)
+- **Upload documents** (official ID, proof of address, etc.)
+- **Add shareholders** (for moral persons/trusts)
+- **Add beneficial controllers**
+- **Submit** the completed form
+
+The portal is mobile-responsive and does not require the client to create a Janovix account. Access is controlled entirely by the session token.
+
+<Callout type="info">
+	**Session expiry:** By default, sessions expire after **72 hours**. You can
+	change this in [Settings → Compliance](/settings/compliance) via the
+	`selfServiceExpiryHours` setting.
+</Callout>
+
+## Reviewing a Submission
+
+{/* IMAGE: public/images/aml/kyc-review.png - Compliance officer review screen showing submitted client data side-by-side with current records, with approve/reject buttons */}
+
+Once a client submits their KYC session (`SUBMITTED` status), a notification appears in the Alerts/notification feed. To review:
+
+<Steps>
+### Open the Session
+Navigate to **KYC Sessions** (from the Clients list or from the client's detail page) and click the submitted session.
+
+### Review Submitted Data
+
+The review screen shows:
+
+- All submitted fields side-by-side with current records (if any)
+- Uploaded documents for download/preview
+- Automatically triggered watchlist screening results for new beneficial controllers
+
+### Make a Decision
+
+**Approve:** Click **Approve** — the client's KYC status is updated to `COMPLETE`.
+
+**Reject:** Click **Reject**, provide a reason. The client receives an email with the reason. You can then create a new session if the client needs to resubmit.
+
+</Steps>
+
+{/* VIDEO: 3 min end-to-end KYC self-service demo: create a session for a moral person client, show client filling the form including shareholders and BCs, then review and approve as a compliance officer */}
+
+## Required Sections
+
+Configure which sections are mandatory for self-service completion in [Settings → Compliance](/settings/compliance) via the `selfServiceRequiredSections` setting. Options include:
+
+- `personal_info`
+- `documents`
+- `address`
+- `shareholders` (moral persons only)
+- `beneficial_controllers` (moral persons only)
+
+A session can only be submitted once all required sections are filled.
+
+## Session Audit Trail
+
+Every action on a KYC session is logged immutably in the **Events** trail:
+
+- Session created
+- Email sent / resent
+- Client opened link
+- Each section saved
+- Submission received
+- Approval/rejection decision with timestamp and officer name
+
+This audit trail is available via `GET /api/v1/kyc-sessions/{id}/events` and is critical for SHCP verification visits.

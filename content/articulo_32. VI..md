@@ -1,3 +1,0 @@
-# Artículo 32. VI.: Prohibición de pagar en efectivo transmisiones de acciones o partes sociales
-
-VI. Transmisión de dominio o constitución de derechos de cualquier naturaleza sobre los títulos representativos de partes sociales o acciones de personas morales por un valor igual o superior al equivalente a tres mil doscientas diez veces el valor diario de la UMA, al día en que se realice el pago o se cumpla la obligación;

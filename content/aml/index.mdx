@@ -1,0 +1,94 @@
+---
+title: AML Manual
+description: User manual for the Janovix AML compliance platform
+---
+
+import { Cards, Callout } from "nextra/components";
+
+{/* IMAGE: public/images/aml/aml-overview.png - Screenshot of the AML app sidebar navigation showing all modules */}
+
+# AML Manual
+
+The **AML** application is the core of Janovix. It is where compliance officers and their teams manage the full lifecycle of AML compliance — from onboarding clients to filing notices with the SAT.
+
+## Navigation
+
+The AML app is organized into two groups in the sidebar:
+
+### Transactions
+
+Day-to-day data management:
+
+- **Dashboard** — KPIs, charts, and recent activity at a glance
+- **Clients** — Register and manage clients (physical persons, legal entities, trusts)
+- **Operations** — Record vulnerable activity transactions
+- **Invoices** — Parse and manage CFDI v4.0 invoices
+
+### Compliance
+
+Regulatory actions:
+
+- **Alerts** — Review automatically detected suspicious patterns
+- **SAT Notices** — Generate and submit monthly notices to the SAT
+- **Reports** — Create compliance and executive summary reports
+
+### Data Management
+
+- **Import** — Bulk-import clients and operations via CSV
+
+<Callout type="info">
+	The AML app uses **organization-based routing**. Every URL includes your
+	organization slug: `https://aml.janovix.com/{org - slug}/`. If you belong to
+	multiple organizations, switch between them using the organization switcher in
+	the top-left corner.
+</Callout>
+
+## Explore the AML Manual
+
+<Cards>
+	<Cards.Card
+		title="Dashboard"
+		href="/aml/dashboard"
+		description="Monitor compliance KPIs and recent activity in real time."
+	/>
+	<Cards.Card
+		title="Clients & KYC"
+		href="/aml/clients"
+		description="Register clients, collect KYC data, and manage documents."
+	/>
+	<Cards.Card
+		title="Operations"
+		href="/aml/operations"
+		description="Record transactions for 20 vulnerable activities."
+	/>
+	<Cards.Card
+		title="Alerts"
+		href="/aml/alerts"
+		description="Review and resolve automatically detected compliance alerts."
+	/>
+	<Cards.Card
+		title="SAT Notices"
+		href="/aml/notices"
+		description="Generate, review, and submit monthly SAT notices."
+	/>
+	<Cards.Card
+		title="Reports"
+		href="/aml/reports"
+		description="Compliance reports, executive summaries, and analytics."
+	/>
+	<Cards.Card
+		title="Invoices (CFDI)"
+		href="/aml/invoices"
+		description="Parse and manage CFDI v4.0 invoices."
+	/>
+	<Cards.Card
+		title="Bulk Import"
+		href="/aml/import"
+		description="Import clients and operations in bulk via CSV."
+	/>
+	<Cards.Card
+		title="KYC Self-Service"
+		href="/aml/kyc"
+		description="Send KYC invitations and review client-submitted data."
+	/>
+</Cards>

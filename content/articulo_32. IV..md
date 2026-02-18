@@ -1,3 +1,0 @@
-# Artículo 32. IV.: Prohibición de pagos en efectivo en juegos con apuesta, concursos y sorteos
-
-IV. Adquisición de boletos que permita participar en juegos con apuesta, concursos o sorteos, así como la entrega o pago de premios por haber participado en dichos juegos con apuesta, concursos o sorteos por un valor igual o superior al equivalente a tres mil doscientas diez veces el valor diario de la UMA, al día en que se realice el pago o se cumpla la obligación;
