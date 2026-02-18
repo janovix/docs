@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/janovix/docs/compare/v1.5.0...v1.6.0) (2026-02-18)
+
+
+### Features
+
+* enhance layout responsiveness and add feedback link in page component ([e5c30ff](https://github.com/janovix/docs/commit/e5c30ff975514af5f0219f04a6687deaf45166fe))
+
 # [1.5.0](https://github.com/janovix/docs/compare/v1.4.0...v1.5.0) (2026-02-18)
 
 
