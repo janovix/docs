@@ -1,6 +1,6 @@
 {
 	"name": "docs",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Janovix platform documentation — AML, KYC, Watchlist, and API integration guide.",
 	"packageManager": "pnpm@10.0.0",
 	"cloudflare": {

@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/janovix/docs/compare/v1.1.1...v1.1.2) (2026-02-18)
+
+
+### Bug Fixes
+
+* correct closing tags in AML and legal background documentation for consistency ([84e2f58](https://github.com/janovix/docs/commit/84e2f58b47adeb47e528aea98c8cf64fd45a1ff1))
+* update table formatting in Spanish documentation for consistency ([1dc323e](https://github.com/janovix/docs/commit/1dc323ea0a433c7b65872f1d0f58e5954bb1cdc9))
+
 ## [1.1.1](https://github.com/janovix/docs/compare/v1.1.0...v1.1.1) (2026-02-18)
 
 
