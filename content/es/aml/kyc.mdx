@@ -1,152 +1,153 @@
 ---
-title: KYC Self-Service
-description: Send KYC invitations to clients, monitor session status, and review submitted data
+title: KYC Autoservicio
+description: Envía invitaciones KYC a clientes, monitorea el estado de las sesiones y revisa los datos enviados
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# KYC Self-Service
+# KYC Autoservicio
 
-The **KYC Self-Service** feature lets you invite clients to complete their own KYC data via a secure, token-protected portal — eliminating the need for your team to manually enter client information on their behalf.
+La función de **KYC Autoservicio** te permite invitar a los clientes a completar sus propios datos KYC a través de un portal seguro protegido por token, eliminando la necesidad de que tu equipo capture manualmente la información del cliente en su nombre.
 
 {/* IMAGE: public/images/aml/kyc-self-service-flow.png - Diagram of the full self-service KYC flow: compliance officer creates session → client receives email → client fills data → client submits → officer reviews → approve or reject */}
 
-## How It Works
+## Cómo Funciona
 
 ```
-1. Compliance officer creates a KYC session
-   └─ Client receives an invitation email with a secure link
+1. El oficial de cumplimiento crea una sesión KYC
+   └─ El cliente recibe un correo de invitación con un enlace seguro
 
-2. Client visits the self-service portal
-   ├─ Reviews and updates their personal information
-   ├─ Uploads identity documents
-   ├─ Adds shareholders (if moral person)
-   ├─ Adds beneficial controllers
-   └─ Submits for review
+2. El cliente visita el portal de autoservicio
+   ├─ Revisa y actualiza su información personal
+   ├─ Sube documentos de identidad
+   ├─ Agrega accionistas (si es persona moral)
+   ├─ Agrega controladores beneficiarios
+   └─ Envía para revisión
 
-3. System automatically screens new beneficial controllers
+3. El sistema realiza automáticamente el escrutinio de los nuevos controladores beneficiarios
 
-4. Compliance officer reviews the submission
-   ├─ Approves → client KYC status set to COMPLETE
-   └─ Rejects → client notified with reason, can resubmit
+4. El oficial de cumplimiento revisa el envío
+   ├─ Aprueba → el estado KYC del cliente se establece como COMPLETE
+   └─ Rechaza → el cliente es notificado con el motivo y puede volver a enviar
 ```
 
-## Self-Service Modes
+## Modos de Autoservicio
 
-Configure the mode in [Settings → Compliance](/settings/compliance):
+Configura el modo en [Configuración → Cumplimiento](/es/settings/compliance):
 
-| Mode        | Behavior                                                                    |
-| ----------- | --------------------------------------------------------------------------- |
-| `disabled`  | KYC self-service is turned off; all data must be entered manually           |
-| `manual`    | Sessions can be created by compliance officers on demand                    |
-| `automatic` | A session is automatically created and sent when a new client is registered |
+| Modo        | Comportamiento                                                                     |
+| ----------- | ---------------------------------------------------------------------------------- |
+| `disabled`  | El autoservicio KYC está desactivado; todos los datos deben capturarse manualmente |
+| `manual`    | Los oficiales de cumplimiento pueden crear sesiones bajo demanda                   |
+| `automatic` | Se crea y envía automáticamente una sesión cuando se registra un nuevo cliente     |
 
-## Creating a KYC Session
+## Crear una Sesión KYC
 
 {/* IMAGE: public/images/aml/kyc-session-list.png - KYC session list showing client name, status badge, expiry date, and action buttons */}
 
 <Steps>
-### Find the Client
-Navigate to the client's detail page (**Clients → [Client Name]**) and scroll to the **KYC Sessions** section.
+### Buscar al Cliente
+Navega a la página de detalle del cliente (**Clientes → [Nombre del Cliente]**) y desplázate a la sección **Sesiones KYC**.
 
-### Create Session
+### Crear Sesión
 
-Click **Send KYC Invite**. Janovix will:
+Haz clic en **Enviar Invitación KYC**. Janovix hará lo siguiente:
 
-- Generate a unique, expiring secure token
-- Send an invitation email to the client's registered email address
-- Create a session record in `ACTIVE` status
+- Generará un token seguro único con expiración
+- Enviará un correo de invitación a la dirección de correo registrada del cliente
+- Creará un registro de sesión en estado `ACTIVE`
 
-### Monitor Status
+### Monitorear el Estado
 
-Track the session status in real time:
+Realiza un seguimiento del estado de la sesión en tiempo real:
 
-| Status           | Description                                             |
-| ---------------- | ------------------------------------------------------- |
-| `ACTIVE`         | Session created; email sent; client has not yet started |
-| `IN_PROGRESS`    | Client has opened the link and started filling data     |
-| `SUBMITTED`      | Client submitted the form; awaiting officer review      |
-| `PENDING_REVIEW` | Officer review has started                              |
-| `APPROVED`       | Officer approved; client's KYC marked `COMPLETE`        |
-| `REJECTED`       | Officer rejected with reason; client can be re-invited  |
-| `EXPIRED`        | Session token expired before client submitted           |
-| `REVOKED`        | Officer manually revoked the session                    |
+| Estado           | Descripción                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| `ACTIVE`         | Sesión creada; correo enviado; el cliente aún no ha comenzado     |
+| `IN_PROGRESS`    | El cliente abrió el enlace y comenzó a llenar los datos           |
+| `SUBMITTED`      | El cliente envió el formulario; pendiente de revisión del oficial |
+| `PENDING_REVIEW` | La revisión del oficial ha iniciado                               |
+| `APPROVED`       | El oficial aprobó; el KYC del cliente se marcó como `COMPLETE`    |
+| `REJECTED`       | El oficial rechazó con un motivo; el cliente puede ser reinvitado |
+| `EXPIRED`        | El token de sesión expiró antes de que el cliente enviara         |
+| `REVOKED`        | El oficial revocó manualmente la sesión                           |
 
-### Resend if Needed
+### Reenviar si es Necesario
 
-If the client hasn't responded and the session is still `ACTIVE`, click **Resend Email** to send a new invitation.
+Si el cliente no ha respondido y la sesión sigue en estado `ACTIVE`, haz clic en **Reenviar Correo** para enviar una nueva invitación.
 
 </Steps>
 
-## The Client Experience
+## La Experiencia del Cliente
 
 {/* IMAGE: public/images/aml/kyc-client-view.png - What the client sees: the self-service portal with sections for personal info, documents, shareholders, and submit button */}
 
-The client receives an email with a link to the Janovix KYC portal. The portal is pre-filled with any data your team has already entered. The client can:
+El cliente recibe un correo con un enlace al portal KYC de Janovix. El portal viene prellenado con los datos que tu equipo ya haya capturado. El cliente puede:
 
-- **Review and correct** personal information (name, RFC, address)
-- **Upload documents** (official ID, proof of address, etc.)
-- **Add shareholders** (for moral persons/trusts)
-- **Add beneficial controllers**
-- **Submit** the completed form
+- **Revisar y corregir** información personal (nombre, RFC, domicilio)
+- **Subir documentos** (identificación oficial, comprobante de domicilio, etc.)
+- **Agregar accionistas** (para personas morales/fideicomisos)
+- **Agregar controladores beneficiarios**
+- **Enviar** el formulario completado
 
-The portal is mobile-responsive and does not require the client to create a Janovix account. Access is controlled entirely by the session token.
+El portal es responsivo para dispositivos móviles y no requiere que el cliente cree una cuenta en Janovix. El acceso está controlado únicamente por el token de sesión.
 
 <Callout type="info">
-	**Session expiry:** By default, sessions expire after **72 hours**. You can
-	change this in [Settings → Compliance](/settings/compliance) via the
-	`selfServiceExpiryHours` setting.
+	**Expiración de sesión:** De manera predeterminada, las sesiones expiran
+	después de **72 horas**. Puedes cambiar esto en [Configuración →
+	Cumplimiento](/es/settings/compliance) mediante la configuración
+	`selfServiceExpiryHours`.
 </Callout>
 
-## Reviewing a Submission
+## Revisión de un Envío
 
 {/* IMAGE: public/images/aml/kyc-review.png - Compliance officer review screen showing submitted client data side-by-side with current records, with approve/reject buttons */}
 
-Once a client submits their KYC session (`SUBMITTED` status), a notification appears in the Alerts/notification feed. To review:
+Una vez que un cliente envía su sesión KYC (estado `SUBMITTED`), aparece una notificación en el feed de Alertas/notificaciones. Para revisar:
 
 <Steps>
-### Open the Session
-Navigate to **KYC Sessions** (from the Clients list or from the client's detail page) and click the submitted session.
+### Abrir la Sesión
+Navega a **Sesiones KYC** (desde la lista de Clientes o desde la página de detalle del cliente) y haz clic en la sesión enviada.
 
-### Review Submitted Data
+### Revisar los Datos Enviados
 
-The review screen shows:
+La pantalla de revisión muestra:
 
-- All submitted fields side-by-side with current records (if any)
-- Uploaded documents for download/preview
-- Automatically triggered watchlist screening results for new beneficial controllers
+- Todos los campos enviados lado a lado con los registros actuales (si existen)
+- Documentos subidos disponibles para descarga/vista previa
+- Resultados del escrutinio automático en listas de vigilancia para los nuevos controladores beneficiarios
 
-### Make a Decision
+### Tomar una Decisión
 
-**Approve:** Click **Approve** — the client's KYC status is updated to `COMPLETE`.
+**Aprobar:** Haz clic en **Aprobar** — el estado KYC del cliente se actualiza a `COMPLETE`.
 
-**Reject:** Click **Reject**, provide a reason. The client receives an email with the reason. You can then create a new session if the client needs to resubmit.
+**Rechazar:** Haz clic en **Rechazar** y proporciona un motivo. El cliente recibe un correo con el motivo. Puedes crear una nueva sesión si el cliente necesita volver a enviar su información.
 
 </Steps>
 
 {/* VIDEO: 3 min end-to-end KYC self-service demo: create a session for a moral person client, show client filling the form including shareholders and BCs, then review and approve as a compliance officer */}
 
-## Required Sections
+## Secciones Requeridas
 
-Configure which sections are mandatory for self-service completion in [Settings → Compliance](/settings/compliance) via the `selfServiceRequiredSections` setting. Options include:
+Configura qué secciones son obligatorias para completar el autoservicio en [Configuración → Cumplimiento](/es/settings/compliance) mediante la configuración `selfServiceRequiredSections`. Las opciones incluyen:
 
 - `personal_info`
 - `documents`
 - `address`
-- `shareholders` (moral persons only)
-- `beneficial_controllers` (moral persons only)
+- `shareholders` (solo personas morales)
+- `beneficial_controllers` (solo personas morales)
 
-A session can only be submitted once all required sections are filled.
+Una sesión solo puede enviarse cuando todas las secciones requeridas estén completadas.
 
-## Session Audit Trail
+## Bitácora de Auditoría de la Sesión
 
-Every action on a KYC session is logged immutably in the **Events** trail:
+Cada acción sobre una sesión KYC se registra de forma inmutable en la bitácora de **Eventos**:
 
-- Session created
-- Email sent / resent
-- Client opened link
-- Each section saved
-- Submission received
-- Approval/rejection decision with timestamp and officer name
+- Sesión creada
+- Correo enviado / reenviado
+- Cliente abrió el enlace
+- Cada sección guardada
+- Envío recibido
+- Decisión de aprobación/rechazo con marca de tiempo y nombre del oficial
 
-This audit trail is available via `GET /api/v1/kyc-sessions/{id}/events` and is critical for SHCP verification visits.
+Esta bitácora de auditoría está disponible mediante `GET /api/v1/kyc-sessions/{id}/events` y es fundamental para las visitas de verificación de la SHCP.

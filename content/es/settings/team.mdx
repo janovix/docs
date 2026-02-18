@@ -1,87 +1,88 @@
 ---
-title: Team & Invitations
-description: Invite team members, manage roles, and handle pending invitations
+title: Equipo e Invitaciones
+description: Invita miembros al equipo, gestiona roles y maneja invitaciones pendientes
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# Team & Invitations
+# Equipo e Invitaciones
 
-The **Team** section lets owners and admins manage who has access to your Janovix organization and what level of access they have.
+La sección de **Equipo** permite a los propietarios y administradores gestionar quién tiene acceso a tu organización en Janovix y qué nivel de acceso tienen.
 
 {/* IMAGE: public/images/settings/settings-team.png - Team members list showing avatar, name, email, role badge, and Remove/Change Role actions */}
 
-## Current Team Members
+## Miembros Actuales del Equipo
 
-The team list shows all active members of your organization with:
+La lista del equipo muestra todos los miembros activos de tu organización con:
 
-- Their name and email
-- Their current role (`owner`, `admin`, or `member`)
-- The date they joined
+- Su nombre y correo electrónico
+- Su rol actual (`owner`, `admin` o `member`)
+- La fecha en que se unieron
 
 ## Roles
 
-| Role     | What They Can Do                                                                                    |
-| -------- | --------------------------------------------------------------------------------------------------- |
-| `owner`  | Everything — including billing, ownership transfer, and organization deletion                       |
-| `admin`  | All AML features, Settings management, team management; cannot change billing or transfer ownership |
-| `member` | Access to AML and Watchlist apps; cannot modify Settings                                            |
+| Rol      | Qué Pueden Hacer                                                                                                             |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `owner`  | Todo — incluyendo facturación, transferencia de propiedad y eliminación de la organización                                   |
+| `admin`  | Todas las funciones AML, gestión de Configuración y del equipo; no puede modificar la facturación ni transferir la propiedad |
+| `member` | Acceso a las aplicaciones AML y Watchlist; no puede modificar la Configuración                                               |
 
-## Inviting a New Team Member
+## Invitar a un Nuevo Miembro del Equipo
 
 {/* IMAGE: public/images/settings/settings-invite.png - Invitation dialog showing email field, role selector, and Send Invite button */}
 
 <Steps>
-### Open the Invite Dialog
-Click **+ Invite Member** in the top-right of the Team page.
+### Abre el Diálogo de Invitación
+Haz clic en **+ Invitar Miembro** en la parte superior derecha de la página de Equipo.
 
-### Enter Email and Role
+### Ingresa el Correo y el Rol
 
-- **Email address** — The person must have a Janovix account or will be prompted to create one
-- **Role** — Select `admin` or `member` (you cannot invite someone as `owner`)
+- **Dirección de correo electrónico** — La persona debe tener una cuenta de Janovix o se le pedirá que cree una
+- **Rol** — Selecciona `admin` o `member` (no puedes invitar a alguien como `owner`)
 
-### Send the Invitation
+### Envía la Invitación
 
-Click **Send Invitation**. The invitee receives an email with a link to accept.
+Haz clic en **Enviar Invitación**. El invitado recibirá un correo con un enlace para aceptar.
 
-### Track Pending Invitations
+### Sigue las Invitaciones Pendientes
 
-Pending invitations appear in a separate section below the active members list. You can cancel a pending invitation before it is accepted.
+Las invitaciones pendientes aparecen en una sección separada debajo de la lista de miembros activos. Puedes cancelar una invitación pendiente antes de que sea aceptada.
 
 </Steps>
 
 <Callout type="info">
-	Pending invitations expire after **7 days**. If the invitee doesn't accept in
-	time, resend the invitation from the Pending Invitations section.
+	Las invitaciones pendientes expiran después de **7 días**. Si el invitado no
+	acepta a tiempo, reenvía la invitación desde la sección de Invitaciones
+	Pendientes.
 </Callout>
 
-## Changing a Member's Role
+## Cambiar el Rol de un Miembro
 
-1. Locate the member in the team list
-2. Click the role badge or the **⋯** menu
-3. Select the new role
-4. Confirm the change
+1. Localiza al miembro en la lista del equipo
+2. Haz clic en el distintivo de rol o en el menú **⋯**
+3. Selecciona el nuevo rol
+4. Confirma el cambio
 
-Role changes take effect immediately.
+Los cambios de rol tienen efecto inmediato.
 
-## Removing a Member
+## Eliminar a un Miembro
 
-1. Click the **⋯** menu next to the member's name
-2. Select **Remove from Organization**
-3. Confirm
+1. Haz clic en el menú **⋯** junto al nombre del miembro
+2. Selecciona **Eliminar de la Organización**
+3. Confirma
 
-Removed members lose access immediately. Their data (operations, clients they created, etc.) remains in the system.
+Los miembros eliminados pierden el acceso de inmediato. Sus datos (operaciones, clientes que crearon, etc.) permanecen en el sistema.
 
-## Accepting an Invitation
+## Aceptar una Invitación
 
-If you've been invited to an organization:
+Si has sido invitado a una organización:
 
-1. Click the link in your invitation email
-2. Sign in or create a Janovix account
-3. You'll be automatically redirected to the organization
+1. Haz clic en el enlace de tu correo de invitación
+2. Inicia sesión o crea una cuenta de Janovix
+3. Serás redirigido automáticamente a la organización
 
-You can also accept pending invitations from **Settings → Personal** under the **Pending Invitations** section. A badge in the sidebar navigation indicates pending invitations.
+También puedes aceptar invitaciones pendientes desde **Configuración → Personal** en la sección de **Invitaciones Pendientes**. Un distintivo en la navegación lateral indica invitaciones pendientes.
 
-## Seat-Based Billing
+## Facturación por Asientos
 
-Adding members consumes seats on your plan. The current seat count is shown at the top of the Team page. If you need more seats, upgrade your plan in [Billing & Plans](/settings/billing).
+Agregar miembros consume asientos de tu plan. El recuento actual de asientos se muestra en la parte superior de la página de Equipo. Si necesitas más asientos, actualiza tu plan en [Facturación y Planes](/es/settings/billing).

@@ -1,68 +1,70 @@
 ---
-title: Organization
-description: Manage organization details, switch between organizations, and transfer ownership
+title: Organización
+description: Gestiona los detalles de la organización, cambia entre organizaciones y transfiere la propiedad
 ---
 
 import { Callout } from "nextra/components";
 
-# Organization
+# Organización
 
-The **Organization** section lets you manage the settings for the currently active organization and switch between organizations you belong to.
+La sección de **Organización** te permite gestionar la configuración de la organización activa actual y cambiar entre las organizaciones a las que perteneces.
 
 {/* IMAGE: public/images/settings/settings-org.png - Organization settings page showing name, logo upload, timezone, and clock format fields */}
 
-## Organization Details
+## Detalles de la Organización
 
-| Field            | Description                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**         | The display name for your organization, shown in the navigation and reports                                                        |
-| **Logo**         | Organization logo (used in PDF reports and the navigation bar)                                                                     |
-| **Slug**         | URL-friendly identifier used in application URLs (e.g., `https://aml.janovix.com/{slug}/`). Set at creation and cannot be changed. |
-| **Timezone**     | Default timezone for the organization. Individual users can override this in their [Personal Settings](/settings/personal).        |
-| **Clock Format** | 12-hour or 24-hour display for time values across the organization                                                                 |
+| Campo               | Descripción                                                                                                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nombre**          | El nombre visible de tu organización, mostrado en la navegación y los reportes                                                                                               |
+| **Logo**            | Logo de la organización (usado en reportes PDF y la barra de navegación)                                                                                                     |
+| **Slug**            | Identificador amigable para URL utilizado en las URLs de la aplicación (p. ej., `https://aml.janovix.com/{slug}/`). Se define al crear la organización y no puede cambiarse. |
+| **Zona Horaria**    | Zona horaria predeterminada para la organización. Los usuarios individuales pueden cambiarla en su [Configuración Personal](/es/settings/personal).                          |
+| **Formato de Hora** | Visualización de 12 o 24 horas para los valores de tiempo en toda la organización                                                                                            |
 
 <Callout type="info">
-	Only **organization owners** can update organization details. Members with
-	`admin` or `member` roles can view but not modify.
+	Solo los **propietarios de la organización** pueden actualizar los detalles de
+	la organización. Los miembros con roles `admin` o `member` pueden verlos pero
+	no modificarlos.
 </Callout>
 
-## Switching Organizations
+## Cambiar de Organización
 
 {/* IMAGE: public/images/settings/org-switcher.png - Organization switcher dropdown in the top-left corner showing two organizations and a Create New button */}
 
-If you belong to multiple organizations, switch between them using the **organization switcher** in the top-left corner of any Janovix application. Click your current organization name to open the dropdown:
+Si perteneces a varias organizaciones, cambia entre ellas usando el **selector de organización** en la esquina superior izquierda de cualquier aplicación de Janovix. Haz clic en el nombre de tu organización actual para abrir el menú desplegable:
 
-- All organizations you belong to are listed with your role in each
-- A **Create New Organization** option is available (subject to your plan's organization limit)
-- The selected organization determines which data you see across all modules
+- Todas las organizaciones a las que perteneces aparecen listadas con tu rol en cada una
+- Hay una opción de **Crear Nueva Organización** disponible (sujeta al límite de organizaciones de tu plan)
+- La organización seleccionada determina qué datos ves en todos los módulos
 
 ## Roles
 
-| Role     | Permissions                                                                   |
-| -------- | ----------------------------------------------------------------------------- |
-| `owner`  | Full access; can transfer ownership, update billing, delete organization      |
-| `admin`  | Full access to all features except ownership transfer and plan cancellation   |
-| `member` | Access to AML and Watchlist modules; cannot change settings or manage billing |
+| Rol      | Permisos                                                                                              |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| `owner`  | Acceso total; puede transferir la propiedad, actualizar la facturación y eliminar la organización     |
+| `admin`  | Acceso completo a todas las funciones excepto transferencia de propiedad y cancelación del plan       |
+| `member` | Acceso a los módulos AML y Watchlist; no puede modificar la configuración ni gestionar la facturación |
 
-## Creating a New Organization
+## Crear una Nueva Organización
 
-1. Open the organization switcher
-2. Click **Create New Organization**
-3. Enter the organization name — the slug is auto-generated
-4. Configure [Compliance Settings](/settings/compliance) to link to your SAT activity registration
+1. Abre el selector de organización
+2. Haz clic en **Crear Nueva Organización**
+3. Ingresa el nombre de la organización — el slug se genera automáticamente
+4. Configura los [Ajustes de Cumplimiento](/es/settings/compliance) para vincular con tu registro de actividad ante el SAT
 
 <Callout type="warning">
-	The number of organizations you can create is determined by your subscription
-	plan. Check [Billing & Plans](/settings/billing) to see your limit.
+	El número de organizaciones que puedes crear está determinado por tu plan de
+	suscripción. Consulta [Facturación y Planes](/es/settings/billing) para ver tu
+	límite.
 </Callout>
 
-## Transferring Ownership
+## Transferir la Propiedad
 
-Only the current owner can transfer ownership to another member:
+Solo el propietario actual puede transferir la propiedad a otro miembro:
 
-1. Navigate to **Settings → Organization**
-2. Click **Transfer Ownership**
-3. Select the new owner from the current team members list
-4. Confirm the transfer
+1. Navega a **Configuración → Organización**
+2. Haz clic en **Transferir Propiedad**
+3. Selecciona el nuevo propietario de la lista de miembros actuales del equipo
+4. Confirma la transferencia
 
-After transferring, your role becomes `admin`.
+Después de la transferencia, tu rol pasará a ser `admin`.

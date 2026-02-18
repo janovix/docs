@@ -1,91 +1,92 @@
 ---
-title: Billing & Plans
-description: View your subscription plan, usage meters, upgrade or downgrade, and manage payment
+title: Facturación y Planes
+description: Consulta tu plan de suscripción, medidores de uso, actualiza o degrada, y administra el pago
 ---
 
 import { Callout } from "nextra/components";
 
-# Billing & Plans
+# Facturación y Planes
 
-The **Billing** section shows your current subscription plan, feature entitlements, usage metrics, and payment management.
+La sección de **Facturación** muestra tu plan de suscripción actual, las funciones incluidas, las métricas de uso y la gestión de pagos.
 
 {/* IMAGE: public/images/settings/settings-billing.png - Billing overview page showing current plan badge, monthly usage meters (clients, operations, alerts, notices, reports), next billing date, and Upgrade button */}
 
-## Subscription Plans
+## Planes de Suscripción
 
-Janovix offers four subscription tiers:
+Janovix ofrece cuatro niveles de suscripción:
 
 {/* IMAGE: public/images/settings/settings-plans.png - Plan comparison table showing Watchlist, Business, Pro, and Ultra tiers side-by-side with their limits and price */}
 
-| Plan          | Best For                                     | Key Limits                                     |
-| ------------- | -------------------------------------------- | ---------------------------------------------- |
-| **Watchlist** | Companies that only need sanctions screening | Watchlist queries; no AML module               |
-| **Business**  | Small to medium obligated subjects           | Limited clients, operations, notices per month |
-| **Pro**       | Growing compliance teams                     | Higher limits, multiple organizations          |
-| **Ultra**     | Large organizations or high-volume sectors   | Maximum limits, priority support               |
+| Plan          | Ideal para                                         | Límites principales                              |
+| ------------- | -------------------------------------------------- | ------------------------------------------------ |
+| **Watchlist** | Empresas que solo necesitan consultas de sanciones | Consultas de watchlist; sin módulo AML           |
+| **Business**  | Sujetos obligados pequeños y medianos              | Clientes, operaciones y avisos limitados por mes |
+| **Pro**       | Equipos de cumplimiento en crecimiento             | Límites más altos, múltiples organizaciones      |
+| **Ultra**     | Organizaciones grandes o sectores de alto volumen  | Límites máximos, soporte prioritario             |
 
 <Callout type="info">
-	Enterprise customers (very high volume, custom SLAs, on-premise data
-	requirements) can contact our sales team for an **Enterprise License** — a
-	direct contract not managed through the subscription flow.
+	Los clientes empresariales (volumen muy alto, SLAs personalizados, requisitos
+	de datos en las instalaciones) pueden contactar a nuestro equipo de ventas
+	para una **Licencia Empresarial** — un contrato directo que no se gestiona a
+	través del flujo de suscripción.
 </Callout>
 
-## Usage Meters
+## Medidores de Uso
 
-The billing page shows your current usage against your plan limits:
+La página de facturación muestra tu uso actual respecto a los límites de tu plan:
 
-| Meter                       | Description                                         |
-| --------------------------- | --------------------------------------------------- |
-| **Clients**                 | Total active clients registered this billing period |
-| **Operations**              | Operations recorded this billing period             |
-| **Alerts**                  | Alerts generated this billing period                |
-| **Notices**                 | SAT notices generated this billing period           |
-| **Reports**                 | Reports generated this billing period               |
-| **Watchlist Queries / Day** | Daily limit on watchlist search queries             |
-| **Team Seats**              | Current members vs. seat limit                      |
+| Medidor                       | Descripción                                            |
+| ----------------------------- | ------------------------------------------------------ |
+| **Clientes**                  | Total de clientes activos registrados en este período  |
+| **Operaciones**               | Operaciones registradas en este período de facturación |
+| **Alertas**                   | Alertas generadas en este período de facturación       |
+| **Avisos**                    | Avisos al SAT generados en este período de facturación |
+| **Reportes**                  | Reportes generados en este período de facturación      |
+| **Consultas Watchlist / Día** | Límite diario de consultas de búsqueda en watchlist    |
+| **Asientos de Equipo**        | Miembros actuales vs. límite de asientos               |
 
-When you approach a limit, Janovix shows a warning. When you hit a limit, the corresponding action is gated until you upgrade or the billing period resets.
+Cuando te acerques a un límite, Janovix mostrará una advertencia. Cuando alcances el límite, la acción correspondiente quedará bloqueada hasta que actualices el plan o se reinicie el período de facturación.
 
-## Managing Your Subscription
+## Gestionar tu Suscripción
 
-### Upgrading
+### Actualizar el Plan
 
-Click **Upgrade Plan** to see available plans and their pricing. Upgrades take effect immediately (prorated billing).
+Haz clic en **Actualizar Plan** para ver los planes disponibles y sus precios. Las actualizaciones tienen efecto inmediato (facturación prorrateada).
 
-### Downgrading
+### Degradar el Plan
 
-Click **Change Plan** and select a lower tier. Downgrades take effect at the **end of the current billing period**. Ensure your usage is within the new plan's limits before the period ends.
+Haz clic en **Cambiar Plan** y selecciona un nivel inferior. Los cambios a un plan inferior tienen efecto al **final del período de facturación actual**. Asegúrate de que tu uso esté dentro de los límites del nuevo plan antes de que finalice el período.
 
-### Cancelling
+### Cancelar
 
-Click **Cancel Subscription** at the bottom of the billing page. Your access continues until the end of the current billing period.
+Haz clic en **Cancelar Suscripción** en la parte inferior de la página de facturación. Tu acceso continuará hasta el final del período de facturación actual.
 
-## Payment Management
+## Gestión de Pagos
 
-Click **Manage Payment** to open the Stripe Customer Portal where you can:
+Haz clic en **Gestionar Pago** para abrir el Portal de Clientes de Stripe, donde puedes:
 
-- Update your credit card
-- Download past invoices
-- View your billing history
-- Update billing address
+- Actualizar tu tarjeta de crédito
+- Descargar facturas anteriores
+- Ver tu historial de facturación
+- Actualizar el domicilio de facturación
 
 <Callout type="warning">
-	Janovix uses **Stripe** for payment processing. We never store raw card
-	numbers. All payment data is handled by Stripe's PCI-DSS compliant
-	infrastructure.
+	Janovix usa **Stripe** para el procesamiento de pagos. Nunca almacenamos
+	números de tarjeta sin cifrar. Todos los datos de pago son manejados por la
+	infraestructura certificada PCI-DSS de Stripe.
 </Callout>
 
-## Trial Abuse Prevention
+## Prevención de Abuso en Periodos de Prueba
 
-To ensure fair access to trial plans, Janovix uses card fingerprinting to prevent the same payment method from being used to start multiple trials. Each unique payment method is eligible for one trial per plan tier.
+Para garantizar un acceso justo a los planes de prueba, Janovix utiliza la huella digital de tarjeta para evitar que el mismo método de pago se use para iniciar múltiples pruebas. Cada método de pago único es elegible para una sola prueba por nivel de plan.
 
-## Enterprise Licenses
+## Licencias Empresariales
 
-If you have an enterprise license key:
+Si tienes una clave de licencia empresarial:
 
-1. Navigate to **Settings → Billing**
-2. Click **Activate License Key**
-3. Enter your license key
-4. The license is validated and your entitlements are immediately updated
+1. Navega a **Configuración → Facturación**
+2. Haz clic en **Activar Clave de Licencia**
+3. Ingresa tu clave de licencia
+4. La licencia se valida y tus derechos se actualizan de inmediato
 
-Enterprise licenses are valid for a fixed period and cover a defined set of features and limits, independent of the subscription system.
+Las licencias empresariales son válidas por un período fijo y cubren un conjunto definido de funciones y límites, independientemente del sistema de suscripción.

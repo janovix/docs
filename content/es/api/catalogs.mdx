@@ -1,38 +1,38 @@
 ---
-title: Catalogs API
-description: Access reference data catalogs for countries, states, currencies, and activity-specific data
+title: API de Catálogos
+description: Accede a catálogos de datos de referencia para países, estados, divisas y datos específicos por actividad
 ---
 
 import { Tabs } from "nextra/components";
 
-# Catalogs API
+# API de Catálogos
 
-Catalogs provide reference data for populating dropdowns and validating inputs across the platform.
+Los catálogos proporcionan datos de referencia para poblar listas desplegables y validar entradas en toda la plataforma.
 
-**Base path:** `/api/v1/catalogs`
+**Ruta base:** `/api/v1/catalogs`
 
-## Available Catalogs
+## Catálogos Disponibles
 
-| Catalog Key               | Description                 | Type   |
-| ------------------------- | --------------------------- | ------ |
-| `countries`               | ISO countries               | Closed |
-| `states_mx`               | Mexican states              | Closed |
-| `currencies`              | ISO currencies              | Closed |
-| `payment_methods`         | Payment method types        | Closed |
-| `uma_values`              | Historical UMA values       | Closed |
-| `vehicle_brands_land`     | Land vehicle brands         | Open   |
-| `vehicle_brands_maritime` | Maritime vehicle brands     | Open   |
-| `vehicle_brands_air`      | Air vehicle brands          | Open   |
-| `economic_activities`     | SAT economic activity codes | Closed |
-| `cfdi_uses`               | CFDI use codes (SAT)        | Closed |
-| `cfdi_payment_methods`    | CFDI payment method codes   | Closed |
-| `cfdi_payment_forms`      | CFDI payment form codes     | Closed |
-| `cfdi_tax_regimes`        | SAT fiscal regimes          | Closed |
+| Clave del Catálogo        | Descripción                        | Tipo    |
+| ------------------------- | ---------------------------------- | ------- |
+| `countries`               | Países ISO                         | Cerrado |
+| `states_mx`               | Estados de México                  | Cerrado |
+| `currencies`              | Divisas ISO                        | Cerrado |
+| `payment_methods`         | Tipos de métodos de pago           | Cerrado |
+| `uma_values`              | Valores históricos de UMA          | Cerrado |
+| `vehicle_brands_land`     | Marcas de vehículos terrestres     | Abierto |
+| `vehicle_brands_maritime` | Marcas de vehículos marítimos      | Abierto |
+| `vehicle_brands_air`      | Marcas de vehículos aéreos         | Abierto |
+| `economic_activities`     | Códigos de actividad económica SAT | Cerrado |
+| `cfdi_uses`               | Códigos de uso de CFDI (SAT)       | Cerrado |
+| `cfdi_payment_methods`    | Códigos de método de pago CFDI     | Cerrado |
+| `cfdi_payment_forms`      | Códigos de forma de pago CFDI      | Cerrado |
+| `cfdi_tax_regimes`        | Regímenes fiscales SAT             | Cerrado |
 
-**Closed catalogs** contain fixed reference data from the SAT or ISO standards.
-**Open catalogs** can have new items added by your organization (e.g., new vehicle brands not in the default list).
+Los **catálogos cerrados** contienen datos de referencia fijos del SAT o de estándares ISO.
+Los **catálogos abiertos** permiten agregar nuevos elementos por tu organización (por ejemplo, nuevas marcas de vehículos que no estén en la lista predeterminada).
 
-## List a Catalog
+## Consultar un Catálogo
 
 ```
 GET /api/v1/catalogs/:catalogKey?search=Toyota&limit=20
@@ -41,11 +41,11 @@ GET /api/v1/catalogs/:catalogKey?search=Toyota&limit=20
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
 ```bash
-# Get all Mexican states
+# Obtener todos los estados de México
 curl "https://api.janovix.com/api/v1/catalogs/states_mx" \
   -H "Authorization: Bearer YOUR_TOKEN"
 
-# Search vehicle brands
+# Buscar marcas de vehículos
 
 curl "https://api.janovix.com/api/v1/catalogs/vehicle_brands_land?search=Toyota" \
  -H "Authorization: Bearer YOUR_TOKEN"
@@ -54,7 +54,7 @@ curl "https://api.janovix.com/api/v1/catalogs/vehicle_brands_land?search=Toyota"
 </Tabs.Tab>
 <Tabs.Tab>
 ```typescript
-// Load a catalog for a form dropdown
+// Cargar un catálogo para un desplegable de formulario
 async function getCatalog(key: string, search?: string) {
   const params = search ? `?search=${encodeURIComponent(search)}` : "";
   const { data } = await janovixFetch<{ data: CatalogItem[] }>(
@@ -83,7 +83,7 @@ brands = get_catalog("vehicle_brands_land", search="Toyota")
 </Tabs.Tab>
 </Tabs>
 
-### Response
+### Respuesta
 
 ```json
 {
@@ -95,7 +95,7 @@ brands = get_catalog("vehicle_brands_land", search="Toyota")
 }
 ````
 
-## Add a New Item (Open Catalogs Only)
+## Agregar un Nuevo Elemento (Solo Catálogos Abiertos)
 
 ```
 POST /api/v1/catalogs/:catalogKey/items
@@ -120,9 +120,9 @@ await janovixFetch("/catalogs/vehicle_brands_land/items", {
 </Tabs.Tab>
 </Tabs>
 
-## UMA Values
+## Valores de UMA
 
-To get the current active UMA value for threshold calculations:
+Para obtener el valor de UMA activo actual para cálculos de umbrales:
 
 ```
 GET /api/v1/uma-values/active
@@ -142,9 +142,9 @@ GET /api/v1/uma-values/active
 }
 ```
 
-## Exchange Rates
+## Tipos de Cambio
 
-Get the current USD→MXN exchange rate (updated every hour):
+Obtén el tipo de cambio actual USD→MXN (actualizado cada hora):
 
 ```
 GET /api/v1/exchange-rates?from=USD&to=MXN

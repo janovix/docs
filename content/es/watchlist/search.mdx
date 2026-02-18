@@ -1,115 +1,116 @@
 ---
-title: Running a Search
-description: How to search the watchlist, interpret match scores, and act on results
+title: Realizar una Búsqueda
+description: Cómo buscar en la watchlist, interpretar puntajes de coincidencia y actuar sobre los resultados
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# Running a Search
+# Realizar una Búsqueda
 
 {/* IMAGE: public/images/watchlist/watchlist-search.png - Search interface showing name input field, dataset filter checkboxes (OFAC/UNSC/SAT69B/PEP/Adverse Media), and entity type selector */}
 
-## Basic Search
+## Búsqueda Básica
 
 <Steps>
-### Enter a Name
-Type the full name (or business name) of the individual or entity you want to screen. For best results:
-- Include the full legal name as it appears on official documents
-- For physical persons: `APELLIDO PATERNO APELLIDO MATERNO Nombre(s)`
-- For companies: Use the complete business name (*razón social*)
+### Ingresa un Nombre
+Escribe el nombre completo (o razón social) de la persona física o entidad que deseas verificar. Para mejores resultados:
+- Incluye el nombre legal completo tal como aparece en los documentos oficiales
+- Para personas físicas: `APELLIDO PATERNO APELLIDO MATERNO Nombre(s)`
+- Para empresas: Usa la razón social completa (*razón social*)
 
-### Select Datasets (Optional)
+### Selecciona Conjuntos de Datos (Opcional)
 
-By default, all datasets are searched. Uncheck any you don't need to speed up results:
+Por defecto, se consultan todos los conjuntos de datos. Desmarca los que no necesites para agilizar los resultados:
 
 - OFAC SDN
 - UNSC
 - SAT 69-B
 - PEP
-- Adverse Media
+- Medios Adversos
 
-### Select Entity Type (Optional)
+### Selecciona el Tipo de Entidad (Opcional)
 
-Filter by entity type: `person`, `organization`, or leave blank to search both.
+Filtra por tipo de entidad: `person`, `organization`, o déjalo en blanco para buscar ambos.
 
-### Run the Search
+### Ejecuta la Búsqueda
 
-Click **Search** or press Enter. Synchronous results (OFAC, UNSC, SAT 69-B) appear immediately. Asynchronous results (PEP, Adverse Media) stream in via SSE as they are computed.
+Haz clic en **Search** o presiona Enter. Los resultados síncronos (OFAC, UNSC, SAT 69-B) aparecen de inmediato. Los resultados asíncronos (PEP, Medios Adversos) se transmiten mediante SSE conforme se van calculando.
 
 </Steps>
 
-## Identifier Search
+## Búsqueda por Identificador
 
-For higher-confidence matching, search by a specific identifier instead of a name:
+Para una coincidencia de mayor confianza, busca por un identificador específico en lugar de un nombre:
 
-| Identifier Type | Example                 |
-| --------------- | ----------------------- |
-| Passport        | `A1234567`              |
-| RFC (Mexico)    | `XAXX010101000`         |
-| NIT (Colombia)  | `900123456`             |
-| OFAC ID         | Numeric OFAC identifier |
+| Tipo de Identificador | Ejemplo                     |
+| --------------------- | --------------------------- |
+| Pasaporte             | `A1234567`                  |
+| RFC (México)          | `XAXX010101000`             |
+| NIT (Colombia)        | `900123456`                 |
+| ID OFAC               | Identificador numérico OFAC |
 
-Identifier searches perform **exact matching** and return matches immediately.
+Las búsquedas por identificador realizan **coincidencia exacta** y devuelven resultados de inmediato.
 
-## Understanding Results
+## Interpretación de Resultados
 
 {/* IMAGE: public/images/watchlist/watchlist-results.png - Search results page showing match cards with entity name, database badge, match score percentage, and brief details */}
 
-Each search result shows:
+Cada resultado de búsqueda muestra:
 
-| Field           | Description                                                                 |
-| --------------- | --------------------------------------------------------------------------- |
-| **Match Score** | Overall confidence score (0–100%)                                           |
-| **Database**    | Which list the match is from (OFAC SDN, UNSC, SAT 69-B, PEP, Adverse Media) |
-| **Entity Name** | The name on the list                                                        |
-| **Entity Type** | Individual or organization                                                  |
-| **Country**     | Nationality or registered country                                           |
-| **Status**      | Active sanction, designation status, or SAT 69-B phase                      |
+| Campo                       | Descripción                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| **Puntaje de Coincidencia** | Puntaje general de confianza (0–100%)                                                  |
+| **Base de datos**           | De qué lista proviene la coincidencia (OFAC SDN, UNSC, SAT 69-B, PEP, Medios Adversos) |
+| **Nombre de la entidad**    | El nombre en la lista                                                                  |
+| **Tipo de entidad**         | Persona física u organización                                                          |
+| **País**                    | Nacionalidad o país de registro                                                        |
+| **Estado**                  | Sanción activa, estado de designación o fase del SAT 69-B                              |
 
-### Score Breakdown
+### Desglose del Puntaje
 
 {/* IMAGE: public/images/watchlist/watchlist-result-detail.png - Expanded result card showing score breakdown: vector score, name similarity score, metadata score, identifier match indicator */}
 
-Expand any result to see the **score components**:
+Expande cualquier resultado para ver los **componentes del puntaje**:
 
-| Score Component      | What It Measures                                                      |
-| -------------------- | --------------------------------------------------------------------- |
-| **Name score**       | Jaro-Winkler name similarity between query and matched name           |
-| **Vector score**     | Semantic similarity (Cloudflare Vectorize + AI embeddings)            |
-| **Metadata score**   | Match quality on additional fields (country, nationality, birth date) |
-| **Identifier match** | Boolean — exact identifier match found (overrides score thresholds)   |
+| Componente del Puntaje            | Lo que Mide                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Puntaje de nombre**             | Similitud de nombre Jaro-Winkler entre la consulta y el nombre coincidente                 |
+| **Puntaje vectorial**             | Similitud semántica (Cloudflare Vectorize + embeddings de IA)                              |
+| **Puntaje de metadatos**          | Calidad de coincidencia en campos adicionales (país, nacionalidad, fecha de nacimiento)    |
+| **Coincidencia de identificador** | Booleano — coincidencia exacta de identificador encontrada (anula los umbrales de puntaje) |
 
-### Score Interpretation
+### Interpretación del Puntaje
 
-| Score Range | Recommendation                                              |
-| ----------- | ----------------------------------------------------------- |
-| 90–100%     | High confidence match — requires immediate review           |
-| 70–89%      | Probable match — review the details before proceeding       |
-| 50–69%      | Possible match — may be a name coincidence; review context  |
-| < 50%       | Low confidence — likely not the same person, but log review |
+| Rango de Puntaje | Recomendación                                                                    |
+| ---------------- | -------------------------------------------------------------------------------- |
+| 90–100%          | Coincidencia de alta confianza — requiere revisión inmediata                     |
+| 70–89%           | Coincidencia probable — revisa los detalles antes de continuar                   |
+| 50–69%           | Posible coincidencia — puede ser una coincidencia de nombre; revisa el contexto  |
+| < 50%            | Baja confianza — probablemente no es la misma persona, pero registra la revisión |
 
 <Callout type="error">
-	**Never proceed with a transaction for a 90%+ match without a documented
-	review.** Even if you determine it's a false positive, the decision and
-	rationale must be logged. The query history in Janovix serves as this record.
+	**Nunca procedas con una transacción si hay una coincidencia del 90% o más sin
+	una revisión documentada.** Aunque determines que es un falso positivo, la
+	decisión y la justificación deben quedar registradas. El historial de
+	consultas en Janovix sirve como este registro.
 </Callout>
 
-## Asynchronous Results (PEP and Adverse Media)
+## Resultados Asíncronos (PEP y Medios Adversos)
 
-PEP and Adverse Media searches run on AI-powered containers and may take 10–60 seconds to return results. While they process:
+Las búsquedas de PEP y Medios Adversos se ejecutan en contenedores con inteligencia artificial y pueden tardar entre 10 y 60 segundos en devolver resultados. Mientras se procesan:
 
-- A loading indicator appears next to the PEP and Adverse Media sections
-- Results stream in via Server-Sent Events as they arrive
-- You can leave the page — results are saved to your [Query History](/watchlist/query-history) and available when you return
+- Aparece un indicador de carga junto a las secciones de PEP y Medios Adversos
+- Los resultados se transmiten mediante Server-Sent Events conforme van llegando
+- Puedes salir de la página — los resultados se guardan en tu [Historial de Consultas](/es/watchlist/query-history) y estarán disponibles cuando regreses
 
-## Acting on a Match
+## Cómo Actuar ante una Coincidencia
 
-When a match is found:
+Cuando se encuentra una coincidencia:
 
-1. **Review the full entity details** — aliases, dates, identifiers, address, reason for listing
-2. **Determine if it is the same person/entity** as your client (false positives are common with common names)
-3. **Document your conclusion** in your internal compliance notes
-4. If confirmed: do not proceed with the transaction; escalate per your internal AML policy
-5. If a false positive: record this in your query notes for the audit trail
+1. **Revisa los detalles completos de la entidad** — alias, fechas, identificadores, domicilio, motivo de inclusión en la lista
+2. **Determina si es la misma persona/entidad** que tu cliente (los falsos positivos son comunes con nombres muy frecuentes)
+3. **Documenta tu conclusión** en tus notas internas de cumplimiento
+4. Si se confirma: no procedas con la transacción; escala de acuerdo con tu política interna de PLD
+5. Si es un falso positivo: regístralo en las notas de tu consulta para el rastro de auditoría
 
 {/* VIDEO: 2 min demo showing a watchlist search for a common name, reviewing the results including PEP and adverse media, expanding a result to see score breakdown, and marking a false positive */}

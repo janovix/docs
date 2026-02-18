@@ -1,38 +1,39 @@
 ---
-title: Authentication
-description: Authenticate with the Janovix API using organization-scoped API keys
+title: Autenticación
+description: Autentícate con la API de Janovix usando llaves de API con alcance de organización
 ---
 
 import { Callout, Tabs } from "nextra/components";
 
 {/* IMAGE: public/images/api/auth-flow.png - Sequence diagram: your server sends API key → api.janovix.com validates with auth-svc → ephemeral JWT issued internally → aml-svc serves the request */}
 
-# Authentication
+# Autenticación
 
-The Janovix Public API (`api.janovix.com`) uses **organization-scoped API keys** for authentication. API keys are the only supported authentication method for third-party integrations.
+La API Pública de Janovix (`api.janovix.com`) utiliza **llaves de API con alcance de organización** para la autenticación. Las llaves de API son el único método de autenticación soportado para integraciones de terceros.
 
 <Callout type="info">
-	**Internal JWT flow:** The gateway exchanges your API key for a short-lived
-	JWT (30–60 s) on every request and forwards it to the AML service. This is
-	entirely transparent — you only ever deal with your `sk_live_...` key.
+	**Flujo interno de JWT:** El gateway intercambia tu llave de API por un JWT de
+	corta duración (30–60 s) en cada solicitud y lo reenvía al servicio AML. Este
+	proceso es completamente transparente — tú solo interactúas con tu llave
+	`sk_live_...`.
 </Callout>
 
-## Creating an API Key
+## Crear una Llave de API
 
-Create API keys in **[auth.janovix.com/settings](https://auth.janovix.com/settings) → API Keys**. See the [API Keys settings guide](/settings/api-keys) for full instructions.
+Crea llaves de API en **[auth.janovix.com/settings](https://auth.janovix.com/settings) → API Keys**. Consulta la [guía de configuración de API Keys](/es/settings/api-keys) para instrucciones completas.
 
-Key format: `sk_live_` followed by a random string.
+Formato de la llave: `sk_live_` seguido de una cadena aleatoria.
 
 <Callout type="error">
-	**The full key value is shown only once** — at creation time. Copy it
-	immediately and store it in a secret manager (AWS Secrets Manager, HashiCorp
-	Vault, Cloudflare Secrets, etc.). Never commit API keys to source code
-	repositories.
+	**El valor completo de la llave se muestra solo una vez** — al momento de
+	crearla. Cópiala de inmediato y guárdala en un administrador de secretos (AWS
+	Secrets Manager, HashiCorp Vault, Cloudflare Secrets, etc.). Nunca incluyas
+	llaves de API en repositorios de código fuente.
 </Callout>
 
-## Using Your API Key
+## Usar tu Llave de API
 
-Include the key in the `Authorization` header of every request as a Bearer token:
+Incluye la llave en el encabezado `Authorization` de cada solicitud como token Bearer:
 
 ```http
 GET https://api.janovix.com/api/v1/clients
@@ -42,7 +43,7 @@ Content-Type: application/json
 
 {/* IMAGE: public/images/api/api-key-usage.png - Diagram: your server → Authorization: Bearer sk_live_... → api.janovix.com → validated → aml-svc response */}
 
-## Code Examples
+## Ejemplos de Código
 
 <Tabs items={['cURL', 'TypeScript', 'Python', 'Ruby', 'PHP']}>
 <Tabs.Tab>
@@ -77,7 +78,7 @@ throw new Error((err as { message?: string }).message ?? `HTTP ${res.status}`);
 return res.json() as Promise<T>;
 }
 
-// Usage
+// Uso
 const { data } = await janovixFetch<{ data: unknown[] }>("/clients");
 
 ````
@@ -105,7 +106,7 @@ def api_post(path: str, body: dict) -> dict:
     res.raise_for_status()
     return res.json()
 
-# Usage
+# Uso
 clients = api_get("/clients")["data"]
 ````
 
@@ -133,7 +134,7 @@ Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
 .then { |res| JSON.parse(res.body) }
 end
 
-# Usage
+# Uso
 
 clients = janovix_request("GET", "/clients")["data"]
 
@@ -166,36 +167,36 @@ function janovix_request(string $method, string $path, ?array $body = null): arr
     return json_decode($response, true);
 }
 
-// Usage
+// Uso
 $clients = janovix_request('GET', '/clients')['data'];
 ````
 
 </Tabs.Tab>
 </Tabs>
 
-## Authentication Errors
+## Errores de Autenticación
 
-| HTTP Code | Error                                                 | Cause                                        |
-| --------- | ----------------------------------------------------- | -------------------------------------------- |
-| `401`     | `Missing API key.`                                    | No `Authorization` header or no Bearer token |
-| `401`     | `Invalid API key.`                                    | Key not found in the system                  |
-| `401`     | `Invalid API key format.`                             | Malformed key string                         |
-| `403`     | `This API key has been revoked.`                      | Key was revoked in Settings                  |
-| `403`     | `This API key has expired.`                           | Key passed its expiry date                   |
-| `403`     | `Your subscription plan does not include API access.` | Plan must be Pro or Ultra for API access     |
-| `503`     | `Authentication service unavailable.`                 | Transient — retry with exponential backoff   |
+| Código HTTP | Error                                                 | Causa                                             |
+| ----------- | ----------------------------------------------------- | ------------------------------------------------- |
+| `401`       | `Missing API key.`                                    | No hay encabezado `Authorization` o token Bearer  |
+| `401`       | `Invalid API key.`                                    | Llave no encontrada en el sistema                 |
+| `401`       | `Invalid API key format.`                             | Cadena de llave con formato incorrecto            |
+| `403`       | `This API key has been revoked.`                      | La llave fue revocada en Configuración            |
+| `403`       | `This API key has expired.`                           | La llave superó su fecha de expiración            |
+| `403`       | `Your subscription plan does not include API access.` | El plan debe ser Pro o Ultra para acceso a la API |
+| `503`       | `Authentication service unavailable.`                 | Transitorio — reintenta con retroceso exponencial |
 
-## Plan Requirements
+## Requisitos de Plan
 
-API access requires a **Pro** or **Ultra** subscription. Business plan organizations will receive a `403` when attempting to use the API. Upgrade your plan in [Settings → Billing](/settings/billing).
+El acceso a la API requiere una suscripción **Pro** o **Ultra**. Las organizaciones con plan Business recibirán un `403` al intentar usar la API. Actualiza tu plan en [Configuración → Facturación](/es/settings/billing).
 
-## Best Practices
+## Mejores Prácticas
 
-| Practice                      | Recommendation                                                                         |
-| ----------------------------- | -------------------------------------------------------------------------------------- |
-| **Server-side only**          | Never include API keys in browser JavaScript, mobile apps, or any client-side code     |
-| **One key per integration**   | Create a dedicated key per system so you can revoke one without breaking others        |
-| **Use environment variables** | Store keys in environment variables or a secret manager, never in source code          |
-| **Rotate regularly**          | Rotate API keys every 90 days as a security hygiene practice                           |
-| **Monitor last used**         | Revoke keys that haven't been used in >90 days (visible in Settings → API Keys)        |
-| **Handle 503 gracefully**     | The gateway or upstream may be temporarily unavailable — implement exponential backoff |
+| Práctica                        | Recomendación                                                                                       |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Solo en el servidor**         | Nunca incluyas llaves de API en JavaScript del navegador, apps móviles ni código del lado cliente   |
+| **Una llave por integración**   | Crea una llave dedicada por sistema para poder revocar una sin afectar las demás                    |
+| **Usa variables de entorno**    | Guarda las llaves en variables de entorno o un administrador de secretos, nunca en el código fuente |
+| **Rota regularmente**           | Rota las llaves de API cada 90 días como práctica de higiene de seguridad                           |
+| **Monitorea el último uso**     | Revoca llaves que no se hayan usado en más de 90 días (visible en Configuración → API Keys)         |
+| **Maneja el 503 correctamente** | El gateway o el servicio puede estar temporalmente no disponible — implementa retroceso exponencial |

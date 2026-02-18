@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Head } from "nextra/components";
 import "nextra-theme-docs/style.css";
 import "./globals.css";
 
@@ -45,6 +46,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<Head
+				color={{
+					hue: { light: 262, dark: 295 },
+					saturation: { light: 73, dark: 50 },
+					lightness: { light: 50, dark: 78 },
+				}}
+			/>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>

@@ -1,56 +1,57 @@
----
-title: Watchlist Manual
-description: Run intelligent sanctions and PEP screening across OFAC, UNSC, SAT 69-B, PEP, and adverse media databases
+﻿---
+title: Manual de Watchlist
+description: Ejecuta verificaciones inteligentes de sanciones y PEP en las bases de datos de OFAC, UNSC, SAT 69-B, PEP y medios adversos
 ---
 
 import { Cards, Callout } from "nextra/components";
 
 {/* IMAGE: public/images/watchlist/watchlist-overview.png - Watchlist app main screen showing the search interface with background animation and recent queries */}
 
-# Watchlist Manual
+# Manual de Watchlist
 
-The **Watchlist** application is available at **[watchlist.janovix.com](https://watchlist.janovix.com)**. It provides intelligent screening against multiple sanctions and compliance databases. It uses a hybrid search approach combining exact identifier matching, vector semantic search, and name similarity to deliver accurate results even with name variations, transliterations, and aliases.
+La aplicación **Watchlist** está disponible en **[watchlist.janovix.com](https://watchlist.janovix.com)**. Proporciona verificación inteligente contra múltiples bases de datos de sanciones y cumplimiento. Utiliza un enfoque de búsqueda híbrido que combina coincidencia exacta de identificadores, búsqueda semántica vectorial y similitud de nombres para entregar resultados precisos incluso ante variaciones de nombre, transliteraciones y alias.
 
-## Why Watchlist Screening?
+## ¿Por qué verificar contra listas de observación?
 
-The LFPIORPI (Art. 18-I) requires obligated subjects to verify client identity, and the 2025 reforms explicitly add obligations around **Politically Exposed Persons (PEPs)**. Beyond legal requirements, screening clients against sanctions lists is essential to:
+La LFPIORPI (Art. 18-I) exige que los sujetos obligados verifiquen la identidad de sus clientes, y las reformas de 2025 añaden explícitamente obligaciones en torno a las **Personas Expuestas Políticamente (PEP)**. Más allá de los requisitos legales, verificar a los clientes contra listas de sanciones es esencial para:
 
-- Avoid criminal liability for transacting with sanctioned individuals or entities
-- Detect PEPs that require enhanced due diligence
-- Identify clients listed in the SAT 69-B for non-existent operations
+- Evitar responsabilidad penal por realizar operaciones con personas o entidades sancionadas
+- Detectar PEPs que requieren una debida diligencia reforzada
+- Identificar clientes incluidos en el SAT 69-B por operaciones inexistentes
 
-## Databases Covered
+## Bases de Datos Cubiertas
 
-| Database          | Source                                         | Coverage                                                          |
-| ----------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
-| **OFAC SDN**      | U.S. Treasury Office of Foreign Assets Control | Individuals, entities, vessels, aircraft globally                 |
-| **UNSC**          | UN Security Council                            | Sanctions regimes for multiple countries and groups               |
-| **SAT 69-B**      | Mexican Tax Authority (SAT)                    | Mexican taxpayers with non-existent or simulated operations       |
-| **PEP**           | AI-powered database                            | Politically Exposed Persons — current and former public officials |
-| **Adverse Media** | AI-powered web analysis                        | News articles linking individuals/entities to criminal activity   |
+| Base de datos       | Fuente                                                          | Cobertura                                                                      |
+| ------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **OFAC SDN**        | Oficina de Control de Activos Extranjeros del Tesoro de EE. UU. | Personas físicas, entidades, embarcaciones y aeronaves a nivel global          |
+| **UNSC**            | Consejo de Seguridad de la ONU                                  | Regímenes de sanciones para múltiples países y grupos                          |
+| **SAT 69-B**        | Servicio de Administración Tributaria (SAT)                     | Contribuyentes mexicanos con operaciones inexistentes o simuladas              |
+| **PEP**             | Base de datos con inteligencia artificial                       | Personas Expuestas Políticamente — funcionarios públicos actuales y anteriores |
+| **Medios Adversos** | Análisis web con inteligencia artificial                        | Artículos de noticias que vinculan personas/entidades con actividad criminal   |
 
 <Callout type="info">
-	Automatic watchlist screening runs on every new client and beneficial
-	controller registration in the AML module. The standalone Watchlist app is for
-	ad-hoc manual queries and detailed result review.
+	La verificación automática en la watchlist se ejecuta en cada nuevo registro
+	de cliente y controlador beneficiario en el módulo AML. La aplicación
+	Watchlist independiente es para consultas manuales ad hoc y revisión detallada
+	de resultados.
 </Callout>
 
-## Explore the Watchlist Manual
+## Explora el Manual de Watchlist
 
 <Cards>
 	<Cards.Card
-		title="Running a Search"
-		href="/watchlist/search"
-		description="How to search, interpret scores, and act on results."
+		title="Realizar una Búsqueda"
+		href="/es/watchlist/search"
+		description="Cómo buscar, interpretar puntajes y actuar sobre los resultados."
 	/>
 	<Cards.Card
-		title="Watchlist Datasets"
-		href="/watchlist/datasets"
-		description="Details on OFAC, UNSC, SAT 69-B, PEP, and adverse media data."
+		title="Conjuntos de Datos de Watchlist"
+		href="/es/watchlist/datasets"
+		description="Detalles sobre los datos de OFAC, UNSC, SAT 69-B, PEP y medios adversos."
 	/>
 	<Cards.Card
-		title="Query History"
-		href="/watchlist/query-history"
-		description="Review past queries, track results, and maintain your audit trail."
+		title="Historial de Consultas"
+		href="/es/watchlist/query-history"
+		description="Revisa consultas anteriores, sigue los resultados y mantén tu rastro de auditoría."
 	/>
 </Cards>

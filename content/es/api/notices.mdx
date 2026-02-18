@@ -1,32 +1,32 @@
 ---
-title: Notices API
-description: Generate and manage SAT compliance notices (avisos) via the API
+title: API de Avisos
+description: Genera y gestiona avisos de cumplimiento ante el SAT (avisos) a través de la API
 ---
 
 import { Tabs } from "nextra/components";
 
-# Notices API
+# API de Avisos
 
-**Base path:** `/api/v1/notices`
+**Ruta base:** `/api/v1/notices`
 
 ## Endpoints
 
-| Method   | Path                        | Description                               |
-| -------- | --------------------------- | ----------------------------------------- |
-| `GET`    | `/notices`                  | List notices                              |
-| `GET`    | `/notices/preview`          | Preview operations for a potential notice |
-| `GET`    | `/notices/available-months` | Months with reportable operations         |
-| `GET`    | `/notices/:id`              | Get notice with summary                   |
-| `POST`   | `/notices`                  | Create a notice                           |
-| `POST`   | `/notices/:id/generate`     | Generate SAT XML                          |
-| `POST`   | `/notices/:id/submit`       | Mark as submitted                         |
-| `POST`   | `/notices/:id/acknowledge`  | Record SAT acknowledgment                 |
-| `PATCH`  | `/notices/:id`              | Partial update                            |
-| `DELETE` | `/notices/:id`              | Delete (draft only)                       |
+| Método   | Ruta                        | Descripción                                         |
+| -------- | --------------------------- | --------------------------------------------------- |
+| `GET`    | `/notices`                  | Listar avisos                                       |
+| `GET`    | `/notices/preview`          | Vista previa de operaciones para un aviso potencial |
+| `GET`    | `/notices/available-months` | Meses con operaciones reportables                   |
+| `GET`    | `/notices/:id`              | Obtener aviso con resumen                           |
+| `POST`   | `/notices`                  | Crear un aviso                                      |
+| `POST`   | `/notices/:id/generate`     | Generar XML para el SAT                             |
+| `POST`   | `/notices/:id/submit`       | Marcar como enviado                                 |
+| `POST`   | `/notices/:id/acknowledge`  | Registrar acuse del SAT                             |
+| `PATCH`  | `/notices/:id`              | Actualización parcial                               |
+| `DELETE` | `/notices/:id`              | Eliminar (solo borradores)                          |
 
-## Preview a Notice
+## Vista Previa de un Aviso
 
-Before creating a notice, preview which operations would be included:
+Antes de crear un aviso, obtén una vista previa de las operaciones que se incluirían:
 
 ```
 GET /api/v1/notices/preview?year=2025&month=6
@@ -44,7 +44,7 @@ curl "https://api.janovix.com/api/v1/notices/preview?year=2025&month=6" \
 const preview = await janovixFetch<NoticePreview>(
   "/notices/preview?year=2025&month=6"
 );
-console.log(`${preview.operationCount} operations totalling ${preview.totalAmount} MXN`);
+console.log(`${preview.operationCount} operaciones por un total de ${preview.totalAmount} MXN`);
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -52,17 +52,17 @@ console.log(`${preview.operationCount} operations totalling ${preview.totalAmoun
 preview = session.get(f"{BASE_URL}/notices/preview", params={
     "year": 2025, "month": 6
 }).json()["data"]
-print(f"{preview['operationCount']} operations, total: {preview['totalAmount']} MXN")
+print(f"{preview['operationCount']} operaciones, total: {preview['totalAmount']} MXN")
 ```
 </Tabs.Tab>
 </Tabs>
 
-## Create and Generate a Notice
+## Crear y Generar un Aviso
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
 ```bash
-# Step 1: Create the notice
+# Paso 1: Crear el aviso
 NOTICE=$(curl -X POST https://api.janovix.com/api/v1/notices \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
@@ -70,12 +70,12 @@ NOTICE=$(curl -X POST https://api.janovix.com/api/v1/notices \
 
 NOTICE_ID=$(echo $NOTICE | jq -r '.data.id')
 
-# Step 2: Generate the XML
+# Paso 2: Generar el XML
 
 curl -X POST "https://api.janovix.com/api/v1/notices/$NOTICE_ID/generate" \
  -H "Authorization: Bearer YOUR_TOKEN"
 
-# Step 3: Mark as submitted (after submitting to SAT portal)
+# Paso 3: Marcar como enviado (después de enviarlo al portal del SAT)
 
 curl -X POST "https://api.janovix.com/api/v1/notices/$NOTICE_ID/submit" \
  -H "Authorization: Bearer YOUR_TOKEN" \
@@ -86,16 +86,16 @@ curl -X POST "https://api.janovix.com/api/v1/notices/$NOTICE_ID/submit" \
 </Tabs.Tab>
 <Tabs.Tab>
 ```typescript
-// Step 1: Create
+// Paso 1: Crear
 const { data: notice } = await janovixFetch<{ data: Notice }>("/notices", {
   method: "POST",
   body: JSON.stringify({ year: 2025, month: 6 }),
 });
 
-// Step 2: Generate XML
+// Paso 2: Generar XML
 await janovixFetch(`/notices/${notice.id}/generate`, { method: "POST" });
 
-// Step 3: Submit to SAT portal manually, then mark
+// Paso 3: Enviar manualmente al portal del SAT, luego marcar
 await janovixFetch(`/notices/${notice.id}/submit`, {
   method: "POST",
   body: JSON.stringify({ folioNumber: "SAT-2025-06-0001" }),
@@ -105,16 +105,16 @@ await janovixFetch(`/notices/${notice.id}/submit`, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```python
-# Step 1: Create
+# Paso 1: Crear
 notice = session.post(f"{BASE_URL}/notices", json={
     "year": 2025, "month": 6
 }).json()["data"]
 
-# Step 2: Generate XML
+# Paso 2: Generar XML
 
 session.post(f"{BASE_URL}/notices/{notice['id']}/generate")
 
-# Step 3: Mark as submitted
+# Paso 3: Marcar como enviado
 
 session.post(f"{BASE_URL}/notices/{notice['id']}/submit", json={
 "folioNumber": "SAT-2025-06-0001"

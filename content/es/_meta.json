@@ -4,8 +4,8 @@
 		"display": "hidden"
 	},
 	"introduction": "Introducción",
-	"aml": "Manual AML",
 	"settings": "Manual de Configuración",
+	"aml": "Manual AML",
 	"watchlist": "Manual de Watchlist",
 	"api": "Integración API"
 }

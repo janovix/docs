@@ -1,32 +1,32 @@
 ---
-title: Reports API
-description: Generate and retrieve compliance reports programmatically
+title: API de Reportes
+description: Genera y consulta reportes de cumplimiento de forma programática
 ---
 
 import { Tabs } from "nextra/components";
 
-# Reports API
+# API de Reportes
 
-**Base path:** `/api/v1/reports`
+**Ruta base:** `/api/v1/reports`
 
 ## Endpoints
 
-| Method   | Path                         | Description                          |
-| -------- | ---------------------------- | ------------------------------------ |
-| `GET`    | `/reports/templates`         | List available report templates      |
-| `GET`    | `/reports`                   | List reports                         |
-| `GET`    | `/reports/preview`           | Preview report data                  |
-| `GET`    | `/reports/aggregate/summary` | Executive summary aggregation        |
-| `GET`    | `/reports/aggregate/alerts`  | Alert metrics aggregation            |
-| `GET`    | `/reports/:id`               | Get a report                         |
-| `POST`   | `/reports`                   | Create a report                      |
-| `POST`   | `/reports/:id/generate`      | Generate the report (compile to PDF) |
-| `PATCH`  | `/reports/:id`               | Partial update                       |
-| `DELETE` | `/reports/:id`               | Delete (draft only)                  |
+| Método   | Ruta                         | Descripción                              |
+| -------- | ---------------------------- | ---------------------------------------- |
+| `GET`    | `/reports/templates`         | Listar plantillas de reporte disponibles |
+| `GET`    | `/reports`                   | Listar reportes                          |
+| `GET`    | `/reports/preview`           | Vista previa de datos del reporte        |
+| `GET`    | `/reports/aggregate/summary` | Agregación de resumen ejecutivo          |
+| `GET`    | `/reports/aggregate/alerts`  | Agregación de métricas de alertas        |
+| `GET`    | `/reports/:id`               | Obtener un reporte                       |
+| `POST`   | `/reports`                   | Crear un reporte                         |
+| `POST`   | `/reports/:id/generate`      | Generar el reporte (compilar a PDF)      |
+| `PATCH`  | `/reports/:id`               | Actualización parcial                    |
+| `DELETE` | `/reports/:id`               | Eliminar (solo borradores)               |
 
-## Get Aggregate Summary
+## Obtener Resumen Agregado
 
-For dashboard integrations, use the aggregate endpoint directly without creating a formal report:
+Para integraciones con dashboards, usa el endpoint agregado directamente sin crear un reporte formal:
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
@@ -40,7 +40,7 @@ curl "https://api.janovix.com/api/v1/reports/aggregate/summary?dateFrom=2025-01-
 const summary = await janovixFetch<AggregateSummary>(
   "/reports/aggregate/summary?dateFrom=2025-01-01&dateTo=2025-06-30"
 );
-console.log(`Clients: ${summary.totalClients}, Alerts: ${summary.totalAlerts}`);
+console.log(`Clientes: ${summary.totalClients}, Alertas: ${summary.totalAlerts}`);
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -53,12 +53,12 @@ summary = session.get(f"{BASE_URL}/reports/aggregate/summary", params={
 </Tabs.Tab>
 </Tabs>
 
-## Create and Generate a Report
+## Crear y Generar un Reporte
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
 ```bash
-# Step 1: Create report
+# Paso 1: Crear el reporte
 REPORT=$(curl -X POST https://api.janovix.com/api/v1/reports \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
@@ -71,7 +71,7 @@ REPORT=$(curl -X POST https://api.janovix.com/api/v1/reports \
 
 REPORT_ID=$(echo $REPORT | jq -r '.data.id')
 
-# Step 2: Generate
+# Paso 2: Generar
 
 curl -X POST "https://api.janovix.com/api/v1/reports/$REPORT_ID/generate" \
  -H "Authorization: Bearer YOUR_TOKEN"

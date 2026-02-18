@@ -1,67 +1,67 @@
 ---
-title: Invoices (CFDI)
-description: Parse, manage, and track CFDI v4.0 invoices linked to vulnerable activity operations
+title: Facturas (CFDI)
+description: Parsea, gestiona y vincula facturas CFDI v4.0 a las operaciones de actividades vulnerables
 ---
 
 import { Callout } from "nextra/components";
 
-# Invoices (CFDI)
+# Facturas (CFDI)
 
-The **Invoices** module allows you to import, manage, and link CFDI v4.0 (_Comprobante Fiscal Digital por Internet_) electronic invoices to your operations. This is particularly useful for businesses where transactions generate CFDI documents (e.g., vehicle sales, real estate closings, professional services).
+El módulo de **Facturas** te permite importar, gestionar y vincular facturas electrónicas CFDI v4.0 (_Comprobante Fiscal Digital por Internet_) a tus operaciones. Esto es especialmente útil para empresas en las que las transacciones generan documentos CFDI (p. ej., venta de vehículos, cierre de operaciones inmobiliarias, servicios profesionales).
 
 {/* IMAGE: public/images/aml/invoice-list.png - Invoice list showing CFDI UUID, issuer RFC, receiver RFC, total amounts, and date */}
 
-## What is a CFDI?
+## ¿Qué es un CFDI?
 
-A CFDI (Comprobante Fiscal Digital por Internet) is Mexico's standardized electronic invoice format, mandated by the SAT for fiscal purposes. CFDI v4.0 is the current version.
+Un CFDI (Comprobante Fiscal Digital por Internet) es el formato estandarizado de factura electrónica en México, obligatorio por el SAT para efectos fiscales. La versión CFDI v4.0 es la versión vigente.
 
-Janovix supports:
+Janovix admite:
 
-- Manual invoice entry
-- **XML parsing** — paste or upload a CFDI XML file and Janovix extracts all fields automatically
+- Captura manual de facturas
+- **Parseo de XML** — pega o sube un archivo XML de CFDI y Janovix extrae todos los campos automáticamente
 
-## Importing a CFDI via XML
+## Importar un CFDI mediante XML
 
 {/* IMAGE: public/images/aml/invoice-parse-xml.png - CFDI XML upload/paste interface with extracted field preview */}
 
-1. Navigate to **Transactions → Invoices** and click **+ Import CFDI**
-2. Choose **Parse XML**
-3. Paste or upload the CFDI XML file
-4. Janovix extracts and populates:
-   - Issuer (emisor): RFC, name, fiscal regime
-   - Receiver (receptor): RFC, name, use of CFDI
-   - Financial data: subtotal, taxes, total
-   - Payment information: payment method, form of payment
-   - TFD (Timbre Fiscal Digital): UUID, certification date, SAT certificate
-5. Review the extracted data and click **Save**
+1. Navega a **Transacciones → Facturas** y haz clic en **+ Importar CFDI**
+2. Elige **Parsear XML**
+3. Pega o sube el archivo XML del CFDI
+4. Janovix extrae y llena automáticamente:
+   - Emisor: RFC, nombre, régimen fiscal
+   - Receptor: RFC, nombre, uso del CFDI
+   - Datos financieros: subtotal, impuestos, total
+   - Información de pago: método de pago, forma de pago
+   - TFD (Timbre Fiscal Digital): UUID, fecha de certificación, certificado SAT
+5. Revisa los datos extraídos y haz clic en **Guardar**
 
 <Callout type="info">
-	The UUID (Folio Fiscal) is extracted from the TFD node of the CFDI XML.
-	Janovix enforces uniqueness per UUID within your organization to prevent
-	duplicate imports.
+	El UUID (Folio Fiscal) se extrae del nodo TFD del XML del CFDI. Janovix aplica
+	unicidad por UUID dentro de tu organización para evitar importaciones
+	duplicadas.
 </Callout>
 
-## Linking Invoices to Operations
+## Vincular Facturas a Operaciones
 
-After importing a CFDI, you can link it to the corresponding [operation](/aml/operations):
+Después de importar un CFDI, puedes vincularlo a la [operación](/es/aml/operations) correspondiente:
 
-1. Open the invoice record
-2. Click **Link to Operation**
-3. Search and select the matching operation
+1. Abre el registro de la factura
+2. Haz clic en **Vincular a Operación**
+3. Busca y selecciona la operación correspondiente
 
-This creates a bidirectional reference between the operation and its fiscal document — useful for audit trails.
+Esto crea una referencia bidireccional entre la operación y su documento fiscal, lo cual es útil para las pistas de auditoría.
 
-## CFDI Fields Stored
+## Campos del CFDI Almacenados
 
-| Section      | Fields                                                        |
-| ------------ | ------------------------------------------------------------- |
-| **Header**   | UUID, date/time, version (4.0), currency, exchange rate       |
-| **Issuer**   | RFC, name, fiscal regime                                      |
-| **Receiver** | RFC, name, zip code, CFDI use                                 |
-| **Totals**   | Subtotal, discounts, transferred taxes, withheld taxes, total |
-| **Payment**  | Payment method, form of payment                               |
-| **TFD**      | UUID, PAC RFC, certification date, SAT certificate serial     |
+| Sección        | Campos                                                                         |
+| -------------- | ------------------------------------------------------------------------------ |
+| **Encabezado** | UUID, fecha/hora, versión (4.0), moneda, tipo de cambio                        |
+| **Emisor**     | RFC, nombre, régimen fiscal                                                    |
+| **Receptor**   | RFC, nombre, código postal, uso del CFDI                                       |
+| **Totales**    | Subtotal, descuentos, impuestos trasladados, impuestos retenidos, total        |
+| **Pago**       | Método de pago, forma de pago                                                  |
+| **TFD**        | UUID, RFC del PAC, fecha de certificación, número de serie del certificado SAT |
 
-## Bulk CFDI Import
+## Importación Masiva de CFDI
 
-For high-volume scenarios, use the internal API (`POST /internal/invoices/parse-xml`) to automate CFDI ingestion from your billing system. See the [API Integration Guide](/api/index) for details.
+Para escenarios de alto volumen, utiliza la API interna (`POST /internal/invoices/parse-xml`) para automatizar la ingesta de CFDI desde tu sistema de facturación. Consulta la [Guía de Integración API](/es/api/index) para más detalles.

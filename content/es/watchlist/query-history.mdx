@@ -1,63 +1,64 @@
 ---
-title: Query History
-description: Review past watchlist searches, track results, and maintain the compliance audit trail
+title: Historial de Consultas
+description: Revisa búsquedas anteriores en la watchlist, sigue los resultados y mantén el rastro de auditoría de cumplimiento
 ---
 
 import { Callout } from "nextra/components";
 
-# Query History
+# Historial de Consultas
 
-Every watchlist search you run is automatically saved as a **Query** with a persistent audit trail. This is critical for compliance audits — the LFPIORPI requires that you document your client identification and screening process.
+Cada búsqueda en la watchlist que realizas se guarda automáticamente como una **Consulta** con un rastro de auditoría permanente. Esto es fundamental para las auditorías de cumplimiento — la LFPIORPI exige que documentes tu proceso de identificación y verificación de clientes.
 
 {/* IMAGE: public/images/watchlist/watchlist-history.png - Query history list showing query text, dataset filters used, result count, highest match score, status badge, and timestamp */}
 
-## Query List
+## Lista de Consultas
 
-The Query History page shows all searches run by members of your organization, sorted by most recent first. For each query you can see:
+La página de Historial de Consultas muestra todas las búsquedas realizadas por los miembros de tu organización, ordenadas de la más reciente a la más antigua. Para cada consulta puedes ver:
 
-| Column            | Description                                                          |
-| ----------------- | -------------------------------------------------------------------- |
-| **Query**         | The name or identifier that was searched                             |
-| **Datasets**      | Which lists were searched (OFAC, UNSC, SAT 69-B, PEP, Adverse Media) |
-| **Results**       | Total number of matches returned above the threshold                 |
-| **Highest Score** | The top match confidence score across all datasets                   |
-| **Status**        | `PENDING` (async results still incoming), `COMPLETE`                 |
-| **Run By**        | The team member who ran the search                                   |
-| **Date**          | When the search was executed                                         |
+| Columna                | Descripción                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| **Consulta**           | El nombre o identificador que se buscó                                           |
+| **Conjuntos de datos** | Qué listas se consultaron (OFAC, UNSC, SAT 69-B, PEP, Medios Adversos)           |
+| **Resultados**         | Número total de coincidencias devueltas por encima del umbral                    |
+| **Puntaje Más Alto**   | El puntaje de confianza de la mejor coincidencia en todos los conjuntos de datos |
+| **Estado**             | `PENDING` (resultados asíncronos aún en proceso), `COMPLETE`                     |
+| **Ejecutado por**      | El miembro del equipo que realizó la búsqueda                                    |
+| **Fecha**              | Cuándo se ejecutó la búsqueda                                                    |
 
-## Filtering Queries
+## Filtrar Consultas
 
-Filter the query history by:
+Filtra el historial de consultas por:
 
-- Date range
-- Dataset
-- Team member
-- Minimum score threshold
-- Status
+- Rango de fechas
+- Conjunto de datos
+- Miembro del equipo
+- Umbral mínimo de puntaje
+- Estado
 
-## Viewing a Query's Results
+## Ver los Resultados de una Consulta
 
-Click any query to open the full results view — identical to the search result view, including all score breakdowns, entity details, and any PEP or adverse media findings.
+Haz clic en cualquier consulta para abrir la vista completa de resultados — idéntica a la vista de resultados de búsqueda, incluyendo todos los desgloses de puntajes, detalles de la entidad y cualquier hallazgo de PEP o medios adversos.
 
-## Why Query History Matters
+## Por qué el Historial de Consultas es Importante
 
-When the SHCP conducts a verification visit, you may be asked to demonstrate that you screened clients and beneficial controllers against relevant lists. The query history provides:
+Cuando la SHCP realiza una visita de verificación, es posible que se te pida demostrar que verificaste a tus clientes y controladores beneficiarios contra las listas correspondientes. El historial de consultas proporciona:
 
-1. **Timestamped evidence** that a search was run at the time of onboarding
-2. **The exact search terms** used (prevents claims of inadequate screening)
-3. **The results and scores returned** at that time
-4. **The team member responsible** for the screening
+1. **Evidencia con marca de tiempo** de que se realizó una búsqueda al momento del alta del cliente
+2. **Los términos de búsqueda exactos** utilizados (evita señalamientos de verificación insuficiente)
+3. **Los resultados y puntajes devueltos** en ese momento
+4. **El miembro del equipo responsable** de la verificación
 
 <Callout type="info">
-	In the AML module, automatic watchlist screening links back to the
-	corresponding query in the Watchlist history. From a client's profile, the
-	watchlist screening results section shows a direct link to the query record.
+	En el módulo AML, la verificación automática en la watchlist se vincula de
+	regreso a la consulta correspondiente en el historial de Watchlist. Desde el
+	perfil de un cliente, la sección de resultados de verificación en la watchlist
+	muestra un enlace directo al registro de la consulta.
 </Callout>
 
-## Retention
+## Retención
 
-Query records are retained indefinitely as part of your compliance audit trail. They cannot be deleted by regular users. Only system administrators can archive query records, and archiving is logged in the audit trail.
+Los registros de consultas se conservan de forma indefinida como parte del rastro de auditoría de cumplimiento. Los usuarios regulares no pueden eliminarlos. Solo los administradores del sistema pueden archivar registros de consultas, y el archivado queda registrado en el rastro de auditoría.
 
-## Exporting Query History
+## Exportar el Historial de Consultas
 
-Contact support or use the API (`GET /queries` with pagination) to export query history for an audit period. The export includes all query metadata and result summaries.
+Contacta al soporte o utiliza la API (`GET /queries` con paginación) para exportar el historial de consultas de un período de auditoría. La exportación incluye todos los metadatos de la consulta y los resúmenes de resultados.

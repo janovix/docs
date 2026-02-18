@@ -1,46 +1,46 @@
 ---
-title: Alerts API
-description: Retrieve, manage, and resolve compliance alerts via the API
+title: API de Alertas
+description: Consulta, gestiona y resuelve alertas de cumplimiento a través de la API
 ---
 
 import { Tabs } from "nextra/components";
 
-# Alerts API
+# API de Alertas
 
-**Base path:** `/api/v1/alerts`
+**Ruta base:** `/api/v1/alerts`
 
 ## Endpoints
 
-| Method   | Path                 | Description           |
-| -------- | -------------------- | --------------------- |
-| `GET`    | `/alerts`            | List alerts           |
-| `GET`    | `/alerts/:id`        | Get an alert          |
-| `POST`   | `/alerts`            | Create a manual alert |
-| `PUT`    | `/alerts/:id`        | Full update           |
-| `PATCH`  | `/alerts/:id`        | Partial update        |
-| `POST`   | `/alerts/:id/cancel` | Cancel an alert       |
-| `DELETE` | `/alerts/:id`        | Delete an alert       |
+| Método   | Ruta                 | Descripción             |
+| -------- | -------------------- | ----------------------- |
+| `GET`    | `/alerts`            | Listar alertas          |
+| `GET`    | `/alerts/:id`        | Obtener una alerta      |
+| `POST`   | `/alerts`            | Crear una alerta manual |
+| `PUT`    | `/alerts/:id`        | Actualización completa  |
+| `PATCH`  | `/alerts/:id`        | Actualización parcial   |
+| `POST`   | `/alerts/:id/cancel` | Cancelar una alerta     |
+| `DELETE` | `/alerts/:id`        | Eliminar una alerta     |
 
-## List Alerts
+## Listar Alertas
 
 ```
 GET /api/v1/alerts?status=DETECTED&severity=HIGH&page=1&limit=20
 ```
 
-### Query Parameters
+### Parámetros de Consulta
 
-| Parameter             | Description                                                       |
+| Parámetro             | Descripción                                                       |
 | --------------------- | ----------------------------------------------------------------- |
 | `status`              | `DETECTED`, `FILE_GENERATED`, `SUBMITTED`, `OVERDUE`, `CANCELLED` |
 | `severity`            | `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`                               |
-| `clientId`            | Filter alerts for a specific client                               |
-| `activityCode`        | Filter by activity type                                           |
-| `dateFrom` / `dateTo` | Date range filter                                                 |
+| `clientId`            | Filtrar alertas de un cliente específico                          |
+| `activityCode`        | Filtrar por tipo de actividad                                     |
+| `dateFrom` / `dateTo` | Filtro por rango de fechas                                        |
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
 ```bash
-# Get all critical and high alerts that are pending review
+# Obtener todas las alertas críticas y altas pendientes de revisión
 curl "https://api.janovix.com/api/v1/alerts?status=DETECTED&severity=HIGH,CRITICAL" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
@@ -51,9 +51,9 @@ const { data: alerts } = await janovixFetch<{ data: Alert[] }>(
   "/alerts?status=DETECTED&severity=HIGH,CRITICAL"
 );
 
-// Process each alert
+// Procesar cada alerta
 for (const alert of alerts) {
-console.log(`Alert ${alert.id}: ${alert.severity} — ${alert.clientId}`);
+console.log(`Alerta ${alert.id}: ${alert.severity} — ${alert.clientId}`);
 }
 
 ````
@@ -66,13 +66,13 @@ alerts = session.get(f"{BASE_URL}/alerts", params={
 }).json()["data"]
 
 for alert in alerts:
-    print(f"Alert {alert['id']}: {alert['severity']} — {alert['clientId']}")
+    print(f"Alerta {alert['id']}: {alert['severity']} — {alert['clientId']}")
 ````
 
 </Tabs.Tab>
 </Tabs>
 
-## Create a Manual Alert
+## Crear una Alerta Manual
 
 ```
 POST /api/v1/alerts
@@ -123,7 +123,7 @@ alert = session.post(f"{BASE_URL}/alerts", json={
 </Tabs.Tab>
 </Tabs>
 
-## Cancel an Alert
+## Cancelar una Alerta
 
 ```
 

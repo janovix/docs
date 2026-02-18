@@ -1,32 +1,32 @@
 ---
-title: Clients API
-description: CRUD operations for managing clients — physical persons, moral persons, and trusts
+title: API de Clientes
+description: Operaciones CRUD para gestionar clientes — personas físicas, personas morales y fideicomisos
 ---
 
 import { Tabs, Callout } from "nextra/components";
 
-# Clients API
+# API de Clientes
 
-The Clients API manages the registry of clients associated with vulnerable activity operations.
+La API de Clientes gestiona el registro de clientes asociados a operaciones de actividades vulnerables.
 
-**Base path:** `/api/v1/clients`
+**Ruta base:** `/api/v1/clients`
 
 ## Endpoints
 
-| Method   | Path                      | Description                          |
-| -------- | ------------------------- | ------------------------------------ |
-| `GET`    | `/clients`                | List clients (paginated, filterable) |
-| `GET`    | `/clients/stats`          | Aggregate statistics                 |
-| `GET`    | `/clients/:id`            | Get a single client                  |
-| `GET`    | `/clients/:id/kyc-status` | Get KYC completion status            |
-| `POST`   | `/clients`                | Create a client                      |
-| `PUT`    | `/clients/:id`            | Full update                          |
-| `PATCH`  | `/clients/:id`            | Partial update                       |
-| `DELETE` | `/clients/:id`            | Soft delete                          |
+| Método   | Ruta                      | Descripción                           |
+| -------- | ------------------------- | ------------------------------------- |
+| `GET`    | `/clients`                | Listar clientes (paginado, filtrable) |
+| `GET`    | `/clients/stats`          | Estadísticas agregadas                |
+| `GET`    | `/clients/:id`            | Obtener un cliente                    |
+| `GET`    | `/clients/:id/kyc-status` | Obtener estado de cumplimiento KYC    |
+| `POST`   | `/clients`                | Crear un cliente                      |
+| `PUT`    | `/clients/:id`            | Actualización completa                |
+| `PATCH`  | `/clients/:id`            | Actualización parcial                 |
+| `DELETE` | `/clients/:id`            | Eliminación lógica                    |
 
-## Create a Client
+## Crear un Cliente
 
-### Request
+### Solicitud
 
 ```
 POST /api/v1/clients
@@ -150,7 +150,7 @@ $client = janovixPost("/clients", [
 </Tabs.Tab>
 </Tabs>
 
-### Response
+### Respuesta
 
 ```json
 {
@@ -171,29 +171,29 @@ $client = janovixPost("/clients", [
 ```
 
 <Callout type="info">
-	On creation, watchlist screening is triggered automatically. The `isPEP`,
-	`ofacSanctioned`, `unscSanctioned`, and `sat69bListed` fields are populated
-	asynchronously. Poll `GET /clients/:id` or use the screening callback to get
-	the final results.
+	Al crear un cliente, la verificación en listas de vigilancia se activa
+	automáticamente. Los campos `isPEP`, `ofacSanctioned`, `unscSanctioned` y
+	`sat69bListed` se llenan de forma asíncrona. Consulta `GET /clients/:id` o usa
+	el callback de verificación para obtener los resultados finales.
 </Callout>
 
-## List Clients
+## Listar Clientes
 
 ```
 GET /api/v1/clients?page=1&limit=20&kycStatus=INCOMPLETE
 ```
 
-### Query Parameters
+### Parámetros de Consulta
 
-| Parameter        | Type    | Description                               |
-| ---------------- | ------- | ----------------------------------------- |
-| `page`           | number  | Page number (default: 1)                  |
-| `limit`          | number  | Items per page (max 100, default: 20)     |
-| `search`         | string  | Search by name or RFC                     |
-| `kycStatus`      | string  | Filter by KYC status                      |
-| `personType`     | string  | Filter by `PHYSICAL`, `MORAL`, or `TRUST` |
-| `isPEP`          | boolean | Filter PEP clients                        |
-| `ofacSanctioned` | boolean | Filter OFAC-sanctioned clients            |
+| Parámetro        | Tipo    | Descripción                                         |
+| ---------------- | ------- | --------------------------------------------------- |
+| `page`           | number  | Número de página (predeterminado: 1)                |
+| `limit`          | number  | Elementos por página (máx. 100, predeterminado: 20) |
+| `search`         | string  | Buscar por nombre o RFC                             |
+| `kycStatus`      | string  | Filtrar por estado KYC                              |
+| `personType`     | string  | Filtrar por `PHYSICAL`, `MORAL` o `TRUST`           |
+| `isPEP`          | boolean | Filtrar clientes PEP                                |
+| `ofacSanctioned` | boolean | Filtrar clientes sancionados por OFAC               |
 
 <Tabs items={['cURL', 'TypeScript', 'Python']}>
 <Tabs.Tab>
@@ -228,13 +228,13 @@ pagination = response.json()["pagination"]
 </Tabs.Tab>
 </Tabs>
 
-## Get KYC Status
+## Obtener Estado KYC
 
 ```
 GET /api/v1/clients/:id/kyc-status
 ```
 
-Returns a detailed KYC completion breakdown including which sections are complete, pending, or missing:
+Devuelve un desglose detallado del cumplimiento KYC, incluyendo qué secciones están completas, pendientes o faltantes:
 
 ```json
 {

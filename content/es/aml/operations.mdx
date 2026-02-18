@@ -1,136 +1,136 @@
 ---
-title: Operations
-description: Record and manage vulnerable activity transactions, UMA thresholds, and activity-specific fields
+title: Operaciones
+description: Registra y gestiona transacciones de actividades vulnerables, umbrales en UMA y campos específicos por actividad
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# Operations
+# Operaciones
 
-**Operations** are the individual transactions you record for each vulnerable activity you carry out. They are the primary input for alert detection and SAT notice generation.
+Las **Operaciones** son las transacciones individuales que registras por cada actividad vulnerable que llevas a cabo. Son el insumo principal para la detección de alertas y la generación de avisos ante el SAT.
 
 {/* IMAGE: public/images/aml/operation-list.png - Operations list showing activity type column, client name, amount, UMA equivalent, and status */}
 
-## What is a Vulnerable Activity Operation?
+## ¿Qué es una Operación de Actividad Vulnerable?
 
-An operation is any act, transaction, or service performed in the context of one of the 20 activities listed in Art. 17 of the LFPIORPI. Janovix supports all 20 activity types with activity-specific data fields.
+Una operación es cualquier acto, transacción o servicio realizado en el contexto de una de las 20 actividades listadas en el Art. 17 de la LFPIORPI. Janovix soporta los 20 tipos de actividad con campos de datos específicos por actividad.
 
-## Supported Activity Types
+## Tipos de Actividad Compatibles
 
-| Code  | Activity                           | Notice Threshold (approx. MXN 2025) |
-| ----- | ---------------------------------- | ----------------------------------- |
-| `JYS` | Juegos y Sorteos (Gambling)        | ≥ 645 × $113.14 = ~$73,026          |
-| `TSC` | Tarjetas de Servicios/Crédito      | ≥ 1,285 UMAs/month                  |
-| `TPP` | Tarjetas Prepagadas                | ≥ 645 UMAs                          |
-| `CHV` | Cheques de Viajero                 | ≥ 645 UMAs                          |
-| `MPC` | Mutuo/Préstamo/Crédito             | ≥ 1,605 UMAs                        |
-| `INM` | Inmuebles (Real Estate)            | ≥ 8,025 UMAs                        |
-| `DIN` | Desarrollo Inmobiliario            | ≥ 8,025 UMAs                        |
-| `MJR` | Metales/Joyas/Relojes              | ≥ 1,605 UMAs                        |
-| `OBA` | Obras de Arte y Antigüedades       | ≥ 4,815 UMAs                        |
-| `VEH` | Vehículos (land/air/sea)           | ≥ 6,420 UMAs                        |
-| `BLI` | Blindaje (Armoring)                | ≥ 4,815 UMAs                        |
-| `TCV` | Traslado/Custodia de Valores       | ≥ 3,210 UMAs                        |
-| `SPR` | Servicios Profesionales            | When financial transaction executed |
-| `FEP` | Fe Pública — Notario               | Varies by sub-type                  |
-| `FES` | Fe Pública — Corredor              | Always                              |
-| `DON` | Donativos                          | ≥ 3,210 UMAs                        |
-| `ARI` | Arrendamiento de Inmuebles         | ≥ 3,210 UMAs/month                  |
-| `AVI` | Activos Virtuales                  | ≥ 210 UMAs                          |
-| `TDR` | Tarjetas de Recompensa             | Activity-specific                   |
-| `CAD` | Customs (Agente/Apoderado Aduanal) | Always                              |
+| Código | Actividad                            | Umbral de Aviso (aprox. MXN 2025)            |
+| ------ | ------------------------------------ | -------------------------------------------- |
+| `JYS`  | Juegos y Sorteos (Gambling)          | ≥ 645 × $113.14 = ~$73,026                   |
+| `TSC`  | Tarjetas de Servicios/Crédito        | ≥ 1,285 UMAs/mes                             |
+| `TPP`  | Tarjetas Prepagadas                  | ≥ 645 UMAs                                   |
+| `CHV`  | Cheques de Viajero                   | ≥ 645 UMAs                                   |
+| `MPC`  | Mutuo/Préstamo/Crédito               | ≥ 1,605 UMAs                                 |
+| `INM`  | Inmuebles (Real Estate)              | ≥ 8,025 UMAs                                 |
+| `DIN`  | Desarrollo Inmobiliario              | ≥ 8,025 UMAs                                 |
+| `MJR`  | Metales/Joyas/Relojes                | ≥ 1,605 UMAs                                 |
+| `OBA`  | Obras de Arte y Antigüedades         | ≥ 4,815 UMAs                                 |
+| `VEH`  | Vehículos (terrestre/aéreo/marítimo) | ≥ 6,420 UMAs                                 |
+| `BLI`  | Blindaje (Armoring)                  | ≥ 4,815 UMAs                                 |
+| `TCV`  | Traslado/Custodia de Valores         | ≥ 3,210 UMAs                                 |
+| `SPR`  | Servicios Profesionales              | Cuando se ejecute una transacción financiera |
+| `FEP`  | Fe Pública — Notario                 | Varía según subtipo                          |
+| `FES`  | Fe Pública — Corredor                | Siempre                                      |
+| `DON`  | Donativos                            | ≥ 3,210 UMAs                                 |
+| `ARI`  | Arrendamiento de Inmuebles           | ≥ 3,210 UMAs/mes                             |
+| `AVI`  | Activos Virtuales                    | ≥ 210 UMAs                                   |
+| `TDR`  | Tarjetas de Recompensa               | Específico por actividad                     |
+| `CAD`  | Customs (Agente/Apoderado Aduanal)   | Siempre                                      |
 
-## Recording a New Operation
+## Registrar una Nueva Operación
 
 {/* IMAGE: public/images/aml/operation-create.png - Operation creation form showing activity selector, client selector, amount, and date fields */}
 
 <Steps>
-### Select Activity Type
-Navigate to **Operations** and click **+ New Operation**. Select the activity code that matches your transaction (e.g., `VEH` for a vehicle sale).
+### Seleccionar el Tipo de Actividad
+Navega a **Operaciones** y haz clic en **+ Nueva Operación**. Selecciona el código de actividad que corresponde a tu transacción (p. ej., `VEH` para una venta de vehículo).
 
-### Link to a Client
+### Vincular a un Cliente
 
-Search and select the client associated with this transaction. The client must be registered; if they aren't, [create them first](/aml/clients).
+Busca y selecciona el cliente asociado a esta transacción. El cliente debe estar registrado; si no lo está, [regístralo primero](/es/aml/clients).
 
-### Enter Core Transaction Data
+### Ingresar los Datos Principales de la Transacción
 
-- **Operation date** — The date the transaction occurred (not the recording date)
-- **Amount** — Transaction amount
-- **Currency** — MXN or foreign currency (auto-converted via daily exchange rate)
-- **UMA equivalent** — Calculated automatically based on the operation date's UMA value
+- **Fecha de operación** — La fecha en que ocurrió la transacción (no la fecha de registro)
+- **Monto** — Monto de la transacción
+- **Moneda** — MXN o moneda extranjera (se convierte automáticamente usando el tipo de cambio del día)
+- **Equivalente en UMA** — Calculado automáticamente con base en el valor UMA de la fecha de operación
 
-### Fill Activity-Specific Fields
+### Completar los Campos Específicos de la Actividad
 
-Each activity type has mandatory additional fields:
+Cada tipo de actividad tiene campos adicionales obligatorios:
 
 {/* IMAGE: public/images/aml/operation-activity-fields.png - Vehicle activity fields showing brand, model, year, VIN, type (land/air/marine) */}
 
-**Example — Vehicles (`VEH`):**
+**Ejemplo — Vehículos (`VEH`):**
 
-- Vehicle type (terrestrial / maritime / air)
-- Brand, model, year
-- VIN or serial number
-- New or used
+- Tipo de vehículo (terrestre / marítimo / aéreo)
+- Marca, modelo, año
+- NIV o número de serie
+- Nuevo o usado
 
-**Example — Real Estate (`INM`):**
+**Ejemplo — Inmuebles (`INM`):**
 
-- Property type (house, apartment, commercial, land)
-- Cadastral value
-- Commercial value
-- Municipality and state
+- Tipo de inmueble (casa, departamento, comercial, terreno)
+- Valor catastral
+- Valor comercial
+- Municipio y estado
 
-### Add Payment Methods
+### Agregar Formas de Pago
 
 {/* IMAGE: public/images/aml/operation-payment-methods.png - Payment methods section showing method type, amount, and currency for each payment */}
 
-Operations can have multiple payment methods. Add each payment with:
+Las operaciones pueden tener múltiples formas de pago. Agrega cada pago con:
 
-- Payment method type (cash, bank transfer, check, virtual asset, etc.)
-- Amount for this payment method
-- Currency
+- Tipo de forma de pago (efectivo, transferencia bancaria, cheque, activo virtual, etc.)
+- Monto para esta forma de pago
+- Moneda
 
-### Save
+### Guardar
 
-Click **Record Operation**. The operation is saved and the alert detection rules engine evaluates it immediately.
+Haz clic en **Registrar Operación**. La operación se guarda y el motor de reglas de detección de alertas la evalúa de inmediato.
 
 </Steps>
 
-## UMA Calculations
+## Cálculos en UMA
 
-The UMA (Unidad de Medida y Actualización) is updated annually on February 1st by INEGI. Janovix automatically:
+La UMA (Unidad de Medida y Actualización) se actualiza anualmente el 1 de febrero por el INEGI. Janovix automáticamente:
 
-- Applies the correct UMA value for the **operation date** (not the recording date)
-- Calculates the UMA equivalent for multi-currency operations using the exchange rate on the operation date
-- Compares the result against the Art. 17 thresholds to determine if the operation is notifiable
+- Aplica el valor UMA correcto para la **fecha de operación** (no la fecha de registro)
+- Calcula el equivalente en UMA para operaciones en múltiples monedas usando el tipo de cambio de la fecha de operación
+- Compara el resultado con los umbrales del Art. 17 para determinar si la operación es reportable
 
 <Callout type="info">
-	You can view the current and historical UMA values in **Settings →
-	Compliance**. Janovix maintains a complete table of annual UMA values.
+	Puedes consultar los valores UMA actuales e históricos en **Configuración →
+	Cumplimiento**. Janovix mantiene una tabla completa de valores UMA anuales.
 </Callout>
 
-## Accumulated Amounts
+## Montos Acumulados
 
-Art. 17 of the LFPIORPI states that operations with the same client over a **6-month rolling period** that collectively exceed the notice threshold must be reported. Janovix tracks cumulative amounts per client per activity and will trigger an alert when the accumulated total crosses the threshold.
+El Art. 17 de la LFPIORPI establece que las operaciones con el mismo cliente durante un **período móvil de 6 meses** que en conjunto superen el umbral de aviso deben ser reportadas. Janovix realiza un seguimiento de los montos acumulados por cliente y por actividad, y activará una alerta cuando el total acumulado cruce el umbral.
 
-To view a client's accumulated amounts:
+Para ver los montos acumulados de un cliente:
 
-1. Open the client's detail page
-2. Navigate to **Operations**
-3. The **Accumulated (6 months)** card shows the running total per activity
+1. Abre la página de detalle del cliente
+2. Navega a **Operaciones**
+3. La tarjeta **Acumulado (6 meses)** muestra el total en ejecución por actividad
 
-## Bulk Import
+## Importación Masiva
 
-If you have existing transaction data, use [Bulk Import](/aml/import) to upload operations via CSV instead of entering them one by one.
+Si tienes datos de transacciones existentes, usa la [Importación Masiva](/es/aml/import) para cargar operaciones mediante CSV en lugar de capturarlas una por una.
 
-## Filtering and Searching Operations
+## Filtrar y Buscar Operaciones
 
-Filter the operations list by:
+Filtra la lista de operaciones por:
 
-- Activity code
-- Client name or RFC
-- Amount range
-- Date range
-- Currency
-- Notifiable (above notice threshold)
+- Código de actividad
+- Nombre o RFC del cliente
+- Rango de monto
+- Rango de fechas
+- Moneda
+- Reportable (por encima del umbral de aviso)
 
-All filters persist in the URL for shareability.
+Todos los filtros persisten en la URL para facilitar el uso compartido.

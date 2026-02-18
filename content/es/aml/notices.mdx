@@ -1,17 +1,17 @@
 ---
-title: SAT Notices
-description: Generate and submit monthly compliance notices (avisos) to the SAT in the required XML format
+title: Avisos SAT
+description: Genera y presenta avisos mensuales de cumplimiento ante el SAT en el formato XML requerido
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# SAT Notices
+# Avisos SAT
 
-**SAT Notices** (Avisos) are the monthly compliance reports that obligated subjects must file with the _Secretaría de Hacienda y Crédito Público_ (SHCP) via the SAT portal. They summarize all reportable operations for the period.
+Los **Avisos SAT** son los reportes mensuales de cumplimiento que los sujetos obligados deben presentar ante la _Secretaría de Hacienda y Crédito Público_ (SHCP) a través del portal del SAT. Resumen todas las operaciones reportables del período.
 
 {/* IMAGE: public/images/aml/notice-list.png - Notice list with month labels, status badges (DRAFT/GENERATED/SUBMITTED/ACKNOWLEDGED), and action buttons */}
 
-## Notice Lifecycle
+## Ciclo de Vida del Aviso
 
 {/* IMAGE: public/images/aml/notice-workflow.png - Diagram of the notice lifecycle: DRAFT → generate XML → GENERATED → submit to SAT → SUBMITTED → acknowledge → ACKNOWLEDGED */}
 
@@ -19,106 +19,107 @@ import { Callout, Steps } from "nextra/components";
 DRAFT → GENERATED → SUBMITTED → ACKNOWLEDGED
 ```
 
-| Status         | Description                                                |
-| -------------- | ---------------------------------------------------------- |
-| `DRAFT`        | Notice created but SAT XML not yet generated               |
-| `GENERATED`    | SAT XML file generated and ready for submission            |
-| `SUBMITTED`    | Compliance officer has submitted the XML to the SAT portal |
-| `ACKNOWLEDGED` | SAT has responded with an acknowledgment (acuse de recibo) |
+| Estado         | Descripción                                                    |
+| -------------- | -------------------------------------------------------------- |
+| `DRAFT`        | Aviso creado pero el XML del SAT aún no ha sido generado       |
+| `GENERATED`    | Archivo XML del SAT generado y listo para su presentación      |
+| `SUBMITTED`    | El oficial de cumplimiento ha enviado el XML al portal del SAT |
+| `ACKNOWLEDGED` | El SAT respondió con un acuse de recibo                        |
 
-## When Do You Need to File?
+## ¿Cuándo Debes Presentar?
 
-You must file a notice for any calendar month in which you recorded operations that met or exceeded the **aviso threshold** defined for your activity in Art. 17 of the LFPIORPI.
+Debes presentar un aviso por cada mes calendario en el que hayas registrado operaciones que alcanzaron o superaron el **umbral de aviso** definido para tu actividad en el Art. 17 de la LFPIORPI.
 
-Additionally:
+Adicionalmente:
 
-- A notice must always be filed even if the result is **zero notifiable operations** (a "zero report"), depending on your activity type and SAT registration
-- **Urgent notices** (for suspicious activity) must be filed within **24 hours** and are created via the [Alerts](/aml/alerts) module
+- Siempre debe presentarse un aviso aunque el resultado sea de **cero operaciones reportables** (un "reporte en ceros"), dependiendo del tipo de actividad y el registro ante el SAT
+- Los **avisos urgentes** (por actividad sospechosa) deben presentarse dentro de las **24 horas** y se crean a través del módulo de [Alertas](/es/aml/alerts)
 
 <Callout type="info">
-	The standard filing deadline for monthly notices is the **17th calendar day of
-	the month following the reporting period**. Janovix shows the days remaining
-	until the deadline on the Notices list.
+	El plazo estándar de presentación para los avisos mensuales es el **día 17 del
+	mes calendario siguiente al período reportado**. Janovix muestra los días
+	restantes hasta el vencimiento en la lista de Avisos.
 </Callout>
 
-## Creating a Monthly Notice
+## Crear un Aviso Mensual
 
 <Steps>
-### Navigate to Notices
-Go to **Compliance → SAT Notices** in the sidebar. The list shows all notices for your organization.
+### Navegar a Avisos
+Ve a **Cumplimiento → Avisos SAT** en la barra lateral. La lista muestra todos los avisos de tu organización.
 
-### Create New Notice
+### Crear Nuevo Aviso
 
-Click **+ New Notice** and select the reporting period (year and month). Janovix will:
+Haz clic en **+ Nuevo Aviso** y selecciona el período de reporte (año y mes). Janovix mostrará:
 
-- Show a preview of all operations from that month that qualify for the aviso
-- Display a summary: number of operations, total value, breakdown by activity
+- Una vista previa de todas las operaciones de ese mes que califican para el aviso
+- Un resumen: número de operaciones, valor total, desglose por actividad
 
-### Review the Preview
+### Revisar la Vista Previa
 
 {/* IMAGE: public/images/aml/notice-generate.png - Notice generation screen showing XML preview, operation count, total amount, and per-activity breakdown */}
 
-Before generating the XML, review the notice summary:
+Antes de generar el XML, revisa el resumen del aviso:
 
-- Verify the operation count and amounts match your records
-- Check that all clients are properly identified (KYC complete)
-- Confirm there are no draft operations that should be included
+- Verifica que el número de operaciones y los montos coincidan con tus registros
+- Asegúrate de que todos los clientes estén correctamente identificados (KYC completo)
+- Confirma que no haya operaciones en borrador que deberían incluirse
 
-### Generate SAT XML
+### Generar XML SAT
 
-Click **Generate XML**. The system produces a valid SAT XML file conforming to the _Formato de Aviso en materia de Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita_ specification.
+Haz clic en **Generar XML**. El sistema produce un archivo XML válido del SAT conforme al _Formato de Aviso en materia de Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita_.
 
-The notice status changes to `GENERATED`.
+El estado del aviso cambia a `GENERATED`.
 
-### Review and Download XML
+### Revisar y Descargar el XML
 
-Expand the notice card to see the XML preview. Download the XML file to your computer.
+Expande la tarjeta del aviso para ver la vista previa del XML. Descarga el archivo XML a tu computadora.
 
-### Submit to SAT Portal
+### Presentar en el Portal SAT
 
-Log in to the SAT's compliance portal and upload the XML file. Enter the **folio number** provided by SAT upon successful receipt.
+Inicia sesión en el portal de cumplimiento del SAT y sube el archivo XML. Ingresa el **número de folio** que el SAT proporciona al recibir el archivo exitosamente.
 
-### Mark as Submitted
+### Marcar como Enviado
 
-Return to Janovix, open the notice, and click **Mark as Submitted**. Enter the SAT folio number. The notice status changes to `SUBMITTED`.
+Regresa a Janovix, abre el aviso y haz clic en **Marcar como Enviado**. Ingresa el número de folio del SAT. El estado del aviso cambia a `SUBMITTED`.
 
-### Acknowledge
+### Acusar Recibo
 
-When you receive the SAT's acknowledgment (_acuse de recibo_), click **Acknowledge** and optionally attach the acknowledgment document. Status changes to `ACKNOWLEDGED`.
+Cuando recibas el acuse de recibo del SAT (_acuse de recibo_), haz clic en **Acusar Recibo** y opcionalmente adjunta el documento del acuse. El estado cambia a `ACKNOWLEDGED`.
 
 </Steps>
 
-## Notice Contents
+## Contenido del Aviso
 
-The generated SAT XML includes:
+El XML del SAT generado incluye:
 
-| Section                    | Content                                                                                                        |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Header**                 | Your organization's RFC, activity code (_clave de actividad_), period                                          |
-| **Obligated Subject**      | Your RFC, business name, registered address                                                                    |
-| **Operations**             | Each qualifying operation with: client data, operation type, amount, payment methods, activity-specific fields |
-| **Beneficial Controllers** | For each moral-person client: beneficial controller data                                                       |
-| **Folio**                  | Assigned by SAT upon acceptance                                                                                |
+| Sección                         | Contenido                                                                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Encabezado**                  | RFC de tu organización, código de actividad (_clave de actividad_), período                                                  |
+| **Sujeto Obligado**             | Tu RFC, razón social, domicilio fiscal                                                                                       |
+| **Operaciones**                 | Cada operación calificada con: datos del cliente, tipo de operación, monto, formas de pago, campos específicos por actividad |
+| **Controladores Beneficiarios** | Para cada cliente persona moral: datos del controlador beneficiario                                                          |
+| **Folio**                       | Asignado por el SAT al momento de la aceptación                                                                              |
 
 <Callout type="warning">
-	The SAT XML format must exactly match the specification published by the SHCP.
-	Janovix keeps its XML templates up to date with SAT format changes. If you
-	encounter a rejection, check **Settings → Compliance** to ensure your
-	organization's RFC and activity code are correctly configured.
+	El formato XML del SAT debe coincidir exactamente con la especificación
+	publicada por la SHCP. Janovix mantiene sus plantillas XML actualizadas con
+	los cambios de formato del SAT. Si encuentras un rechazo, verifica en
+	**Configuración → Cumplimiento** que el RFC y el código de actividad de tu
+	organización estén correctamente configurados.
 </Callout>
 
-## Notice Preview
+## Vista Previa del Aviso
 
-Before generating the XML, use the **Preview** feature (available via the API at `GET /notices/preview`) to see which operations and clients will be included based on the current data. This helps catch data quality issues before the formal XML is generated.
+Antes de generar el XML, utiliza la función de **Vista Previa** (disponible a través de la API en `GET /notices/preview`) para ver qué operaciones y clientes se incluirán con base en los datos actuales. Esto ayuda a detectar problemas de calidad de datos antes de generar el XML formal.
 
-## Deleting a Notice
+## Eliminar un Aviso
 
-Only notices in `DRAFT` status can be deleted. Once XML has been generated, the notice is locked. If you need to correct data:
+Solo los avisos en estado `DRAFT` pueden eliminarse. Una vez generado el XML, el aviso queda bloqueado. Si necesitas corregir datos:
 
-1. Cancel the `DRAFT` or `GENERATED` notice
-2. Correct the underlying operation or client data
-3. Create a new notice for the same period
+1. Cancela el aviso en estado `DRAFT` o `GENERATED`
+2. Corrige la operación o los datos del cliente subyacentes
+3. Crea un nuevo aviso para el mismo período
 
-## Available Months
+## Meses Disponibles
 
-The system shows only months for which there is at least one notifiable operation. Use **+ New Notice** → **Available Months** to see the complete list of periods available for your organization.
+El sistema muestra únicamente los meses para los cuales existe al menos una operación reportable. Usa **+ Nuevo Aviso** → **Meses Disponibles** para ver la lista completa de períodos disponibles para tu organización.

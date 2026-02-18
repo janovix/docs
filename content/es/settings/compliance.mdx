@@ -1,85 +1,86 @@
 ---
-title: AML Compliance Settings
-description: Configure your organization's activity code, RFC, and KYC self-service behavior
+title: Configuración de Cumplimiento AML
+description: Configura el código de actividad, RFC y el comportamiento del autoservicio de KYC de tu organización
 ---
 
 import { Callout } from "nextra/components";
 
-# AML Compliance Settings
+# Configuración de Cumplimiento AML
 
-The **AML Compliance** section is where you configure your organization's regulatory identity — the information that drives threshold calculations, SAT notice generation, and KYC self-service behavior.
+La sección de **Cumplimiento AML** es donde configuras la identidad regulatoria de tu organización — la información que determina los cálculos de umbrales, la generación de avisos al SAT y el comportamiento del autoservicio de KYC.
 
 {/* IMAGE: public/images/settings/settings-compliance.png - Compliance settings page showing obligated subject RFC, activity code selector, self-service mode toggle, expiry hours, and required sections */}
 
-## Required Configuration
+## Configuración Requerida
 
-Before recording any operations or generating SAT notices, you **must** complete the compliance settings. Missing configuration will block notice generation.
+Antes de registrar operaciones o generar avisos al SAT, **debes** completar la configuración de cumplimiento. La configuración incompleta bloqueará la generación de avisos.
 
-### Obligated Subject Key (RFC)
+### Clave del Sujeto Obligado (RFC)
 
-| Field                                             | Description                                                                                                                               |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Obligated Subject RFC** (`obligatedSubjectKey`) | Your organization's 12-character RFC registered with the SAT as an _sujeto obligado_. This appears in the header of every SAT notice XML. |
+| Campo                                               | Descripción                                                                                                                                     |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RFC del Sujeto Obligado** (`obligatedSubjectKey`) | El RFC de 12 caracteres de tu organización registrado ante el SAT como _sujeto obligado_. Aparece en el encabezado de cada XML de aviso al SAT. |
 
 <Callout type="error">
-	This RFC must exactly match your SAT registration. An incorrect RFC will cause
-	notice rejections at the SAT portal.
+	Este RFC debe coincidir exactamente con tu registro ante el SAT. Un RFC
+	incorrecto causará el rechazo de los avisos en el portal del SAT.
 </Callout>
 
-### Activity Code
+### Código de Actividad
 
-| Field                             | Description                                                                                                                         |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Activity Code** (`activityKey`) | The Art. 17 fraction code corresponding to your primary vulnerable activity (e.g., `VEH` for vehicle sales, `INM` for real estate). |
+| Campo                                   | Descripción                                                                                                                                                |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Código de Actividad** (`activityKey`) | El código de fracción del Art. 17 correspondiente a tu actividad vulnerable principal (p. ej., `VEH` para compraventa de vehículos, `INM` para inmuebles). |
 
-The activity code determines:
+El código de actividad determina:
 
-- Which UMA thresholds are applied to your operations
-- The XML format variant used for SAT notices
-- Default alert rules applied to new operations
+- Qué umbrales de UMA se aplican a tus operaciones
+- La variante de formato XML usada para los avisos al SAT
+- Las reglas de alerta predeterminadas aplicadas a las nuevas operaciones
 
-If your organization carries out **multiple vulnerable activities**, configure the primary one here. You can record operations under any of the 20 activity codes regardless of this setting — it primarily affects SAT notice filing.
+Si tu organización realiza **múltiples actividades vulnerables**, configura la principal aquí. Puedes registrar operaciones bajo cualquiera de los 20 códigos de actividad independientemente de esta configuración — afecta principalmente la presentación de avisos al SAT.
 
-## KYC Self-Service Configuration
+## Configuración del Autoservicio KYC
 
-### Self-Service Mode
+### Modo de Autoservicio
 
-| Setting     | Description                                                                                               |
-| ----------- | --------------------------------------------------------------------------------------------------------- |
-| `disabled`  | KYC self-service is turned off. All client data must be entered manually by your team.                    |
-| `manual`    | Your compliance officers can create KYC sessions on demand for individual clients.                        |
-| `automatic` | A KYC session is automatically created and the invitation email sent whenever a new client is registered. |
+| Configuración | Descripción                                                                                                          |
+| ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `disabled`    | El autoservicio KYC está desactivado. Todos los datos del cliente deben ser ingresados manualmente por tu equipo.    |
+| `manual`      | Tus oficiales de cumplimiento pueden crear sesiones KYC bajo demanda para clientes individuales.                     |
+| `automatic`   | Se crea automáticamente una sesión KYC y se envía el correo de invitación cada vez que se registra un nuevo cliente. |
 
-### Session Expiry (Hours)
+### Expiración de la Sesión (Horas)
 
-Sets how many hours a KYC session link remains valid before it expires. The client must complete and submit their KYC within this window.
+Define cuántas horas permanece válido el enlace de una sesión KYC antes de expirar. El cliente debe completar y enviar su KYC dentro de esta ventana.
 
-**Default:** 72 hours (3 days)
-**Minimum:** 24 hours
-**Maximum:** 720 hours (30 days)
+**Predeterminado:** 72 horas (3 días)
+**Mínimo:** 24 horas
+**Máximo:** 720 horas (30 días)
 
-### Required Sections
+### Secciones Requeridas
 
-Configure which sections of the KYC form clients must complete before they are allowed to submit. Available sections:
+Configura qué secciones del formulario KYC deben completar los clientes antes de que se les permita enviarlo. Secciones disponibles:
 
-| Section Key              | Description                                                    |
-| ------------------------ | -------------------------------------------------------------- |
-| `personal_info`          | Basic identification data (name, RFC, birth date, nationality) |
-| `documents`              | At least one identity document uploaded                        |
-| `address`                | At least one registered address                                |
-| `shareholders`           | Shareholder structure (recommended for moral persons)          |
-| `beneficial_controllers` | Beneficial controllers / ultimate beneficial owners            |
+| Clave de Sección         | Descripción                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| `personal_info`          | Datos básicos de identificación (nombre, RFC, fecha de nacimiento, nacionalidad) |
+| `documents`              | Al menos un documento de identidad cargado                                       |
+| `address`                | Al menos un domicilio registrado                                                 |
+| `shareholders`           | Estructura accionaria (recomendado para personas morales)                        |
+| `beneficial_controllers` | Controladores beneficiarios / propietarios beneficiarios finales                 |
 
 <Callout type="info">
-	The LFPIORPI requires collecting beneficial controller information for moral
-	persons and trusts (Art. 18-III). We recommend including
-	`beneficial_controllers` in your required sections for these client types.
+	La LFPIORPI exige recopilar información sobre los controladores beneficiarios
+	para personas morales y fideicomisos (Art. 18-III). Recomendamos incluir
+	`beneficial_controllers` en tus secciones requeridas para estos tipos de
+	clientes.
 </Callout>
 
-## UMA Values
+## Valores UMA
 
-The compliance settings page also shows the current active **UMA value** used for threshold calculations. To update or add future UMA values, contact your system administrator (requires API access via `POST /api/v1/uma-values`).
+La página de configuración de cumplimiento también muestra el **valor UMA** vigente utilizado para los cálculos de umbrales. Para actualizar o agregar valores UMA futuros, contacta a tu administrador de sistema (requiere acceso a la API mediante `POST /api/v1/uma-values`).
 
-## Saving Your Settings
+## Guardar tu Configuración
 
-Click **Save** after making changes. Settings take effect immediately for new operations. Existing records are not retroactively affected.
+Haz clic en **Guardar** después de realizar cambios. La configuración tiene efecto inmediato para las nuevas operaciones. Los registros existentes no se ven afectados de manera retroactiva.

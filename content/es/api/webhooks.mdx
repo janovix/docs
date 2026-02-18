@@ -1,6 +1,6 @@
 ---
 title: Webhooks
-description: Receive real-time event notifications from the Janovix platform
+description: Recibe notificaciones de eventos en tiempo real desde la plataforma Janovix
 ---
 
 import { Callout } from "nextra/components";
@@ -8,30 +8,31 @@ import { Callout } from "nextra/components";
 # Webhooks
 
 <Callout type="info">
-	Webhooks are on the roadmap and not yet available. This page documents the
-	planned API. Subscribe to the changelog to be notified when webhooks launch.
+	Los webhooks están en la hoja de ruta y aún no están disponibles. Esta página
+	documenta la API planeada. Suscríbete al registro de cambios para ser
+	notificado cuando se lancen los webhooks.
 </Callout>
 
-Webhooks allow your systems to receive real-time notifications when events occur in Janovix, without polling the API.
+Los webhooks permiten que tus sistemas reciban notificaciones en tiempo real cuando ocurren eventos en Janovix, sin necesidad de consultar la API periódicamente.
 
-## Planned Events
+## Eventos Planeados
 
-| Event                                 | Trigger                                                |
-| ------------------------------------- | ------------------------------------------------------ |
-| `client.created`                      | A new client was registered                            |
-| `client.kyc_status_changed`           | A client's KYC status changed                          |
-| `client.watchlist_screening_complete` | Watchlist screening results are ready                  |
-| `operation.created`                   | A new operation was recorded                           |
-| `alert.created`                       | A new alert was generated                              |
-| `alert.status_changed`                | An alert's status changed (e.g., cancelled, submitted) |
-| `notice.generated`                    | A SAT notice XML was generated                         |
-| `notice.submitted`                    | A notice was marked as submitted                       |
-| `kyc_session.submitted`               | A client submitted their KYC self-service form         |
-| `kyc_session.status_changed`          | A KYC session was approved or rejected                 |
+| Evento                                | Disparador                                                          |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| `client.created`                      | Se registró un nuevo cliente                                        |
+| `client.kyc_status_changed`           | Cambió el estado KYC de un cliente                                  |
+| `client.watchlist_screening_complete` | Los resultados de verificación en listas de vigilancia están listos |
+| `operation.created`                   | Se registró una nueva operación                                     |
+| `alert.created`                       | Se generó una nueva alerta                                          |
+| `alert.status_changed`                | Cambió el estado de una alerta (por ejemplo, cancelada, enviada)    |
+| `notice.generated`                    | Se generó el XML de un aviso al SAT                                 |
+| `notice.submitted`                    | Se marcó un aviso como enviado                                      |
+| `kyc_session.submitted`               | Un cliente envió su formulario de autoservicio KYC                  |
+| `kyc_session.status_changed`          | Una sesión KYC fue aprobada o rechazada                             |
 
-## Payload Format
+## Formato del Payload
 
-All webhook payloads will follow this structure:
+Todos los payloads de webhook seguirán esta estructura:
 
 ```json
 {
@@ -40,14 +41,14 @@ All webhook payloads will follow this structure:
 	"organizationId": "org_01J...",
 	"timestamp": "2025-07-16T10:05:00.000Z",
 	"data": {
-		// The full resource object
+		// El objeto completo del recurso
 	}
 }
 ```
 
-## Security
+## Seguridad
 
-Webhooks will be signed with an HMAC-SHA256 signature. The signature will be included in the `X-Janovix-Signature` header.
+Los webhooks estarán firmados con una firma HMAC-SHA256. La firma se incluirá en el encabezado `X-Janovix-Signature`.
 
 ```typescript
 import crypto from "crypto";
@@ -68,43 +69,43 @@ function verifyWebhookSignature(
 }
 ```
 
-## Current Alternative: SSE Streams
+## Alternativa Actual: Flujos SSE
 
-While webhooks are not yet available, several endpoints provide real-time updates via **Server-Sent Events (SSE)**:
+Mientras los webhooks no estén disponibles, varios endpoints proporcionan actualizaciones en tiempo real mediante **Server-Sent Events (SSE)**:
 
-| Endpoint                                   | Description                              |
-| ------------------------------------------ | ---------------------------------------- |
-| `GET /api/v1/imports/:id/events`           | Real-time progress for a bulk import job |
-| `GET /queries/:queryId/events` (Watchlist) | Async PEP and adverse media results      |
+| Endpoint                                   | Descripción                                                 |
+| ------------------------------------------ | ----------------------------------------------------------- |
+| `GET /api/v1/imports/:id/events`           | Progreso en tiempo real de un trabajo de importación masiva |
+| `GET /queries/:queryId/events` (Watchlist) | Resultados asíncronos de PEP y medios adversos              |
 
-### SSE Example (TypeScript)
+### Ejemplo SSE (TypeScript)
 
 ```typescript
 const es = new EventSource(
 	`https://api.janovix.com/api/v1/imports/${importId}/events`,
 	{
-		// EventSource doesn't support custom headers natively in browsers.
-		// For server-side usage, use the `eventsource` npm package.
+		// EventSource no admite encabezados personalizados de forma nativa en navegadores.
+		// Para uso en el servidor, usa el paquete npm `eventsource`.
 	},
 );
 
 es.addEventListener("progress", (e) => {
 	const data = JSON.parse(e.data);
-	console.log(`Progress: ${data.processedRows}/${data.totalRows}`);
+	console.log(`Progreso: ${data.processedRows}/${data.totalRows}`);
 });
 
 es.addEventListener("complete", () => {
-	console.log("Import complete");
+	console.log("Importación completa");
 	es.close();
 });
 
 es.addEventListener("error", (e) => {
-	console.error("SSE error:", e);
+	console.error("Error SSE:", e);
 	es.close();
 });
 ```
 
-### SSE Example (Python)
+### Ejemplo SSE (Python)
 
 ```python
 import sseclient
@@ -120,7 +121,7 @@ def watch_import(import_id: str):
     for event in client.events():
         data = json.loads(event.data)
         if event.event == "complete":
-            print("Import complete!")
+            print("¡Importación completa!")
             break
-        print(f"Progress: {data.get('processedRows')}/{data.get('totalRows')}")
+        print(f"Progreso: {data.get('processedRows')}/{data.get('totalRows')}")
 ```

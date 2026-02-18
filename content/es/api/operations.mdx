@@ -1,34 +1,34 @@
 ---
-title: Operations API
-description: Record and manage vulnerable activity transactions via the API
+title: API de Operaciones
+description: Registra y gestiona transacciones de actividades vulnerables a través de la API
 ---
 
 import { Tabs, Callout } from "nextra/components";
 
-# Operations API
+# API de Operaciones
 
-The Operations API handles the recording and management of vulnerable activity transactions.
+La API de Operaciones maneja el registro y la gestión de transacciones de actividades vulnerables.
 
-**Base path:** `/api/v1/operations`
+**Ruta base:** `/api/v1/operations`
 
 ## Endpoints
 
-| Method   | Path                                       | Description                                |
-| -------- | ------------------------------------------ | ------------------------------------------ |
-| `GET`    | `/operations`                              | List operations                            |
-| `GET`    | `/operations/activities`                   | List all 20 activity types with thresholds |
-| `GET`    | `/operations/activities/:code/fields`      | Get field metadata for an activity         |
-| `GET`    | `/operations/thresholds`                   | UMA thresholds for all activities          |
-| `GET`    | `/operations/:id`                          | Get an operation                           |
-| `POST`   | `/operations`                              | Create an operation                        |
-| `POST`   | `/operations/bulk-import`                  | Bulk create (max 100)                      |
-| `PUT`    | `/operations/:id`                          | Full update                                |
-| `DELETE` | `/operations/:id`                          | Soft delete                                |
-| `GET`    | `/operations/client/:clientId/accumulated` | Client's 6-month accumulated totals        |
+| Método   | Ruta                                       | Descripción                                       |
+| -------- | ------------------------------------------ | ------------------------------------------------- |
+| `GET`    | `/operations`                              | Listar operaciones                                |
+| `GET`    | `/operations/activities`                   | Listar los 20 tipos de actividad con sus umbrales |
+| `GET`    | `/operations/activities/:code/fields`      | Obtener metadatos de campos para una actividad    |
+| `GET`    | `/operations/thresholds`                   | Umbrales UMA para todas las actividades           |
+| `GET`    | `/operations/:id`                          | Obtener una operación                             |
+| `POST`   | `/operations`                              | Crear una operación                               |
+| `POST`   | `/operations/bulk-import`                  | Creación masiva (máx. 100)                        |
+| `PUT`    | `/operations/:id`                          | Actualización completa                            |
+| `DELETE` | `/operations/:id`                          | Eliminación lógica                                |
+| `GET`    | `/operations/client/:clientId/accumulated` | Totales acumulados del cliente en 6 meses         |
 
-## Create an Operation
+## Crear una Operación
 
-### Request
+### Solicitud
 
 ```
 POST /api/v1/operations
@@ -67,11 +67,11 @@ interface CreateOperationInput {
   operationDate: string; // YYYY-MM-DD
   amount: number;
   currency: string; // ISO 4217
-  // Activity-specific extension (only one should be provided)
+  // Extensión específica por actividad (solo se debe proporcionar una)
   vehicleExtension?: VehicleExtension;
   realEstateExtension?: RealEstateExtension;
   jewelryExtension?: JewelryExtension;
-  // ... other extensions
+  // ... otras extensiones
   payments: PaymentInput[];
   notes?: string;
 }
@@ -165,7 +165,7 @@ $operation = janovixPost("/operations", [
 </Tabs.Tab>
 </Tabs>
 
-### Response
+### Respuesta
 
 ```json
 {
@@ -189,14 +189,14 @@ $operation = janovixPost("/operations", [
 ```
 
 <Callout type="info">
-	The `umaEquivalent` and `isAboveNoticeThreshold` fields are calculated
-	automatically. `alertsGenerated` indicates how many alert rules fired for this
-	operation.
+	Los campos `umaEquivalent` e `isAboveNoticeThreshold` se calculan
+	automáticamente. `alertsGenerated` indica cuántas reglas de alerta se
+	activaron para esta operación.
 </Callout>
 
-## Get Activity Fields
+## Obtener Campos de Actividad
 
-Before creating an operation, use this endpoint to get the required and optional fields for a specific activity:
+Antes de crear una operación, usa este endpoint para obtener los campos requeridos y opcionales de una actividad específica:
 
 ```
 GET /api/v1/operations/activities/VEH/fields
@@ -224,7 +224,7 @@ GET /api/v1/operations/activities/VEH/fields
 }
 ```
 
-## Bulk Import
+## Importación Masiva
 
 ```
 POST /api/v1/operations/bulk-import
@@ -239,4 +239,4 @@ POST /api/v1/operations/bulk-import
 }
 ```
 
-Maximum 100 operations per batch. Returns per-item success/error results.
+Máximo 100 operaciones por lote. Devuelve resultados de éxito/error por elemento.

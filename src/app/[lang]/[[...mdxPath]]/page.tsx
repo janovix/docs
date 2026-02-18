@@ -1,8 +1,7 @@
 import { importPage } from "nextra/pages";
 import { getPageMap } from "nextra/page-map";
-import { Layout, Navbar, Footer, LocaleSwitch } from "nextra-theme-docs";
+import { Layout, Navbar, Footer } from "nextra-theme-docs";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
-import { Search } from "@/components/Search";
 import { Logo } from "@/components/Logo";
 
 export async function generateMetadata(props: {
@@ -31,14 +30,19 @@ export default async function Page(props: {
 	return (
 		<Layout
 			pageMap={pageMap}
+			i18n={[
+				{ locale: "en", name: "English" },
+				{ locale: "es", name: "Español" },
+			]}
 			navbar={
 				<Navbar
-					logo={<Logo variant="icon" width={32} height={32} />}
-					projectLink="https://github.com/janovix"
-				>
-					<Search />
-					<LocaleSwitch />
-				</Navbar>
+					logo={
+						<div className="flex items-center gap-3">
+							<Logo variant="icon" width={32} height={32} />
+							<h1 className="text-xl font-bold">Docs</h1>
+						</div>
+					}
+				/>
 			}
 			footer={
 				<Footer>

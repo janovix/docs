@@ -1,81 +1,83 @@
 ---
-title: API Keys
-description: Create, rotate, and revoke API keys for programmatic access to Janovix
+title: Llaves de API
+description: Crea, rota y revoca llaves de API para el acceso programático a Janovix
 ---
 
 import { Callout, Steps } from "nextra/components";
 
-# API Keys
+# Llaves de API
 
-**API Keys** allow your systems to authenticate with the Janovix API without going through the user login flow. Keys are scoped to your organization and carry the permissions of the creating user's role.
+Las **Llaves de API** permiten que tus sistemas se autentiquen con la API de Janovix sin pasar por el flujo de inicio de sesión del usuario. Las llaves están vinculadas a tu organización y tienen los permisos del rol del usuario que las creó.
 
 {/* IMAGE: public/images/settings/settings-api-keys.png - API keys list showing key name, masked value (sk_live_••••••••), creation date, last used date, and Rotate/Revoke actions */}
 
-## Creating an API Key
+## Crear una Llave de API
 
 {/* IMAGE: public/images/settings/settings-api-key-create.png - API key creation dialog showing name field, permissions summary, and Create button */}
 
 <Steps>
-### Open the API Keys Page
-Navigate to **Settings → API Keys**.
+### Abre la Página de Llaves de API
+Navega a **Configuración → Llaves de API**.
 
-### Click Create Key
+### Haz Clic en Crear Llave
 
-Enter a descriptive name for the key (e.g., "ERP Integration", "CI Pipeline", "Billing System"). A good name helps you identify which system is using which key.
+Ingresa un nombre descriptivo para la llave (p. ej., "Integración ERP", "Pipeline CI", "Sistema de Facturación"). Un buen nombre te ayuda a identificar qué sistema usa qué llave.
 
-### Copy the Secret
+### Copia el Secreto
 
-After creation, **the full key value is shown only once**. Copy it immediately and store it in your secret manager (e.g., AWS Secrets Manager, HashiCorp Vault, Cloudflare Secrets).
+Después de crearla, **el valor completo de la llave se muestra solo una vez**. Cópialo de inmediato y guárdalo en tu gestor de secretos (p. ej., AWS Secrets Manager, HashiCorp Vault, Cloudflare Secrets).
 
-The key format is: `sk_live_` followed by a random string.
+El formato de la llave es: `sk_live_` seguido de una cadena aleatoria.
 
 </Steps>
 
 <Callout type="error">
-	**Store your API key securely.** Janovix never displays the full key value
-	again after creation. If you lose the key, you must rotate it. Never commit
-	API keys to source code repositories.
+	**Guarda tu llave de API de forma segura.** Janovix nunca vuelve a mostrar el
+	valor completo de la llave después de su creación. Si pierdes la llave,
+	deberás rotarla. Nunca incluyas llaves de API en repositorios de código
+	fuente.
 </Callout>
 
-## Using an API Key
+## Usar una Llave de API
 
-Include the key in the `Authorization` header as a Bearer token:
+Incluye la llave en el encabezado `Authorization` como token Bearer:
 
 ```http
 Authorization: Bearer sk_live_your_api_key_here
 ```
 
-API keys authenticate as the organization that owns them. See [API Authentication](/api/authentication) for full details.
+Las llaves de API se autentican como la organización que las posee. Consulta [Autenticación de API](/es/api/authentication) para más detalles.
 
-## Rotating a Key
+## Rotar una Llave
 
-If a key may have been compromised or you want to cycle credentials:
+Si una llave pudo haber sido comprometida o deseas renovar las credenciales:
 
-1. Click **Rotate** next to the key
-2. Confirm the rotation
-3. A new secret value is generated — copy it immediately
-4. The old secret value is immediately invalidated
+1. Haz clic en **Rotar** junto a la llave
+2. Confirma la rotación
+3. Se genera un nuevo valor secreto — cópialo de inmediato
+4. El valor secreto anterior queda invalidado de inmediato
 
 <Callout type="warning">
-	Rotating a key immediately breaks any integration using the old value. Update
-	all consumers before rotating in production, or use a maintenance window.
+	Rotar una llave interrumpe de inmediato cualquier integración que use el valor
+	anterior. Actualiza todos los consumidores antes de rotar en producción, o
+	utiliza una ventana de mantenimiento.
 </Callout>
 
-## Revoking a Key
+## Revocar una Llave
 
-To permanently delete a key:
+Para eliminar una llave de forma permanente:
 
-1. Click **Revoke** next to the key
-2. Confirm
+1. Haz clic en **Revocar** junto a la llave
+2. Confirma
 
-Revoked keys cannot be recovered. Create a new key if needed.
+Las llaves revocadas no pueden recuperarse. Crea una nueva llave si es necesario.
 
-## Best Practices
+## Buenas Prácticas
 
-| Practice                      | Recommendation                                                                                       |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------- |
-| **One key per integration**   | Use separate keys for each system. This way, revoking one key doesn't break unrelated systems.       |
-| **Least privilege**           | API keys inherit the role of the creating user. Don't create keys with `owner` role unless required. |
-| **Rotate regularly**          | Rotate API keys every 90 days as a security hygiene practice.                                        |
-| **Monitor last used**         | The list shows when each key was last used. Revoke keys that haven't been used in >90 days.          |
-| **Never in client-side code** | API keys must only be used server-side. Never embed them in browser JavaScript or mobile apps.       |
+| Práctica                             | Recomendación                                                                                                                  |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Una llave por integración**        | Usa llaves separadas para cada sistema. Así, revocar una llave no afecta sistemas no relacionados.                             |
+| **Mínimo privilegio**                | Las llaves de API heredan el rol del usuario que las crea. No crees llaves con rol `owner` salvo que sea necesario.            |
+| **Rota regularmente**                | Rota las llaves de API cada 90 días como práctica de higiene de seguridad.                                                     |
+| **Monitorea el último uso**          | La lista muestra cuándo se usó por última vez cada llave. Revoca las llaves que no se hayan usado en más de 90 días.           |
+| **Nunca en código del lado cliente** | Las llaves de API solo deben usarse en el servidor. Nunca las incluyas en JavaScript del navegador ni en aplicaciones móviles. |

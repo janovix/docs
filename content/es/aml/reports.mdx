@@ -1,72 +1,73 @@
 ---
-title: Reports
-description: Generate compliance reports, executive summaries, and analytics exports
+title: Reportes
+description: Genera reportes de cumplimiento, resúmenes ejecutivos y exportaciones analíticas
 ---
 
 import { Callout } from "nextra/components";
 
-# Reports
+# Reportes
 
-The **Reports** module allows compliance officers and executives to generate structured compliance reports, track key metrics over time, and export data for audits or board presentations.
+El módulo de **Reportes** permite a los oficiales de cumplimiento y directivos generar reportes de cumplimiento estructurados, dar seguimiento a métricas clave a lo largo del tiempo y exportar datos para auditorías o presentaciones a la dirección.
 
 {/* IMAGE: public/images/aml/report-templates.png - Report template selection screen showing cards for each template type */}
 
-## Report Templates
+## Plantillas de Reporte
 
-Janovix provides seven report templates:
+Janovix ofrece siete plantillas de reporte:
 
-| Template               | Description                                                                                                        |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `EXECUTIVE_SUMMARY`    | High-level compliance overview: KPIs, alert counts, notice status. Designed for board or management presentations. |
-| `COMPLIANCE_STATUS`    | Detailed compliance health: KYC completion rates, overdue notices, pending alerts.                                 |
-| `TRANSACTION_ANALYSIS` | Deep dive into operations: volume by activity type, period-over-period trends, top clients.                        |
-| `CLIENT_RISK_PROFILE`  | Breakdown of clients by risk level, KYC status, watchlist flags.                                                   |
-| `ALERT_BREAKDOWN`      | Alert metrics: count by severity, resolution rate, average time to resolution.                                     |
-| `PERIOD_COMPARISON`    | Side-by-side comparison of two periods (e.g., Q1 vs. Q2).                                                          |
-| `CUSTOM`               | Build your own report by selecting the metrics and sections you need.                                              |
+| Plantilla              | Descripción                                                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `EXECUTIVE_SUMMARY`    | Resumen ejecutivo de cumplimiento: KPIs, conteo de alertas, estado de avisos. Diseñado para presentaciones a la dirección o al consejo. |
+| `COMPLIANCE_STATUS`    | Estado detallado del cumplimiento: tasas de completitud KYC, avisos vencidos, alertas pendientes.                                       |
+| `TRANSACTION_ANALYSIS` | Análisis profundo de operaciones: volumen por tipo de actividad, tendencias período a período, clientes principales.                    |
+| `CLIENT_RISK_PROFILE`  | Desglose de clientes por nivel de riesgo, estado KYC y marcas en listas de vigilancia.                                                  |
+| `ALERT_BREAKDOWN`      | Métricas de alertas: conteo por severidad, tasa de resolución, tiempo promedio de resolución.                                           |
+| `PERIOD_COMPARISON`    | Comparación lado a lado de dos períodos (p. ej., T1 vs. T2).                                                                            |
+| `CUSTOM`               | Crea tu propio reporte seleccionando las métricas y secciones que necesitas.                                                            |
 
-## Generating a Report
+## Generar un Reporte
 
-1. Navigate to **Compliance → Reports** and click **+ New Report**
-2. Select a template
-3. Set the reporting period (date range)
-4. Preview the data using the **Preview** option
-5. Click **Generate** — the system compiles the report
-6. Once generated, download as PDF or view on-screen
+1. Navega a **Cumplimiento → Reportes** y haz clic en **+ Nuevo Reporte**
+2. Selecciona una plantilla
+3. Establece el período de reporte (rango de fechas)
+4. Previsualiza los datos usando la opción **Vista Previa**
+5. Haz clic en **Generar** — el sistema compila el reporte
+6. Una vez generado, descárgalo en PDF o visualízalo en pantalla
 
 {/* IMAGE: public/images/aml/report-generated.png - Generated executive summary report showing charts, KPI tables, and narrative sections */}
 
-## Report Lifecycle
+## Ciclo de Vida del Reporte
 
-Reports follow a simple two-state lifecycle:
+Los reportes siguen un ciclo de vida simple de dos estados:
 
-| Status      | Description                                 |
-| ----------- | ------------------------------------------- |
-| `DRAFT`     | Report created but not yet compiled         |
-| `GENERATED` | Report compiled and ready for download/view |
+| Estado      | Descripción                                           |
+| ----------- | ----------------------------------------------------- |
+| `DRAFT`     | Reporte creado pero aún no compilado                  |
+| `GENERATED` | Reporte compilado y listo para descarga/visualización |
 
 <Callout type="info">
-	Reports are **point-in-time snapshots**. If you update client data or record
-	new operations after generating a report, the report will not update
-	automatically. Generate a new report to reflect the latest data.
+	Los reportes son **instantáneas en el tiempo**. Si actualizas datos de
+	clientes o registras nuevas operaciones después de generar un reporte, el
+	reporte no se actualizará automáticamente. Genera un nuevo reporte para
+	reflejar los datos más recientes.
 </Callout>
 
-## Aggregate Metrics (API)
+## Métricas Agregadas (API)
 
-For dashboard integrations, Janovix provides pre-computed aggregate endpoints:
+Para integraciones de tableros, Janovix proporciona endpoints de agregados precomputados:
 
-- **Executive Summary** (`GET /reports/aggregate/summary`) — KPI totals for a period
-- **Alert Metrics** (`GET /reports/aggregate/alerts`) — Alert statistics for a period
+- **Resumen Ejecutivo** (`GET /reports/aggregate/summary`) — Totales de KPIs para un período
+- **Métricas de Alertas** (`GET /reports/aggregate/alerts`) — Estadísticas de alertas para un período
 
-See the [API Integration Guide](/api/reports) for details.
+Consulta la [Guía de Integración API](/es/api/reports) para más detalles.
 
-## Using Reports for Audits
+## Uso de Reportes en Auditorías
 
-When the SHCP conducts a verification visit (_visita de verificación_), you will need to demonstrate:
+Cuando la SHCP realiza una visita de verificación (_visita de verificación_), deberás demostrar:
 
-- Complete client identification records (KYC)
-- Evidence of operations recorded and notices filed
-- Alert detection and resolution history
-- Record retention policy compliance
+- Registros completos de identificación de clientes (KYC)
+- Evidencia de operaciones registradas y avisos presentados
+- Historial de detección y resolución de alertas
+- Cumplimiento de la política de conservación de documentos
 
-Generate a `COMPLIANCE_STATUS` report covering the audit period to have a structured summary ready.
+Genera un reporte `COMPLIANCE_STATUS` que cubra el período de auditoría para tener un resumen estructurado listo.

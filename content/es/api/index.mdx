@@ -1,69 +1,69 @@
----
-title: API Integration Guide
-description: REST API reference and multi-language integration examples for the Janovix platform
+﻿---
+title: Guía de Integración API
+description: Referencia de la API REST y ejemplos de integración en múltiples lenguajes para la plataforma Janovix
 ---
 
 import { Callout, Cards } from "nextra/components";
 
 {/* IMAGE: public/images/api/api-architecture.png - Diagram showing api.janovix.com as the gateway, auth-svc validating the API key and issuing an ephemeral JWT, then aml-svc serving the response */}
 
-# API Integration Guide
+# Guía de Integración API
 
-The Janovix Public API gives you programmatic access to every AML compliance feature — clients, operations, alerts, watchlist screening, notices, and more. Use it to integrate Janovix into your ERP, CRM, notary management system, or custom workflow.
+La API Pública de Janovix te brinda acceso programático a todas las funciones de cumplimiento AML — clientes, operaciones, alertas, verificación en listas de vigilancia, avisos y más. Úsala para integrar Janovix en tu ERP, CRM, sistema de gestión notarial o flujo de trabajo personalizado.
 
-## Base URL
+## URL Base
 
 ```
 https://api.janovix.com/api/v1
 ```
 
-All endpoints use HTTPS. The gateway validates your API key, exchanges it for an ephemeral JWT internally, and proxies the request to the AML service — the JWT exchange is invisible to your code.
+Todos los endpoints utilizan HTTPS. El gateway valida tu llave de API, la intercambia por un JWT efímero de forma interna, y reenvía la solicitud al servicio AML — el intercambio de JWT es invisible para tu código.
 
-## API Architecture
+## Arquitectura de la API
 
 ```
-Your Server
+Tu Servidor
   │
   │  Authorization: Bearer sk_live_...
   ▼
-api.janovix.com  (Cloudflare Worker — API gateway)
+api.janovix.com  (Cloudflare Worker — gateway API)
   │
-  ├─ Validates API key → auth-svc (~5-15ms)
-  ├─ Receives ephemeral JWT (30-60s expiry, automatic)
+  ├─ Valida llave de API → auth-svc (~5-15ms)
+  ├─ Recibe JWT efímero (expiración 30-60s, automático)
   │
   ▼
-aml-svc  (internal, via Cloudflare service binding — ~0ms)
+aml-svc  (interno, vía Cloudflare service binding — ~0ms)
   │
-  └─ Returns your data
+  └─ Devuelve tus datos
 ```
 
 <Callout type="info">
-	The ephemeral JWT exchange happens automatically inside the gateway. You never
-	handle JWTs when using API keys — just include your `sk_live_...` key in every
-	request.
+	El intercambio de JWT efímero ocurre automáticamente dentro del gateway. Nunca
+	gestionas JWTs al usar llaves de API — solo incluye tu llave `sk_live_...` en
+	cada solicitud.
 </Callout>
 
-## Interactive API Explorer
+## Explorador Interactivo de API
 
-The interactive Scalar API explorer (auto-generated from OpenAPI) is available at:
+El explorador interactivo Scalar (generado automáticamente desde OpenAPI) está disponible en:
 
 ```
 https://api.janovix.com/docsz
 ```
 
-The full OpenAPI 3.0 schema is at:
+El esquema completo OpenAPI 3.0 se encuentra en:
 
 ```
 https://api.janovix.com/v1/openapi.json
 ```
 
-Import it into Postman, Insomnia, or any OpenAPI-compatible tool with one click.
+Impórtalo en Postman, Insomnia o cualquier herramienta compatible con OpenAPI con un solo clic.
 
-## Response Format
+## Formato de Respuesta
 
-All responses follow a consistent envelope:
+Todas las respuestas siguen un sobre consistente:
 
-### Success (list)
+### Éxito (lista)
 
 ```json
 {
@@ -77,7 +77,7 @@ All responses follow a consistent envelope:
 }
 ```
 
-### Success (single resource)
+### Éxito (recurso individual)
 
 ```json
 {
@@ -96,87 +96,87 @@ All responses follow a consistent envelope:
 }
 ```
 
-## HTTP Status Codes
+## Códigos de Estado HTTP
 
-| Code  | Meaning                                                   |
-| ----- | --------------------------------------------------------- |
-| `200` | Success                                                   |
-| `201` | Created                                                   |
-| `400` | Validation error — check `details` for field-level errors |
-| `401` | Unauthorized — missing or invalid API key                 |
-| `403` | Forbidden — key revoked, expired, or plan not eligible    |
-| `404` | Resource not found                                        |
-| `409` | Conflict — duplicate RFC, idempotency key collision, etc. |
-| `422` | Unprocessable Entity                                      |
-| `429` | Rate limited — check `Retry-After` header                 |
-| `502` | AML service temporarily unreachable — retry               |
-| `503` | Auth service temporarily unreachable — retry              |
+| Código | Significado                                                        |
+| ------ | ------------------------------------------------------------------ |
+| `200`  | Éxito                                                              |
+| `201`  | Creado                                                             |
+| `400`  | Error de validación — revisa `details` para errores por campo      |
+| `401`  | No autorizado — llave de API ausente o inválida                    |
+| `403`  | Prohibido — llave revocada, expirada o plan no elegible            |
+| `404`  | Recurso no encontrado                                              |
+| `409`  | Conflicto — RFC duplicado, colisión de llave de idempotencia, etc. |
+| `422`  | Entidad no procesable                                              |
+| `429`  | Límite de velocidad alcanzado — revisa el encabezado `Retry-After` |
+| `502`  | Servicio AML temporalmente no disponible — reintenta               |
+| `503`  | Servicio de autenticación temporalmente no disponible — reintenta  |
 
-## Rate Limits
+## Límites de Velocidad
 
-Rate limits depend on your subscription plan. When exceeded, the API returns `429 Too Many Requests` with a `Retry-After` header indicating seconds to wait.
+Los límites de velocidad dependen de tu plan de suscripción. Al superarlos, la API devuelve `429 Too Many Requests` con un encabezado `Retry-After` que indica los segundos de espera.
 
-| Plan     | Requests / minute |
-| -------- | ----------------- |
-| Business | 60                |
-| Pro      | 300               |
-| Ultra    | 1,000             |
+| Plan     | Solicitudes / minuto |
+| -------- | -------------------- |
+| Business | 60                   |
+| Pro      | 300                  |
+| Ultra    | 1,000                |
 
-## Pagination
+## Paginación
 
-List endpoints support page-based pagination via query parameters:
+Los endpoints de listado admiten paginación basada en páginas mediante parámetros de consulta:
 
-| Parameter | Default | Description              |
-| --------- | ------- | ------------------------ |
-| `page`    | `1`     | Page number (1-indexed)  |
-| `limit`   | `20`    | Items per page (max 100) |
+| Parámetro | Predeterminado | Descripción                       |
+| --------- | -------------- | --------------------------------- |
+| `page`    | `1`            | Número de página (índice desde 1) |
+| `limit`   | `20`           | Elementos por página (máx. 100)   |
 
-## Explore the API
+## Explorar la API
 
 <Cards>
 	<Cards.Card
-		title="Authentication"
-		href="/api/authentication"
-		description="Get and use an API key."
+		title="Autenticación"
+		href="/es/api/authentication"
+		description="Obtén y usa una llave de API."
 	/>
 	<Cards.Card
-		title="Clients API"
-		href="/api/clients"
-		description="CRUD for physical persons, moral persons, and trusts."
+		title="API de Clientes"
+		href="/es/api/clients"
+		description="CRUD para personas físicas, personas morales y fideicomisos."
 	/>
 	<Cards.Card
-		title="Operations API"
-		href="/api/operations"
-		description="Record vulnerable activity transactions."
+		title="API de Operaciones"
+		href="/es/api/operations"
+		description="Registra transacciones de actividades vulnerables."
 	/>
 	<Cards.Card
-		title="Alerts API"
-		href="/api/alerts"
-		description="Retrieve and manage compliance alerts."
+		title="API de Alertas"
+		href="/es/api/alerts"
+		description="Consulta y gestiona alertas de cumplimiento."
 	/>
 	<Cards.Card
-		title="Watchlist API"
-		href="/api/watchlist"
-		description="Run sanctions and PEP screening searches."
+		title="API de Watchlist"
+		href="/es/api/watchlist"
+		description="Realiza búsquedas de sanciones y verificación PEP."
 	/>
 	<Cards.Card
-		title="Notices API"
-		href="/api/notices"
-		description="Generate and manage SAT notices."
+		title="API de Avisos"
+		href="/es/api/notices"
+		description="Genera y gestiona avisos ante el SAT."
 	/>
 	<Cards.Card
-		title="Reports API"
-		href="/api/reports"
-		description="Create and retrieve compliance reports."
+		title="API de Reportes"
+		href="/es/api/reports"
+		description="Crea y consulta reportes de cumplimiento."
 	/>
 	<Cards.Card
-		title="Catalogs API"
-		href="/api/catalogs"
-		description="Access reference data catalogs."
+		title="API de Catálogos"
+		href="/es/api/catalogs"
+		description="Accede a catálogos de datos de referencia."
 	/>
 	<Cards.Card
 		title="Webhooks"
-		href="/api/webhooks"
-		description="Real-time event notifications (coming soon)."
+		href="/es/api/webhooks"
+		description="Notificaciones de eventos en tiempo real (próximamente)."
 	/>
 </Cards>

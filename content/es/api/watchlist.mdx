@@ -1,29 +1,29 @@
 ---
-title: Watchlist API
-description: Run sanctions and PEP screening searches programmatically
+title: API de Watchlist
+description: Realiza búsquedas de sanciones y verificación PEP de forma programática
 ---
 
 import { Tabs, Callout } from "nextra/components";
 
-# Watchlist API
+# API de Watchlist
 
-**Base URL:** `https://watchlist.janovix.com`
+**URL base:** `https://watchlist.janovix.com`
 
-The Watchlist API is a separate service from the AML API. All requests must include your API key (same key works for both services).
+La API de Watchlist es un servicio independiente de la API AML. Todas las solicitudes deben incluir tu llave de API (la misma llave funciona para ambos servicios).
 
 ## Endpoints
 
-| Method | Path                | Description                                       |
-| ------ | ------------------- | ------------------------------------------------- |
-| `POST` | `/search`           | Hybrid search across all datasets                 |
-| `POST` | `/search/ofac`      | OFAC-only search                                  |
-| `POST` | `/search/unsc`      | UNSC-only search                                  |
-| `POST` | `/search/sat69b`    | SAT 69-B-only search                              |
-| `GET`  | `/queries`          | List past queries                                 |
-| `GET`  | `/queries/:queryId` | Get query with full results                       |
-| `GET`  | `/events`           | SSE stream for async results (PEP, Adverse Media) |
+| Método | Ruta                | Descripción                                                 |
+| ------ | ------------------- | ----------------------------------------------------------- |
+| `POST` | `/search`           | Búsqueda híbrida en todos los conjuntos de datos            |
+| `POST` | `/search/ofac`      | Búsqueda solo en OFAC                                       |
+| `POST` | `/search/unsc`      | Búsqueda solo en UNSC                                       |
+| `POST` | `/search/sat69b`    | Búsqueda solo en SAT 69-B                                   |
+| `GET`  | `/queries`          | Listar consultas anteriores                                 |
+| `GET`  | `/queries/:queryId` | Obtener consulta con resultados completos                   |
+| `GET`  | `/events`           | Flujo SSE para resultados asíncronos (PEP, Medios Adversos) |
 
-## Hybrid Search
+## Búsqueda Híbrida
 
 ```
 POST https://watchlist.janovix.com/search
@@ -52,9 +52,9 @@ interface SearchInput {
 query: string;
 datasets?: ("ofac_sdn" | "unsc" | "sat_69b" | "pep" | "adverse_media")[];
 entityType?: "person" | "organization";
-topK?: number; // default: 5
-threshold?: number; // 0–1, default: 0.6
-birthDate?: string; // YYYY-MM-DD for higher accuracy
+topK?: number; // predeterminado: 5
+threshold?: number; // 0–1, predeterminado: 0.6
+birthDate?: string; // YYYY-MM-DD para mayor precisión
 identifiers?: { type: string; value: string }[];
 }
 
@@ -149,7 +149,7 @@ $results = watchlistSearch("Juan García Martínez", [
 </Tabs.Tab>
 </Tabs>
 
-### Response
+### Respuesta
 
 ```json
 {
@@ -187,12 +187,12 @@ $results = watchlistSearch("Juan García Martínez", [
 ```
 
 <Callout type="info">
-	The `queryId` is returned immediately. PEP and adverse media results arrive
-	asynchronously. Poll `GET /queries/:queryId` or subscribe to the SSE stream at
-	`GET /events` to receive results when ready.
+	El `queryId` se devuelve de inmediato. Los resultados de PEP y medios adversos
+	llegan de forma asíncrona. Consulta `GET /queries/:queryId` o suscríbete al
+	flujo SSE en `GET /events` para recibir los resultados cuando estén listos.
 </Callout>
 
-## Polling for Async Results
+## Consulta de Resultados Asíncronos
 
 ```
 GET https://watchlist.janovix.com/queries/:queryId
@@ -208,9 +208,9 @@ async function pollQuery(queryId: string, maxAttempts = 10) {
     });
     const data = await res.json();
     if (data.status === "complete") return data;
-    await new Promise((r) => setTimeout(r, 3000)); // wait 3s
+    await new Promise((r) => setTimeout(r, 3000)); // esperar 3s
   }
-  throw new Error("Query timed out");
+  throw new Error("La consulta agotó el tiempo de espera");
 }
 ```
 </Tabs.Tab>
@@ -226,7 +226,7 @@ f"{WATCHLIST_URL}/queries/{query_id}"
 if result["status"] == "complete":
 return result
 time.sleep(3)
-raise TimeoutError("Query did not complete in time")
+raise TimeoutError("La consulta no se completó a tiempo")
 
 ```
 </Tabs.Tab>
