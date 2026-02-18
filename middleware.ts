@@ -20,9 +20,11 @@ export function middleware(request: NextRequest) {
 
 	if (!HAS_LOCALE_RE.test(pathname)) {
 		const locale = cookieLocale ?? getPreferredLocale(request);
-		const url = request.nextUrl.clone();
-		url.pathname = `/${locale}${pathname}`;
-		return NextResponse.redirect(url);
+		// Use new URL(request.url) — request.nextUrl.clone() is unreliable in CF Workers
+		// Avoid trailing slash on root to prevent Cloudflare slash-normalization loops
+		const localizedPath =
+			pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
+		return NextResponse.redirect(new URL(localizedPath, request.url));
 	}
 
 	const [, requestLocale] = pathname.split("/", 2);
@@ -35,6 +37,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		"/((?!_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|manifest|_pagefind).*)",
+		"/((?!_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|manifest|_pagefind|pagefind).*)",
 	],
 };

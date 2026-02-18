@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 interface PagefindResult {
 	url: string;
@@ -23,7 +24,28 @@ declare global {
 	}
 }
 
+const SEARCH_STRINGS = {
+	en: {
+		triggerLabel: "Search documentation",
+		triggerShort: "Search docs…",
+		placeholder: "Search documentation…",
+		noResults: "No results for",
+		startTyping: "Start typing to search the documentation…",
+	},
+	es: {
+		triggerLabel: "Buscar documentación",
+		triggerShort: "Buscar docs…",
+		placeholder: "Buscar documentación…",
+		noResults: "No hay resultados para",
+		startTyping: "Escribe para buscar en la documentación…",
+	},
+} as const;
+
 export function Search() {
+	const pathname = usePathname();
+	const locale = pathname?.startsWith("/es") ? "es" : "en";
+	const t = useMemo(() => SEARCH_STRINGS[locale], [locale]);
+
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState("");
 	const [results, setResults] = useState<PagefindResult[]>([]);
@@ -122,10 +144,10 @@ export function Search() {
 			<button
 				onClick={() => setOpen(true)}
 				className="flex items-center gap-2 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-500 shadow-sm transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
-				aria-label="Search documentation"
+				aria-label={t.triggerLabel}
 			>
 				<SearchIcon className="h-3.5 w-3.5" />
-				<span className="hidden sm:inline">Search docs…</span>
+				<span className="hidden sm:inline">{t.triggerShort}</span>
 				<kbd className="ml-1 hidden rounded border border-neutral-200 px-1 py-0.5 font-mono text-xs text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:inline">
 					⌘K
 				</kbd>
@@ -147,12 +169,12 @@ export function Search() {
 					>
 						{/* Search input */}
 						<div className="flex items-center gap-3 border-b border-neutral-200 px-4 py-3 dark:border-neutral-700">
-							<SearchIcon className="h-4 w-4 flex-shrink-0 text-neutral-400" />
+							<SearchIcon className="h-4 w-4 shrink-0 text-neutral-400" />
 							<input
 								ref={inputRef}
 								value={query}
 								onChange={(e) => setQuery(e.target.value)}
-								placeholder="Search documentation…"
+								placeholder={t.placeholder}
 								className="flex-1 bg-transparent text-sm text-neutral-900 placeholder-neutral-400 outline-none dark:text-neutral-100"
 							/>
 							{loading && (
@@ -190,11 +212,11 @@ export function Search() {
 								</ul>
 							) : query.trim() ? (
 								<p className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
-									No results for <strong>&ldquo;{query}&rdquo;</strong>
+									{t.noResults} <strong>&ldquo;{query}&rdquo;</strong>
 								</p>
 							) : (
 								<p className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
-									Start typing to search the documentation…
+									{t.startTyping}
 								</p>
 							)}
 						</div>
