@@ -130,11 +130,11 @@
 
 	/* Janovix Logo — light theme */
 	--logo-icon-bg: #e9edf9;
-	--logo-icon-p1: #cbd5e1;
-	--logo-icon-p2: #1e2938;
-	--logo-icon-p3: #7a22ce;
-	--logo-text-c1: #1e2938;
-	--logo-text-c2: #7a22ce;
+	--logo-icon-shadow: #cbd5e1;
+	--logo-icon-text: #1e2938;
+	--logo-icon-accent: #7a22ce;
+	--logo-text-primary: #1e2938;
+	--logo-text-accent: #7a22ce;
 }
 
 .dark {
@@ -192,11 +192,11 @@
 
 	/* Janovix Logo — dark theme */
 	--logo-icon-bg: #1e2938;
-	--logo-icon-p1: #0f1728;
-	--logo-icon-p2: #ffffff;
-	--logo-icon-p3: #dab4fe;
-	--logo-text-c1: #ffffff;
-	--logo-text-c2: #dab4fe;
+	--logo-icon-shadow: #0f1728;
+	--logo-icon-text: #ffffff;
+	--logo-icon-accent: #dab4fe;
+	--logo-text-primary: #ffffff;
+	--logo-text-accent: #dab4fe;
 }
 
 @layer base {
@@ -209,9 +209,6 @@
 		font-feature-settings:
 			"rlig" 1,
 			"calt" 1;
-		display: flex;
-		flex-direction: column;
-		min-height: 100dvh;
 	}
 }
 
@@ -222,12 +219,12 @@ body {
 	max-width: 100vw;
 }
 
-/* Contain main content: allow horizontal scroll inside article so wide tables don't break viewport */
+/* Prevent article from overflowing its flex container; actual horizontal scroll is
+   handled per-element (tables, code blocks) below — not at the article level, which
+   would create an independent vertical scroll container and cause double-scrolling. */
 main article,
 article.nextra-body-typesetting-article {
 	min-width: 0;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
 }
 
 /* Tables: horizontally scrollable on narrow viewports instead of squeezing columns */
@@ -247,11 +244,6 @@ article table {
 }
 .x\:max-w-\(--nextra-content-width\) {
 	max-width: none !important;
-}
-
-/* Ensure content wrapper takes available space between navbar and footer */
-div:has(> .nextra-sidebar) {
-	flex: 1 0 auto;
 }
 
 /* Let flex children (sidebar + content) shrink so content can be contained on mobile */
