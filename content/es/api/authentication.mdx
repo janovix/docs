@@ -82,6 +82,7 @@ return res.json() as Promise<T>;
 const { data } = await janovixFetch<{ data: unknown[] }>("/clients");
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```python
@@ -139,6 +140,7 @@ end
 clients = janovix_request("GET", "/clients")["data"]
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```php
@@ -176,19 +178,19 @@ $clients = janovix_request('GET', '/clients')['data'];
 
 ## Errores de Autenticación
 
-| Código HTTP | Error                                                 | Causa                                             |
-| ----------- | ----------------------------------------------------- | ------------------------------------------------- |
-| `401`       | `Missing API key.`                                    | No hay encabezado `Authorization` o token Bearer  |
-| `401`       | `Invalid API key.`                                    | Llave no encontrada en el sistema                 |
-| `401`       | `Invalid API key format.`                             | Cadena de llave con formato incorrecto            |
-| `403`       | `This API key has been revoked.`                      | La llave fue revocada en Configuración            |
-| `403`       | `This API key has expired.`                           | La llave superó su fecha de expiración            |
-| `403`       | `Your subscription plan does not include API access.` | El plan debe ser Pro o Ultra para acceso a la API |
-| `503`       | `Authentication service unavailable.`                 | Transitorio — reintenta con retroceso exponencial |
+| Código HTTP | Error                                                 | Causa                                                   |
+| ----------- | ----------------------------------------------------- | ------------------------------------------------------- |
+| `401`       | `Missing API key.`                                    | No hay encabezado `Authorization` o token Bearer        |
+| `401`       | `Invalid API key.`                                    | Llave no encontrada en el sistema                       |
+| `401`       | `Invalid API key format.`                             | Cadena de llave con formato incorrecto                  |
+| `403`       | `This API key has been revoked.`                      | La llave fue revocada en Configuración                  |
+| `403`       | `This API key has expired.`                           | La llave superó su fecha de expiración                  |
+| `403`       | `Your subscription plan does not include API access.` | Plan **Pro** u **Ultra** (no Business / solo Watchlist) |
+| `503`       | `Authentication service unavailable.`                 | Transitorio — reintenta con retroceso exponencial       |
 
-## Requisitos de Plan
+## Requisitos de plan
 
-El acceso a la API requiere una suscripción **Pro** o **Ultra**. Las organizaciones con plan Business recibirán un `403` al intentar usar la API. Actualiza tu plan en [Configuración → Facturación](/es/settings/billing).
+La **API pública** (`api.janovix.com`) está disponible en **Pro** y **Ultra**. Los planes **Business** y **solo Watchlist** reciben `403` en las rutas del gateway aunque la llave sea válida. Actualiza en [Configuración → Facturación](/es/settings/billing) cuando el contrato lo permita.
 
 ## Mejores Prácticas
 

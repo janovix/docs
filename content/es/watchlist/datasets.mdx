@@ -92,7 +92,7 @@ El SAT publica la lista 69-B en su sitio web. Janovix sincroniza **semanalmente*
 
 ## PEP (Personas Expuestas Políticamente)
 
-**Fuente:** Base de datos con inteligencia artificial + fuentes públicas
+**Fuentes:** Lista PEP curada / estilo oficial **más** enriquecimiento opcional **asistido por IA (Grok)**  
 **Cobertura:** México e internacional
 
 La reforma de la LFPIORPI 2025 añadió explícitamente a los PEP como término definido (Art. 3, Fracción IX Bis) que requiere una debida diligencia reforzada.
@@ -108,17 +108,24 @@ Un **PEP** es una persona física que desempeña o ha desempeñado una función 
 
 La condición de PEP también se extiende a familiares cercanos y personas asociadas conocidas.
 
-### Cómo Funciona la Verificación de PEP
+### Presentación dual de PEP
 
-Las búsquedas de PEP se ejecutan en un contenedor con agente IA que:
+En la interfaz de Watchlist, los PEP suelen dividirse en:
 
-1. Recibe el nombre de la consulta
-2. Busca en múltiples fuentes públicas en tiempo real
-3. Devuelve resultados estructurados con puntajes de confianza
+1. Coincidencias de **lista oficial / estructurada** con puntuación clásica
+2. Subsección **IA (Grok)** con mapeo **probabilidad → banda de riesgo** para revisión del oficial
 
-**Latencia:** 10–60 segundos (asíncrono). Los resultados se entregan mediante SSE.
+**Banderas:** `pepSearch`, `pepGrok`, etc. pueden ocultar PEP por completo o solo la pata de IA.
 
-**Caché:** Los resultados se almacenan en caché durante 24 horas por consulta única para reducir la latencia en búsquedas repetidas.
+### Cómo opera el motor (resumen)
+
+1. Recibe nombre (+ fechas / países opcionales)
+2. Puntúa coincidencias de lista con el pipeline híbrido (nombre + vector)
+3. La pata IA opcional corre en **contenedor** y vuelve de forma asíncrona
+
+**Latencia:** del orden de **10–60 s** para la parte asíncrona; el progreso se ve por **SSE** en el detalle de la consulta.
+
+**Caché:** ~**24 h** por consulta normalizada para reducir costo y latencia en repeticiones.
 
 ## Medios Adversos
 
@@ -133,14 +140,15 @@ La verificación de medios adversos busca en la web y en archivos de noticias ar
 - Corrupción o soborno
 - Fraude o malversación de fondos
 
-### Cómo Funciona la Verificación de Medios Adversos
+### Cómo funciona la verificación de medios adversos
 
-1. Un contenedor de IA recibe la consulta
+1. Un contenedor de IA recibe la consulta (+ contexto como países)
 2. Busca en archivos de noticias y fuentes web
-3. Analiza el sentimiento y la relevancia de los artículos
-4. Devuelve un informe estructurado con los hallazgos relevantes
+3. Analiza relevancia y devuelve hallazgos con **`risk_level`**: **none**, **low**, **medium** u **high**
 
-**Latencia:** 10–60 segundos (asíncrono).
+**Latencia:** 10–60 segundos (asíncrono), mismo patrón SSE que PEP.
+
+**Bandera:** `adverseMedia` puede desactivar todo el bloque para la organización.
 
 <Callout type="info">
 	La verificación de medios adversos es **informativa** — un hallazgo no

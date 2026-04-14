@@ -116,11 +116,14 @@ All responses follow a consistent envelope:
 
 Rate limits depend on your subscription plan. When exceeded, the API returns `429 Too Many Requests` with a `Retry-After` header indicating seconds to wait.
 
-| Plan     | Requests / minute |
-| -------- | ----------------- |
-| Business | 60                |
-| Pro      | 300               |
-| Ultra    | 1,000             |
+| Plan      | Public API access | Requests / minute (when eligible) |
+| --------- | ----------------- | --------------------------------- |
+| Watchlist | No                | —                                 |
+| Business  | No                | —                                 |
+| Pro       | Yes               | 300                               |
+| Ultra     | Yes               | 1,000                             |
+
+Organizations without API access receive `403` on `api.janovix.com` routes regardless of the table above. See [Authentication](/en/api/authentication).
 
 ## Pagination
 
@@ -168,6 +171,11 @@ List endpoints support page-based pagination via query parameters:
 		title="Reports API"
 		href="/en/api/reports"
 		description="Create and retrieve compliance reports."
+	/>
+	<Cards.Card
+		title="Risk API"
+		href="/en/api/risk"
+		description="Client and organization risk assessments and methodology."
 	/>
 	<Cards.Card
 		title="Catalogs API"

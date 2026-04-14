@@ -1,11 +1,13 @@
 {
 	"index": "Overview",
 	"dashboard": "Dashboard",
+	"activity": "Activity Feed",
 	"clients": "Clients & KYC",
 	"operations": "Operations",
 	"alerts": "Alerts",
 	"notices": "SAT Notices",
 	"reports": "Reports",
+	"risk": "Risk Management",
 	"invoices": "Invoices (CFDI)",
 	"import": "Bulk Import",
 	"kyc": "KYC Self-Service"

@@ -116,11 +116,14 @@ Todas las respuestas siguen un sobre consistente:
 
 Los límites de velocidad dependen de tu plan de suscripción. Al superarlos, la API devuelve `429 Too Many Requests` con un encabezado `Retry-After` que indica los segundos de espera.
 
-| Plan     | Solicitudes / minuto |
-| -------- | -------------------- |
-| Business | 60                   |
-| Pro      | 300                  |
-| Ultra    | 1,000                |
+| Plan      | Acceso API pública | Solicitudes / minuto (si aplica) |
+| --------- | ------------------ | -------------------------------- |
+| Watchlist | No                 | —                                |
+| Business  | No                 | —                                |
+| Pro       | Sí                 | 300                              |
+| Ultra     | Sí                 | 1,000                            |
+
+Las organizaciones sin acceso a la API reciben `403` en las rutas de `api.janovix.com`. Ver [Autenticación](/es/api/authentication).
 
 ## Paginación
 
@@ -168,6 +171,11 @@ Los endpoints de listado admiten paginación basada en páginas mediante paráme
 		title="API de Reportes"
 		href="/es/api/reports"
 		description="Crea y consulta reportes de cumplimiento."
+	/>
+	<Cards.Card
+		title="API de riesgo"
+		href="/es/api/risk"
+		description="Evaluaciones de riesgo de cliente y organización y metodología."
 	/>
 	<Cards.Card
 		title="API de Catálogos"

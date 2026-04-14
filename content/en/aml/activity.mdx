@@ -1,0 +1,46 @@
+---
+title: Activity Feed
+description: Organization-scoped notification feed with severity, unread state, and deep links
+---
+
+import { Callout } from "nextra/components";
+
+# Activity Feed
+
+The **Activity** page (`/{orgSlug}/activity`) is a dedicated notification center for your active organization. It complements in-context toasts and the notifications control in the top bar by giving you a **scrollable history** you can return to at any time.
+
+{/* IMAGE: public/images/aml/activity-feed.png - Activity page grouped by day with severity styling and unread dots */}
+
+## What Appears Here
+
+Events are loaded from the **notifications service** for the organization you have selected. Typical entries include:
+
+- Compliance and product events routed with a **title**, **body**, optional **severity**, and **callback URL**
+- Items that open the relevant AML screen when you click them (for example a client, alert, or import job)
+
+## Layout and Behavior
+
+- **Grouped by day** — e.g. “Today”, “Yesterday”, then full dates for older days
+- **Severity styling** — visual distinction for informational, warning, and error-level items
+- **Unread indicator** — items you have not yet opened from the feed may show an unread marker until you interact with them
+- **Click to navigate** — choosing an item follows its `callbackUrl` inside the AML app (same behavior as clicking a notification elsewhere)
+
+## Infinite Scroll
+
+The feed loads more items as you scroll toward the bottom (**infinite scroll** with a cursor). When there are no more events, you reach the end of the list.
+
+## Empty and Loading States
+
+- While the first page is loading, the page shows a loading state
+- If there are **no notifications** for the period, you see an empty state instead of a blank list
+
+<Callout type="info">
+	Activity is **per organization**. Switch organizations from the header
+	switcher to see a different feed. The **Dashboard** may still show high-level
+	KPIs; use **Activity** when you want the chronological event stream.
+</Callout>
+
+## Related
+
+- **Dashboard** — numeric KPIs and charts at `/{orgSlug}` (the org home; the legacy `/dashboard` URL redirects here)
+- **Notifications** widget in the navbar — quick peek without leaving your current page

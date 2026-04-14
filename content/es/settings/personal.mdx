@@ -21,12 +21,13 @@ La configuración personal se aplica a tu cuenta de usuario en **todas las organ
 
 ## Preferencias
 
-| Configuración       | Opciones                                                    | Predeterminado |
-| ------------------- | ----------------------------------------------------------- | -------------- |
-| **Tema**            | Claro / Oscuro / Sistema                                    | Sistema        |
-| **Idioma**          | English / Español / Português                               | English        |
-| **Zona Horaria**    | Cualquier zona horaria IANA (p. ej., `America/Mexico_City`) | `UTC`          |
-| **Formato de Hora** | 12 horas / 24 horas                                         | 12 horas       |
+| Configuración        | Opciones                                                    | Predeterminado |
+| -------------------- | ----------------------------------------------------------- | -------------- |
+| **Tema**             | Claro / Oscuro / Sistema                                    | Sistema        |
+| **Idioma**           | English / Español / Português                               | English        |
+| **Zona Horaria**     | Cualquier zona horaria IANA (p. ej., `America/Mexico_City`) | `UTC`          |
+| **Formato de Hora**  | 12 horas / 24 horas                                         | 12 horas       |
+| **Formato de fecha** | Patrones según configuración regional                       | Predeterminado |
 
 <Callout type="info">
 	La **Zona Horaria** afecta cómo se muestran las fechas y horas en toda la
@@ -34,9 +35,26 @@ La configuración personal se aplica a tu cuenta de usuario en **todas las organ
 	avisos. Configúrala con tu zona horaria local para evitar confusiones.
 </Callout>
 
-## Estado de la Barra Lateral
+## Notificaciones
 
-Janovix recuerda si prefieres la barra lateral **expandida** o **contraída**. Esta preferencia se guarda por usuario y se aplica entre sesiones.
+Configura el **sonido** de notificaciones en la aplicación:
+
+- Activar o desactivar el sonido
+- Elegir un **tipo de sonido** y usar **Vista previa** antes de guardar
+
+## Passkeys (WebAuthn)
+
+Para un inicio de sesión más fuerte sin SMS, añade **passkeys** (clave de plataforma o de seguridad):
+
+- **Añadir** desde un navegador compatible (Face ID, Touch ID, Windows Hello, llave física)
+- **Renombrar** para recordar el dispositivo
+- **Eliminar** si pierdes un equipo
+
+Son opcionales pero recomendables tras el OTP por correo.
+
+## Interfaz
+
+Janovix recuerda si prefieres la barra lateral **expandida** o **contraída**. La preferencia se **persiste en el servidor con debounce** para conservarse entre dispositivos y sesiones.
 
 ## Seguridad
 

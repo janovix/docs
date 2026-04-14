@@ -31,9 +31,9 @@ Janovix ofrece cuatro niveles de suscripción:
 	través del flujo de suscripción.
 </Callout>
 
-## Medidores de Uso
+## Medidores de uso y límites
 
-La página de facturación muestra tu uso actual respecto a los límites de tu plan:
+La página de facturación muestra tu uso frente a los límites del plan en una sección de **límites de uso**. Los medidores suelen incluir:
 
 | Medidor                       | Descripción                                            |
 | ----------------------------- | ------------------------------------------------------ |
@@ -47,15 +47,25 @@ La página de facturación muestra tu uso actual respecto a los límites de tu p
 
 Cuando te acerques a un límite, Janovix mostrará una advertencia. Cuando alcances el límite, la acción correspondiente quedará bloqueada hasta que actualices el plan o se reinicie el período de facturación.
 
-## Gestionar tu Suscripción
+<Callout type="info">
+	La **facturación con Stripe** puede desactivarse por despliegue (bandera de
+	función). Si no ves la UI de facturación, contacta al administrador: las altas
+	en self-serve pueden no estar disponibles.
+</Callout>
 
-### Actualizar el Plan
+## Gestionar tu suscripción
 
-Haz clic en **Actualizar Plan** para ver los planes disponibles y sus precios. Las actualizaciones tienen efecto inmediato (facturación prorrateada).
+### Cuadrícula de planes
 
-### Degradar el Plan
+La experiencia combina una **cuadrícula de selección de planes** con tarjetas de producto (**solo Watchlist**, **Enterprise**, etc.) para ver qué apps (AML vs Watchlist) desbloquea cada nivel.
 
-Haz clic en **Cambiar Plan** y selecciona un nivel inferior. Los cambios a un plan inferior tienen efecto al **final del período de facturación actual**. Asegúrate de que tu uso esté dentro de los límites del nuevo plan antes de que finalice el período.
+### Actualizar el plan
+
+Haz clic en **Actualizar Plan** para ver precios. Las subidas suelen aplicar al instante (prorrateo).
+
+### Degradar el plan
+
+Haz clic en **Cambiar Plan** y elige un nivel inferior. Antes de aplicar el cambio, Janovix puede ejecutar un **asistente de preparación a downgrade** que revisa asientos, uso y funciones incompatibles. La baja suele ser efectiva al **final del período de facturación** — confirma la fecha en la interfaz.
 
 ### Cancelar
 

@@ -1,0 +1,100 @@
+---
+title: Gestión de Riesgos
+description: Evaluación de riesgo de la organización (EBR), evaluaciones por cliente, metodología y paneles
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Gestión de Riesgos
+
+El área de **Riesgo** en la aplicación AML respalda la **evaluación basada en riesgo (EBR)** alineada con el art. 18-VII de la LFPIORPI. Combina evaluación a nivel organización, metodología configurable, puntuación de riesgo por cliente e historial de evaluaciones.
+
+{/* IMAGE: public/images/aml/risk-dashboard.png - Panel de riesgo con clientes evaluados, conteo alto riesgo, medidores de evaluación org y gráfico de distribución */}
+
+## Dónde encontrarlo
+
+En la barra lateral, abre **Cumplimiento → Modelos de riesgo** (o navega a `/{orgSlug}/risk`).
+
+Subrutas:
+
+| Ruta                               | Propósito                                                              |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| `/{orgSlug}/risk`                  | Panel de riesgo — KPIs, resumen EBR org, distribución, accesos rápidos |
+| `/{orgSlug}/risk/assessment`       | EBR organizacional completa y evolución                                |
+| `/{orgSlug}/risk/methodology`      | Ver y editar metodología de riesgo efectiva (ámbitos)                  |
+| `/{orgSlug}/risk/evaluations`      | Tabla de evaluaciones de riesgo de clientes con filtros                |
+| `/{orgSlug}/risk/evaluations/[id]` | Detalle de una evaluación                                              |
+
+## Panel de riesgo
+
+El hub resume:
+
+- **Clientes evaluados** — cuántos clientes tienen evaluación de riesgo en alcance
+- **Alto riesgo** — clientes clasificados actualmente como alto riesgo
+- **Pendientes de revisión** — evaluaciones próximas a la siguiente fecha de revisión
+- **Evaluación de la organización** — instantánea de la EBR activa: riesgo inherente y residual, tipo de auditoría sugerido, versión y enlace a la página completa
+- **Distribución de riesgo de clientes** — gráfico de conteos por nivel de riesgo
+- **Acciones rápidas** — ir a **Evaluaciones** o **Metodología**
+
+<Callout type="info">
+	Los trabajos de riesgo (evaluación masiva de clientes, evaluación
+	organizacional) se procesan de forma asíncrona cuando la cola de evaluación
+	está disponible. La interfaz se actualiza cuando hay resultados nuevos; puede
+	haber un breve retraso tras lanzar una corrida.
+</Callout>
+
+## Evaluación de la organización (EBR)
+
+<Steps>
+### Abrir la página de evaluación
+
+Ve a **Modelos de riesgo → Evaluación de la organización** (`/risk/assessment`).
+
+### Revisar la última EBR
+
+La página muestra la evaluación activa con elementos de riesgo, mitigantes y puntuaciones. Puedes comparar riesgo **inherente** vs **residual** y ver el **tipo de auditoría** sugerido por el modelo.
+
+### Evolución en el tiempo
+
+Usa la vista de evolución para ver cómo cambiaron versiones y puntuaciones entre corridas.
+
+### Disparar una nueva corrida
+
+Cuando esté permitido, usa la acción para **ejecutar** o **actualizar** la evaluación organizacional. El backend encola un trabajo de EBR; al completarse, se actualizan el panel y esta página.
+
+</Steps>
+
+{/* IMAGE: public/images/aml/risk-org-assessment.png - Página de evaluación organizacional con medidores, desglose de elementos y sección de evolución */}
+
+## Metodología de riesgo
+
+La pantalla de **Metodología** (`/risk/methodology`) muestra la metodología **efectiva** de tu organización, incluido su **ámbito**:
+
+- **SYSTEM** — valor por defecto de la plataforma
+- **ACTIVITY** — ligada a la clave de actividad vulnerable de tu organización
+- **ORGANIZATION** — personalización guardada para tu org
+
+Puedes **editar** categorías, umbrales y mitigantes (si tu rol lo permite), **guardar** cambios o **restaurar valores por defecto** para eliminar la personalización y volver a los valores de actividad/sistema.
+
+<Callout type="warning">
+	Restablecer la metodología afecta solo las evaluaciones **futuras**. Los
+	registros históricos se conservan para auditoría.
+</Callout>
+
+## Evaluaciones de clientes
+
+La lista de **Evaluaciones** muestra cada evaluación de riesgo de cliente: nombre, RFC, nivel de riesgo, nivel de debida diligencia, puntuaciones, motivo del disparador (p. ej. manual vs automático) y fecha.
+
+- Filtra por **nivel de riesgo**, **motivo del disparador** o busca por nombre / RFC del cliente
+- Abre una fila para ver el **detalle** con desglose de factores (cliente, geográficos, actividad, transacción, mitigantes)
+
+Desde el perfil de un **cliente** también puedes abrir el contexto de riesgo donde la interfaz muestra evaluaciones y sesiones junto con KYC y listas.
+
+## Relación con otros módulos
+
+| Módulo                     | Cómo se conecta                                                                 |
+| -------------------------- | ------------------------------------------------------------------------------- |
+| **Clientes**               | Nivel de riesgo por cliente, evaluaciones en el detalle del cliente             |
+| **Alertas**                | Actividad de alto riesgo puede impulsar flujos de alerta y revisión             |
+| **Ajustes → Cumplimiento** | La clave de actividad influye en la metodología resuelta                        |
+| **API**                    | Acceso programático bajo `/api/v1/risk/...` — ver [API de riesgo](/es/api/risk) |

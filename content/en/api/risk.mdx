@@ -1,0 +1,90 @@
+---
+title: Risk API
+description: Client and organization risk assessments, methodology, evaluations, and exports
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# Risk API
+
+**Base path:** `/api/v1/risk`
+
+All routes require a valid API key (via `api.janovix.com`) or session JWT and an **active organization** context, consistent with other AML API modules.
+
+<Callout type="info">
+	`POST` routes that queue work return **202 Accepted** with `{ "status": "queued", ... }` when the risk assessment queue is configured. If the queue is unavailable in a given environment, some routes may fall back to synchronous processing (**200**) — see OpenAPI for the exact contract.
+</Callout>
+
+## Endpoints
+
+| Method | Path                             | Description                                                       |
+| ------ | -------------------------------- | ----------------------------------------------------------------- |
+| `POST` | `/risk/:clientId/assessment`     | Queue or run a client risk assessment                             |
+| `GET`  | `/risk/:clientId/assessment`     | Latest assessment for a client                                    |
+| `GET`  | `/risk/:clientId/history`        | Assessment history for a client                                   |
+| `POST` | `/risk/batch-assess`             | Queue batch reassessment for the organization                     |
+| `GET`  | `/risk/dashboard`                | Dashboard aggregates (distribution, pending review, org snapshot) |
+| `POST` | `/risk/org-assessment`           | Queue organization EBR assessment                                 |
+| `GET`  | `/risk/org-assessment`           | Active org assessment with elements and mitigants                 |
+| `GET`  | `/risk/org-assessment/history`   | Historical org assessments                                        |
+| `GET`  | `/risk/org-assessment/evolution` | Version evolution for charts                                      |
+| `GET`  | `/risk/authority-report`         | Authority-oriented bundle (GAFI R.1 style reporting)              |
+| `GET`  | `/risk/export`                   | Export org + client assessments JSON                              |
+| `GET`  | `/risk/methodology`              | Effective methodology (resolved scope)                            |
+| `PUT`  | `/risk/methodology`              | Save organization methodology override                            |
+| `POST` | `/risk/methodology/reset`        | Reset org methodology to defaults                                 |
+| `GET`  | `/risk/evaluations`              | Paginated list of client risk evaluations                         |
+| `GET`  | `/risk/evaluations/:id`          | Single evaluation with parsed factor JSON                         |
+
+## List evaluations
+
+```
+GET /api/v1/risk/evaluations?page=1&limit=20&riskLevel=HIGH&triggerReason=manual_trigger&search=Garcia&sort=assessedAt&direction=desc
+```
+
+Query parameters include `page`, `limit` (max 100), `search`, `riskLevel`, `triggerReason`, `clientId`, `sort`, `direction`. The response includes `data`, `pagination`, and `filterMeta` (counts per risk level and trigger reason).
+
+<Tabs items={['cURL', 'TypeScript']}>
+<Tabs.Tab>
+```bash
+curl "https://api.janovix.com/api/v1/risk/evaluations?page=1&limit=20" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const { data, pagination, filterMeta } = await janovixFetch<{
+  data: RiskEvaluationRow[];
+  pagination: { page: number; limit: number; total: number; totalPages: number };
+  filterMeta: unknown;
+}>("/risk/evaluations?page=1&limit=20");
+```
+</Tabs.Tab>
+</Tabs>
+
+## Trigger client assessment
+
+```
+POST /api/v1/risk/{clientId}/assessment
+```
+
+Returns **202** with `{ "status": "queued", "clientId" }` when queued, or **200** with the assessment payload when run synchronously (e.g. local dev without queue).
+
+## Trigger organization assessment
+
+```
+POST /api/v1/risk/org-assessment
+```
+
+Queues an organization EBR job for the active organization (**202** when the queue is available).
+
+## Methodology
+
+- `GET /risk/methodology` — resolved methodology for the org’s activity key
+- `PUT /risk/methodology` — body includes optional `name`, `description`, `categories`, `thresholds`, `mitigants`
+- `POST /risk/methodology/reset` — removes org override and returns the new effective methodology
+
+## Further reading
+
+- [Risk Management (AML UI)](/en/aml/risk)
+- Interactive schema: `https://api.janovix.com/docsz`

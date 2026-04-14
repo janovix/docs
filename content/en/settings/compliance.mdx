@@ -9,6 +9,12 @@ import { Callout } from "nextra/components";
 
 The **AML Compliance** section is where you configure your organization's regulatory identity — the information that drives threshold calculations, SAT notice generation, and KYC self-service behavior.
 
+<Callout type="info">
+	This page appears in the settings sidebar only when your organization has
+	**AML product access**. Watchlist-only organizations use Watchlist and auth
+	settings without this block.
+</Callout>
+
 {/* IMAGE: public/images/settings/settings-compliance.png - Compliance settings page showing obligated subject RFC, activity code selector, self-service mode toggle, expiry hours, and required sections */}
 
 ## Required Configuration
@@ -50,6 +56,8 @@ If your organization carries out **multiple vulnerable activities**, configure t
 | `manual`    | Your compliance officers can create KYC sessions on demand for individual clients.                        |
 | `automatic` | A KYC session is automatically created and the invitation email sent whenever a new client is registered. |
 
+You can also control whether **invitation emails** are sent for self-service sessions (toggle alongside mode), subject to your mail configuration.
+
 ### Session Expiry (Hours)
 
 Sets how many hours a KYC session link remains valid before it expires. The client must complete and submit their KYC within this window.
@@ -78,7 +86,7 @@ Configure which sections of the KYC form clients must complete before they are a
 
 ## UMA Values
 
-The compliance settings page also shows the current active **UMA value** used for threshold calculations. To update or add future UMA values, contact your system administrator (requires API access via `POST /api/v1/uma-values`).
+The compliance settings page also shows the current active **UMA value** used for threshold calculations (updated annually, e.g. **$117.31 MXN/day** for 2026). To add or override annual rows, contact your system administrator (requires API access via `POST /api/v1/uma-values`).
 
 ## Saving Your Settings
 

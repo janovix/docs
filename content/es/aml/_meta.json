@@ -1,11 +1,13 @@
 {
 	"index": "Descripción General",
 	"dashboard": "Panel de Control",
+	"activity": "Feed de actividad",
 	"clients": "Clientes y KYC",
 	"operations": "Operaciones",
 	"alerts": "Alertas",
 	"notices": "Notificaciones SAT",
 	"reports": "Reportes",
+	"risk": "Gestión de riesgos",
 	"invoices": "Facturas (CFDI)",
 	"import": "Importación Masiva",
 	"kyc": "Auto-servicio KYC"

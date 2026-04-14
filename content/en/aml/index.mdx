@@ -19,7 +19,8 @@ The AML app is organized into two groups in the sidebar:
 
 Day-to-day data management:
 
-- **Dashboard** — KPIs, charts, and recent activity at a glance
+- **Dashboard** — KPIs, charts, and key metrics at a glance (organization home at `/{orgSlug}`; `/dashboard` redirects here)
+- **Activity** — Full notification feed for the active organization
 - **Clients** — Register and manage clients (physical persons, legal entities, trusts)
 - **Operations** — Record vulnerable activity transactions
 - **Invoices** — Parse and manage CFDI v4.0 invoices
@@ -31,10 +32,15 @@ Regulatory actions:
 - **Alerts** — Review automatically detected suspicious patterns
 - **SAT Notices** — Generate and submit monthly notices to the SAT
 - **Reports** — Create compliance and executive summary reports
+- **Risk models** — Organization EBR, methodology, and client risk evaluations
 
 ### Data Management
 
 - **Import** — Bulk-import clients and operations via CSV
+
+### Assistant
+
+- **AI chat** — Optional assistant from the top bar / sidebar (usage limits may apply per plan). Use it for questions about your data and workflows inside the AML app.
 
 <Callout type="info">
 	The AML app uses **organization-based routing**. Every URL includes your
@@ -49,7 +55,12 @@ Regulatory actions:
 	<Cards.Card
 		title="Dashboard"
 		href="/en/aml/dashboard"
-		description="Monitor compliance KPIs and recent activity in real time."
+		description="Monitor compliance KPIs and key metrics in real time."
+	/>
+	<Cards.Card
+		title="Activity Feed"
+		href="/en/aml/activity"
+		description="Organization notification history with deep links."
 	/>
 	<Cards.Card
 		title="Clients & KYC"
@@ -75,6 +86,11 @@ Regulatory actions:
 		title="Reports"
 		href="/en/aml/reports"
 		description="Compliance reports, executive summaries, and analytics."
+	/>
+	<Cards.Card
+		title="Risk Management"
+		href="/en/aml/risk"
+		description="EBR, methodology, evaluations, and risk dashboard."
 	/>
 	<Cards.Card
 		title="Invoices (CFDI)"

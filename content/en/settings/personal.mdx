@@ -27,6 +27,7 @@ Personal settings apply to your user account across **all organizations** you be
 | **Language**     | English / Español / Português                   | English |
 | **Timezone**     | Any IANA timezone (e.g., `America/Mexico_City`) | `UTC`   |
 | **Clock Format** | 12-hour / 24-hour                               | 12-hour |
+| **Date format**  | Locale-appropriate patterns                     | Default |
 
 <Callout type="info">
 	**Timezone** affects how dates and times are displayed throughout the
@@ -34,9 +35,28 @@ Personal settings apply to your user account across **all organizations** you be
 	your local timezone to avoid confusion.
 </Callout>
 
-## Sidebar State
+## Notifications
 
-Janovix remembers whether you prefer the sidebar **expanded** or **collapsed**. This is saved per-user and applies across sessions.
+Configure **in-app notification sound**:
+
+- Turn notification sound on or off
+- Choose a **sound preset** and use **Preview** to hear it before saving
+
+These preferences apply to your user session in the Janovix web apps.
+
+## Passkeys (WebAuthn)
+
+For stronger sign-in without SMS, add one or more **passkeys** (platform or security keys):
+
+- **Add** a passkey from a supported browser (Face ID, Touch ID, Windows Hello, or a hardware key)
+- **Rename** passkeys to remember which device they belong to
+- **Remove** a passkey if you lose a device
+
+Passkeys are optional but recommended after email OTP login.
+
+## Interface
+
+Janovix remembers whether you prefer the sidebar **expanded** or **collapsed**. The choice is **debounced and persisted** server-side so it survives new devices and sessions.
 
 ## Security
 

@@ -19,7 +19,8 @@ La aplicación AML está organizada en dos grupos en la barra lateral:
 
 Gestión de datos día a día:
 
-- **Panel de Control** — KPIs, gráficos y actividad reciente de un vistazo
+- **Panel de Control** — KPIs, gráficos y métricas clave de un vistazo (inicio de la org en `/{orgSlug}`; `/dashboard` redirige aquí)
+- **Actividad** — Feed completo de notificaciones de la organización activa
 - **Clientes** — Registrar y gestionar clientes (personas físicas, entidades morales, fideicomisos)
 - **Operaciones** — Registrar transacciones de actividades vulnerables
 - **Facturas** — Analizar y gestionar facturas CFDI v4.0
@@ -31,10 +32,15 @@ Acciones regulatorias:
 - **Alertas** — Revisar patrones sospechosos detectados automáticamente
 - **Avisos SAT** — Generar y enviar avisos mensuales al SAT
 - **Reportes** — Crear reportes de cumplimiento y resúmenes ejecutivos
+- **Modelos de riesgo** — EBR de la organización, metodología y evaluaciones de riesgo de clientes
 
 ### Gestión de Datos
 
 - **Importación** — Importación masiva de clientes y operaciones vía CSV
+
+### Asistente
+
+- **Chat con IA** — Asistente opcional desde la barra superior / barra lateral (pueden aplicarse límites de uso según el plan). Úsalo para preguntas sobre tus datos y flujos dentro de la app AML.
 
 <Callout type="info">
 	La aplicación AML usa **enrutamiento basado en organización**. Cada URL
@@ -49,7 +55,12 @@ Acciones regulatorias:
 	<Cards.Card
 		title="Panel de Control"
 		href="/es/aml/dashboard"
-		description="Monitorea KPIs de cumplimiento y actividad reciente en tiempo real."
+		description="Monitorea KPIs de cumplimiento y métricas clave en tiempo real."
+	/>
+	<Cards.Card
+		title="Feed de actividad"
+		href="/es/aml/activity"
+		description="Historial de notificaciones de la organización con enlaces profundos."
 	/>
 	<Cards.Card
 		title="Clientes y KYC"
@@ -75,6 +86,11 @@ Acciones regulatorias:
 		title="Reportes"
 		href="/es/aml/reports"
 		description="Reportes de cumplimiento, resúmenes ejecutivos y análisis."
+	/>
+	<Cards.Card
+		title="Gestión de riesgos"
+		href="/es/aml/risk"
+		description="EBR, metodología, evaluaciones y panel de riesgo."
 	/>
 	<Cards.Card
 		title="Facturas (CFDI)"

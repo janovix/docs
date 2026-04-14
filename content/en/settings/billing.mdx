@@ -30,9 +30,9 @@ Janovix offers four subscription tiers:
 	direct contract not managed through the subscription flow.
 </Callout>
 
-## Usage Meters
+## Usage meters and limits
 
-The billing page shows your current usage against your plan limits:
+The billing page shows your current usage against your plan limits in a **usage limits** section. Meters typically include:
 
 | Meter                       | Description                                         |
 | --------------------------- | --------------------------------------------------- |
@@ -46,7 +46,17 @@ The billing page shows your current usage against your plan limits:
 
 When you approach a limit, Janovix shows a warning. When you hit a limit, the corresponding action is gated until you upgrade or the billing period resets.
 
-## Managing Your Subscription
+<Callout type="info">
+	**Stripe billing** can be disabled per deployment (feature flag). If billing
+	UI is hidden, contact your administrator — self-serve upgrades may be
+	unavailable.
+</Callout>
+
+## Managing your subscription
+
+### Plan selection grid
+
+The billing experience combines a **plan selection grid** with product-specific cards such as **Watchlist-only** and **Enterprise** so you can see which apps (AML vs Watchlist) each tier unlocks.
 
 ### Upgrading
 
@@ -54,7 +64,7 @@ Click **Upgrade Plan** to see available plans and their pricing. Upgrades take e
 
 ### Downgrading
 
-Click **Change Plan** and select a lower tier. Downgrades take effect at the **end of the current billing period**. Ensure your usage is within the new plan's limits before the period ends.
+Click **Change Plan** and select a lower tier. Before a downgrade is applied, Janovix may run a **downgrade preparation wizard** that checks seats, usage, and incompatible features so you do not lose access unexpectedly. Downgrades typically take effect at the **end of the current billing period** — confirm the effective date in the UI.
 
 ### Cancelling
 

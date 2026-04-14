@@ -41,15 +41,19 @@ Janovix admite:
 	duplicadas.
 </Callout>
 
-## Vincular Facturas a Operaciones
+## Crear una operación desde un CFDI (flujo de revisión)
 
-Después de importar un CFDI, puedes vincularlo a la [operación](/es/aml/operations) correspondiente:
+Tras analizar y guardar la factura, abre el detalle y usa **Crear operación desde CFDI** (ruta `/{orgSlug}/invoices/{id}/create-operation`). Se abre la **revisión del CFDI** donde:
 
-1. Abre el registro de la factura
-2. Haz clic en **Vincular a Operación**
-3. Busca y selecciona la operación correspondiente
+1. Confirmas emisor/receptor, totales, impuestos y UUID
+2. Mapeas el CFDI al **cliente** correcto y a los campos de **actividad vulnerable**
+3. Envías para generar una **[operación](/es/aml/operations)** enlazada con contexto fiscal
 
-Esto crea una referencia bidireccional entre la operación y su documento fiscal, lo cual es útil para las pistas de auditoría.
+Es la vía recomendada cuando el hecho económico del CFDI debe quedar como operación AML.
+
+## Vincular a una operación ya existente
+
+Si la operación ya se capturó manualmente, abre la factura y usa **Vincular a Operación** para adjuntarla de forma retroactiva y conservar la trazabilidad.
 
 ## Campos del CFDI Almacenados
 

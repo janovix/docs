@@ -78,6 +78,7 @@ countryOfBirth: "MX",
 });
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```python
@@ -116,6 +117,7 @@ countryOfBirth: "MX",
 })["data"]
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```php
@@ -173,8 +175,10 @@ $client = janovixPost("/clients", [
 <Callout type="info">
 	Al crear un cliente, la verificación en listas de vigilancia se activa
 	automáticamente. Los campos `isPEP`, `ofacSanctioned`, `unscSanctioned` y
-	`sat69bListed` se llenan de forma asíncrona. Consulta `GET /clients/:id` o usa
-	el callback de verificación para obtener los resultados finales.
+	`sat69bListed` se llenan de forma asíncrona. Consulta `GET /clients/:id` hasta
+	que los valores se estabilicen, o revisa el cliente en la app AML (la interfaz
+	escucha la finalización del watchlist). Los **webhooks** de screening aún no
+	están disponibles — ver [Webhooks](/es/api/webhooks).
 </Callout>
 
 ## Listar Clientes

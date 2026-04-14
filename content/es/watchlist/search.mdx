@@ -9,34 +9,58 @@ import { Callout, Steps } from "nextra/components";
 
 {/* IMAGE: public/images/watchlist/watchlist-search.png - Search interface showing name input field, dataset filter checkboxes (OFAC/UNSC/SAT69B/PEP/Adverse Media), and entity type selector */}
 
-## Búsqueda Básica
+## Búsqueda básica
 
 <Steps>
-### Ingresa un Nombre
-Escribe el nombre completo (o razón social) de la persona física o entidad que deseas verificar. Para mejores resultados:
-- Incluye el nombre legal completo tal como aparece en los documentos oficiales
-- Para personas físicas: `APELLIDO PATERNO APELLIDO MATERNO Nombre(s)`
-- Para empresas: Usa la razón social completa (*razón social*)
+### Elige persona física vs moral
 
-### Selecciona Conjuntos de Datos (Opcional)
+Usa el interruptor de **tipo de entidad** para que el formulario pida la **fecha** correcta: nacimiento (persona) o constitución (empresa).
 
-Por defecto, se consultan todos los conjuntos de datos. Desmarca los que no necesites para agilizar los resultados:
+### Ingresa un nombre
 
-- OFAC SDN
-- UNSC
-- SAT 69-B
-- PEP
-- Medios Adversos
+Escribe el nombre completo o razón social. El producto normaliza el texto (p. ej. mayúsculas). La interfaz exige más de **3 caracteres** antes de enviar para evitar ruido.
 
-### Selecciona el Tipo de Entidad (Opcional)
+Para mejores resultados:
 
-Filtra por tipo de entidad: `person`, `organization`, o déjalo en blanco para buscar ambos.
+- Nombre legal completo según documentos
+- Personas físicas: `APELLIDO PATERNO APELLIDO MATERNO Nombre(s)`
+- Empresas: razón social completa
 
-### Ejecuta la Búsqueda
+### Opciones avanzadas (opcional)
 
-Haz clic en **Search** o presiona Enter. Los resultados síncronos (OFAC, UNSC, SAT 69-B) aparecen de inmediato. Los resultados asíncronos (PEP, Medios Adversos) se transmiten mediante SSE conforme se van calculando.
+Abre **Avanzado** para afinar:
+
+- **Identificadores** — separados por comas (pasaporte, RFC, etc.)
+- **Países** — multiselección de nacionalidad / jurisdicción
+- **Fechas** — nacimiento o constitución según el tipo de entidad
+
+En la pantalla principal el umbral de similitud está **fijo en 0,875** — no se ajusta por búsqueda desde el formulario principal.
+
+### Conjuntos de datos (opcional)
+
+Por defecto se consultan todos. Desmarca los que no necesites:
+
+- OFAC SDN, UNSC, SAT 69-B, PEP, medios adversos
+
+La disponibilidad de PEP / medios adversos también puede depender de **banderas de función** de la organización.
+
+### Ejecutar
+
+Pulsa **Search** o Enter. Primero llegan OFAC/UNSC/SAT 69-B; **PEP** y **medios adversos** pueden completarse después vía **SSE** en la ruta de resultados.
 
 </Steps>
+
+## Recorrido inicial
+
+En la primera visita, un **tour guiado** (driver.js) resalta el selector de entidad, el campo de búsqueda, avanzado y enviar. Al cerrarlo, el estado queda en **localStorage**.
+
+## Búsquedas recientes
+
+La portada muestra las **últimas cinco** consultas para reabrirlas rápido.
+
+## Handoff de sesión
+
+Tras enviar, la app guarda estado ligero en **sessionStorage** para que la página de **detalle de consulta** pinte al instante mientras termina la petición de red.
 
 ## Búsqueda por Identificador
 

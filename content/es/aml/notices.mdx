@@ -112,12 +112,16 @@ El XML del SAT generado incluye:
 
 Antes de generar el XML, utiliza la función de **Vista Previa** (disponible a través de la API en `GET /notices/preview`) para ver qué operaciones y clientes se incluirán con base en los datos actuales. Esto ayuda a detectar problemas de calidad de datos antes de generar el XML formal.
 
-## Eliminar un Aviso
+## Eliminar un aviso
 
-Solo los avisos en estado `DRAFT` pueden eliminarse. Una vez generado el XML, el aviso queda bloqueado. Si necesitas corregir datos:
+Desde la **lista de avisos** o el **detalle**, puedes **eliminar** avisos en estado **`DRAFT`** o **`GENERATED`** (antes de enviarlos al SAT). Eso elimina el aviso para que corrijas datos y **crees un aviso nuevo** para el mismo mes.
 
-1. Cancela el aviso en estado `DRAFT` o `GENERATED`
-2. Corrige la operación o los datos del cliente subyacentes
+Cuando el aviso pasa a **`SUBMITTED`** o estados posteriores, ya no se elimina desde la interfaz — sigue los flujos hacia el SAT del producto (descarga XML, acuse, rechazo, etc.).
+
+Si necesitas corregir datos antes del envío:
+
+1. Elimina el aviso `DRAFT` o `GENERATED` (si aún está permitido)
+2. Corrige operaciones o KYC del cliente
 3. Crea un nuevo aviso para el mismo período
 
 ## Meses Disponibles

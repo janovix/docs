@@ -111,12 +111,16 @@ The generated SAT XML includes:
 
 Before generating the XML, use the **Preview** feature (available via the API at `GET /notices/preview`) to see which operations and clients will be included based on the current data. This helps catch data quality issues before the formal XML is generated.
 
-## Deleting a Notice
+## Deleting a notice
 
-Only notices in `DRAFT` status can be deleted. Once XML has been generated, the notice is locked. If you need to correct data:
+From the **Notices list** or **notice detail**, you can **delete** notices that are still **`DRAFT`** or **`GENERATED`** (before SAT submission). That removes the notice so you can fix underlying client/operation data and **create a new notice** for the same month.
 
-1. Cancel the `DRAFT` or `GENERATED` notice
-2. Correct the underlying operation or client data
+After a notice moves to **`SUBMITTED`** or beyond, deletion from the UI is no longer available — use the SAT-facing actions in the product (download XML, mark acknowledgment, report rebuke, etc.) per your process.
+
+If you need to correct data before submission:
+
+1. Delete the `DRAFT` or `GENERATED` notice (if still allowed)
+2. Correct operations or client KYC
 3. Create a new notice for the same period
 
 ## Available Months

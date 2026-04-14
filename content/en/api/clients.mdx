@@ -78,6 +78,7 @@ countryOfBirth: "MX",
 });
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```python
@@ -116,6 +117,7 @@ countryOfBirth: "MX",
 })["data"]
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```php
@@ -173,8 +175,10 @@ $client = janovixPost("/clients", [
 <Callout type="info">
 	On creation, watchlist screening is triggered automatically. The `isPEP`,
 	`ofacSanctioned`, `unscSanctioned`, and `sat69bListed` fields are populated
-	asynchronously. Poll `GET /clients/:id` or use the screening callback to get
-	the final results.
+	asynchronously. Poll `GET /clients/:id` until the values stabilize, or review
+	the client in the AML app (the UI listens for watchlist completion).
+	**Webhooks** for screening are not available yet — see
+	[Webhooks](/en/api/webhooks).
 </Callout>
 
 ## List Clients

@@ -92,7 +92,7 @@ El estado KYC tiene en cuenta los [ajustes de cumplimiento](/es/settings/complia
 
 La página de detalle del cliente se organiza en pestañas:
 
-- **Resumen** — Información clave, estado KYC y resultados de screening de watchlist
+- **Resumen** — Información clave, estado KYC, resumen de screening regulatorio y contexto de riesgo cuando aplique
 - **Documentos** — Documentos de identificación cargados con seguimiento de vencimiento
 - **Direcciones** — Todas las direcciones registradas (un cliente puede tener varias)
 - **Accionistas** — Estructura de propiedad (para personas morales y fideicomisos)
@@ -100,30 +100,42 @@ La página de detalle del cliente se organiza en pestañas:
 - **Operaciones** — Operaciones vinculadas a este cliente
 - **Sesiones KYC** — Historial de sesiones de KYC de autoservicio
 
-## Resultados del screening de watchlist
+## Screening regulatorio (watchlist integrado)
 
-Cada cliente se somete automáticamente a screening al crearse o al actualizar su información. El screening incluye:
+Cada cliente se somete automáticamente a screening al crearse o al cambiar datos relevantes. En el **detalle del cliente**, la sección de **screening regulatorio** agrupa resultados por lista con puntuaciones, detalle desplegable y señales visuales de severidad.
 
-| Lista        | Descripción                                                           |
-| ------------ | --------------------------------------------------------------------- |
-| **PEP**      | Base de datos de Personas Políticamente Expuestas                     |
-| **OFAC SDN** | Oficina de Control de Activos Extranjeros del Tesoro de EE. UU. — SDN |
-| **UNSC**     | Lista de sanciones del Consejo de Seguridad de la ONU                 |
-| **SAT 69-B** | Contribuyentes mexicanos con operaciones inexistentes                 |
+Conjuntos cubiertos:
 
-Los resultados aparecen en la pestaña Resumen del cliente con puntuación y clasificación:
+| Lista               | Descripción                                                                                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **OFAC SDN**        | Tesoro de EE. UU. — SDN                                                                                                          |
+| **UNSC**            | Lista consolidada de sanciones de la ONU                                                                                         |
+| **SAT 69-B**        | Contribuyentes con operaciones inexistentes                                                                                      |
+| **PEP**             | PEP — coincidencias en lista **oficial** y, si está habilitado, subsección **asistida por IA (Grok)** con bandas de probabilidad |
+| **Medios adversos** | Noticias y registros públicos, si está habilitado, con **niveles de riesgo** (p. ej. ninguno / bajo / medio / alto)              |
 
-- `isPEP` — Cliente coincide como PEP
-- `ofacSanctioned` — Coincidencia en OFAC SDN
-- `unscSanctioned` — Coincidencia en Consejo de Seguridad ONU
-- `sat69bListed` — Coincidencia en SAT 69-B
+**Actualizaciones en vivo:** cuando el screening es asíncrono, la interfaz puede asociar un **`watchlistQueryId`** y refrescar secciones al completarse PEP o medios adversos (similar a la app [Watchlist](/es/watchlist)).
+
+**Banderas de función:** la organización puede desactivar partes del screening (`pepSearch`, `pepGrok`, `adverseMedia`) — si falta un bloque, puede estar deshabilitado y no implica ausencia de riesgo.
+
+Los indicadores en el registro del cliente siguen incluyendo:
+
+- `isPEP`, `ofacSanctioned`, `unscSanctioned`, `sat69bListed` (y campos relacionados que devuelve la API)
 
 <Callout type="error">
 	**No procedas con una transacción para un cliente sancionado** sin completar
-	tu proceso interno de debida diligencia y, en su caso, notificar a las
-	autoridades competentes. Janovix no bloquea la operación a nivel de sistema —
-	las decisiones de cumplimiento recaen en tu equipo.
+	la debida diligencia interna y, en su caso, notificar a las autoridades
+	competentes. Janovix no bloquea la operación a nivel de sistema — las
+	decisiones de cumplimiento recaen en tu equipo.
 </Callout>
+
+## Evaluación de riesgo del cliente
+
+El perfil del cliente muestra el **nivel de riesgo** y el contexto de evaluación junto con KYC y screening. Para la **EBR** completa, el editor de metodología y la tabla de historial de evaluaciones, usa **[Gestión de riesgos](/es/aml/risk)** (`/risk` y subpáginas).
+
+## Captura de documentos (escáner)
+
+Para cargas de identidad y KYC, algunos flujos usan **captura de documento** en el navegador (**OpenCV** + **Tesseract**) para obtener y aplicar OCR desde cámara o archivo — la disponibilidad depende del tipo de documento y de los pasos que use tu organización.
 
 ## Accionistas (personas morales / fideicomisos)
 

@@ -11,29 +11,27 @@ Every watchlist search you run is automatically saved as a **Query** with a pers
 
 {/* IMAGE: public/images/watchlist/watchlist-history.png - Query history list showing query text, dataset filters used, result count, highest match score, status badge, and timestamp */}
 
-## Query List
+## Query list
 
-The Query History page shows all searches run by members of your organization, sorted by most recent first. For each query you can see:
+The **Queries** page shows searches for your organization with **server pagination** (page size 20) plus a **debounced text filter** (about 300 ms) synced to the URL. On narrow screens, rows collapse into **cards** with the same data.
 
-| Column            | Description                                                          |
-| ----------------- | -------------------------------------------------------------------- |
-| **Query**         | The name or identifier that was searched                             |
-| **Datasets**      | Which lists were searched (OFAC, UNSC, SAT 69-B, PEP, Adverse Media) |
-| **Results**       | Total number of matches returned above the threshold                 |
-| **Highest Score** | The top match confidence score across all datasets                   |
-| **Status**        | `PENDING` (async results still incoming), `COMPLETE`                 |
-| **Run By**        | The team member who ran the search                                   |
-| **Date**          | When the search was executed                                         |
+| Column          | Description                                                                                                                                  |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Query**       | Name or identifier searched                                                                                                                  |
+| **Source**      | Where the query originated — e.g. manual watchlist UI, **AML** client screening, **API**, **CSV import**, or legacy keys — useful for audits |
+| **User**        | Who ran it (avatar + display name). Import-driven rows may show an **import** label instead of a person                                      |
+| **Date**        | Execution timestamp                                                                                                                          |
+| **Status**      | `PENDING` while async datasets finish, then `COMPLETE`                                                                                       |
+| **Risk badges** | Compact indicators per dataset (OFAC, UNSC, SAT 69-B, PEP, adverse media) with **color-coded severity** when matches exist                   |
+| **Export**      | **PDF export** for completed queries (outline button in the table; full-width on mobile)                                                     |
 
-## Filtering Queries
+## Filtering queries
 
-Filter the query history by:
+Use the toolbar to:
 
-- Date range
-- Dataset
-- Team member
-- Minimum score threshold
-- Status
+- **Search** the query text (URL-driven, debounced)
+- **Filter** by entity kind (all / person / organization) via URL `filter` parameter
+- Paginate with **offset** / **limit**
 
 ## Viewing a Query's Results
 
@@ -56,7 +54,7 @@ When the SHCP conducts a verification visit, you may be asked to demonstrate tha
 
 ## Retention
 
-Query records are retained indefinitely as part of your compliance audit trail. They cannot be deleted by regular users. Only system administrators can archive query records, and archiving is logged in the audit trail.
+Query records are kept for your **compliance audit trail**. End users typically **cannot delete** history rows; retention and any **admin archive** policies are enforced by your Janovix deployment — treat the history as immutable evidence unless your administrator documents otherwise.
 
 ## Exporting Query History
 

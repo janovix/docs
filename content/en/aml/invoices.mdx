@@ -41,15 +41,19 @@ Janovix supports:
 	duplicate imports.
 </Callout>
 
-## Linking Invoices to Operations
+## Create an operation from a CFDI (review flow)
 
-After importing a CFDI, you can link it to the corresponding [operation](/en/aml/operations):
+After an invoice is parsed and saved, open the invoice detail and use **Create operation from CFDI** (routed at `/{orgSlug}/invoices/{id}/create-operation`). Janovix opens the **CFDI review** screen where you:
 
-1. Open the invoice record
-2. Click **Link to Operation**
-3. Search and select the matching operation
+1. Confirm parsed emisor/receptor, totals, taxes, and UUID
+2. Map the CFDI to the correct **client** and **vulnerable activity** fields
+3. Submit to generate a linked **[operation](/en/aml/operations)** that carries the fiscal context
 
-This creates a bidirectional reference between the operation and its fiscal document — useful for audit trails.
+This is the recommended path when the economic event in the CFDI should become a first-class AML operation record.
+
+## Linking invoices to existing operations
+
+If an operation was already recorded manually, open the invoice and use **Link to Operation** to attach it retroactively for a bidirectional audit reference.
 
 ## CFDI Fields Stored
 

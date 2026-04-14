@@ -1,0 +1,99 @@
+---
+title: Risk Management
+description: Organization risk assessment (EBR), client risk evaluations, methodology, and dashboards
+---
+
+import { Callout, Steps } from "nextra/components";
+
+# Risk Management
+
+The **Risk** area in the AML app supports **evaluación basada en riesgo** (EBR) aligned with LFPIORPI Art. 18-VII. It combines an organization-level assessment, configurable methodology, per-client risk scores, and a history of evaluations.
+
+{/* IMAGE: public/images/aml/risk-dashboard.png - Risk hub showing assessed clients, high-risk count, org assessment gauges, and distribution chart */}
+
+## Where to Find It
+
+In the sidebar, open **Compliance → Risk models** (or navigate to `/{orgSlug}/risk`).
+
+Sub-routes:
+
+| Path                               | Purpose                                                                |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| `/{orgSlug}/risk`                  | Risk dashboard — KPIs, org assessment summary, distribution, shortcuts |
+| `/{orgSlug}/risk/assessment`       | Full organization EBR assessment and evolution                         |
+| `/{orgSlug}/risk/methodology`      | View and edit effective risk methodology (scopes)                      |
+| `/{orgSlug}/risk/evaluations`      | Table of client risk evaluations with filters                          |
+| `/{orgSlug}/risk/evaluations/[id]` | Detail for a single evaluation                                         |
+
+## Risk Dashboard
+
+The hub summarizes:
+
+- **Clients assessed** — how many clients have a risk evaluation in scope
+- **High risk** — clients currently classified as high risk
+- **Due for review** — assessments approaching the next review date
+- **Organization assessment** — snapshot of the active EBR: inherent and residual risk, required audit type, version, and link to the full assessment page
+- **Client risk distribution** — chart of counts by risk level
+- **Quick actions** — jump to **Evaluations** or **Methodology**
+
+<Callout type="info">
+	Risk jobs (client batch assessment, organization assessment) are processed
+	asynchronously when the assessment queue is available. The UI refreshes when
+	new results are ready; you may see a short delay after triggering a run.
+</Callout>
+
+## Organization Assessment (EBR)
+
+<Steps>
+### Open the assessment page
+
+Go to **Risk models → Organization assessment** (`/risk/assessment`).
+
+### Review the latest EBR
+
+The page shows the active assessment with risk elements, mitigants, and scores. You can compare **inherent** vs **residual** risk and see the **required audit type** suggested by the model.
+
+### Evolution over time
+
+Use the evolution view to see how assessment versions and scores changed across runs.
+
+### Trigger a new run
+
+When permitted, use the action to **run** or **refresh** the organization assessment. The backend queues an org assessment job; when it completes, the dashboard and this page update.
+
+</Steps>
+
+{/* IMAGE: public/images/aml/risk-org-assessment.png - Organization assessment page with gauges, element breakdown, and evolution section */}
+
+## Risk Methodology
+
+The **Methodology** screen (`/risk/methodology`) shows the **effective** methodology for your organization, including its **scope**:
+
+- **SYSTEM** — platform default
+- **ACTIVITY** — tied to your organization’s vulnerable activity code
+- **ORGANIZATION** — custom override saved for your org
+
+You can **edit** categories, thresholds, and mitigants (when your role allows), **save** changes, or **reset to default** to drop the org override and fall back to activity/system defaults.
+
+<Callout type="warning">
+	Resetting methodology affects **future** evaluations only. Past evaluation
+	records are kept for audit.
+</Callout>
+
+## Client Evaluations
+
+The **Evaluations** list shows each recorded client risk assessment: client name, RFC, risk level, due diligence level, scores, trigger reason (e.g. manual vs automatic), and date.
+
+- Filter by **risk level**, **trigger reason**, or search by client name / RFC
+- Open a row to see the **evaluation detail** with parsed factor breakdowns (client, geographic, activity, transaction, mitigant factors)
+
+From a **client** profile you can also open risk context where the UI surfaces assessments and sessions alongside KYC and screening.
+
+## Relationship to Other Modules
+
+| Module                    | How it connects                                                             |
+| ------------------------- | --------------------------------------------------------------------------- |
+| **Clients**               | Per-client risk level, assessments on the client detail view                |
+| **Alerts**                | High-risk activity can drive alert and review workflows                     |
+| **Settings → Compliance** | Activity code influences the resolved methodology                           |
+| **API**                   | Programmatic access under `/api/v1/risk/...` — see [Risk API](/en/api/risk) |

@@ -92,7 +92,7 @@ The KYC status considers your organization's [compliance settings](/en/settings/
 
 The client detail page is organized into tabs:
 
-- **Overview** — Key information, KYC status, and watchlist screening results
+- **Overview** — Key information, KYC status, regulatory screening summary, and risk context where enabled
 - **Documents** — Uploaded identification documents with expiry tracking
 - **Addresses** — All registered addresses (a client may have multiple)
 - **Shareholders** — Ownership structure (for moral persons and trusts)
@@ -100,30 +100,42 @@ The client detail page is organized into tabs:
 - **Operations** — All operations linked to this client
 - **KYC Sessions** — History of self-service KYC sessions
 
-## Watchlist Screening Results
+## Regulatory screening (embedded watchlist)
 
-Every client is automatically screened when created or when their information is updated. The screening covers:
+Every client is automatically screened when created or when material information changes. On the **client detail** page, the **Regulatory screening** section groups results by dataset with match scores, expandable detail, and **severity-style** cues so officers can triage quickly.
 
-| List         | Description                                                                     |
-| ------------ | ------------------------------------------------------------------------------- |
-| **PEP**      | Politically Exposed Persons database                                            |
-| **OFAC SDN** | U.S. Treasury Office of Foreign Assets Control — Specially Designated Nationals |
-| **UNSC**     | UN Security Council sanctions list                                              |
-| **SAT 69-B** | Mexican taxpayers with non-existent operations                                  |
+Covered datasets include:
 
-Screening results appear in the client's Overview tab with a match score and classification:
+| List              | Description                                                                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **OFAC SDN**      | U.S. Treasury — Specially Designated Nationals                                                                                        |
+| **UNSC**          | UN Security Council consolidated sanctions                                                                                            |
+| **SAT 69-B**      | Mexican taxpayers with non-existent operations                                                                                        |
+| **PEP**           | Politically exposed persons — **official list** matches, and when enabled an **AI-assisted (Grok)** subsection with probability bands |
+| **Adverse media** | News and public records, when enabled, with **risk levels** (e.g. none / low / medium / high)                                         |
 
-- `isPEP` — Client matched as a PEP
-- `ofacSanctioned` — OFAC SDN match
-- `unscSanctioned` — UN Security Council match
-- `sat69bListed` — SAT 69-B match
+**Live updates:** when screening runs asynchronously, the UI can attach a **`watchlistQueryId`** and refresh sections as PEP / adverse media complete (similar to the standalone [Watchlist](/en/watchlist) app).
+
+**Feature flags:** your organization may turn off parts of screening (`pepSearch`, `pepGrok`, `adverseMedia`) per product configuration — if a block is missing, it may be disabled rather than “clean.”
+
+Summary flags on the client record still include:
+
+- `isPEP`, `ofacSanctioned`, `unscSanctioned`, `sat69bListed` (and related fields returned by the API)
 
 <Callout type="error">
 	**Never proceed with a transaction for a sanctioned client** without
-	completing your internal due diligence process and, where applicable,
-	notifying the relevant authorities. Janovix will not block the operation at
-	the system level — compliance decisions remain with your team.
+	completing internal due diligence and, where applicable, notifying the
+	relevant authorities. Janovix does not block operations at the system level —
+	compliance decisions remain with your team.
 </Callout>
+
+## Client risk assessment
+
+The client profile surfaces **risk level** and assessment context alongside KYC and screening. For the full **EBR**, methodology editor, and evaluation history table, use **[Risk Management](/en/aml/risk)** (`/risk` and sub-pages).
+
+## Document capture (scanner)
+
+For identity and KYC uploads, flows may use an in-browser **document capture** stack (**OpenCV** + **Tesseract**) to acquire and OCR images from a camera or file — availability depends on the document type and steps your organization uses.
 
 ## Shareholders (Moral Persons / Trusts)
 

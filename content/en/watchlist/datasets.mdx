@@ -91,7 +91,7 @@ The SAT publishes the 69-B list on its website. Janovix synchronizes **weekly** 
 
 ## PEP (Politically Exposed Persons)
 
-**Source:** AI-powered database + public sources
+**Sources:** Curated / official-style PEP list **plus** optional **AI-assisted (Grok)** enrichment  
 **Coverage:** Mexico and international
 
 The LFPIORPI 2025 reform explicitly added PEPs as a defined term (Art. 3, Fraction IX Bis) requiring enhanced due diligence.
@@ -107,17 +107,24 @@ A **PEP** is a physical person who holds or has held a prominent public function
 
 PEP status also extends to close family members and known associates.
 
-### How PEP Screening Works
+### Dual PEP presentation
 
-PEP searches run on an AI-powered container that:
+In the Watchlist UI, PEP hits are often split into:
 
-1. Receives the query name
-2. Searches multiple public sources in real time
-3. Returns structured results with confidence scores
+1. **Official / structured list** matches with traditional scoring
+2. **AI (Grok)** subsection with **probability → risk band** mapping (e.g. low / medium / high) for officer review
 
-**Latency:** 10–60 seconds (asynchronous). Results are delivered via SSE.
+**Feature flags:** `pepSearch`, `pepGrok`, and related toggles can hide PEP entirely or disable only the AI leg — coordinate with your administrator if sections are missing.
 
-**Cache:** Results are cached for 24 hours per unique query to reduce latency on repeated searches.
+### How PEP screening works (backend)
+
+1. The engine receives the query name (+ optional dates / countries)
+2. List matches are scored with the hybrid name + vector pipeline
+3. Optional AI leg runs in a **container** and streams back asynchronously
+
+**Latency:** on the order of **10–60 seconds** for the async leg. Progress appears over **SSE** on the query detail page.
+
+**Cache:** PEP / AI responses may be **cached ~24 hours** per normalized query to reduce cost and latency on repeats.
 
 ## Adverse Media
 
@@ -132,14 +139,16 @@ Adverse media screening searches the web and news archives for articles linking 
 - Corruption or bribery
 - Fraud or embezzlement
 
-### How Adverse Media Works
+### How adverse media works
 
-1. An AI container receives the query
+1. An AI container receives the query (+ context such as countries)
 2. Searches news archives and web sources
 3. Analyzes article sentiment and relevance
-4. Returns a structured report of relevant findings
+4. Returns structured hits with a **`risk_level`** bucket: **none**, **low**, **medium**, or **high**
 
-**Latency:** 10–60 seconds (asynchronous).
+**Latency:** 10–60 seconds (asynchronous), same SSE pattern as PEP.
+
+**Feature flag:** `adverseMedia` can disable the entire block for an organization.
 
 <Callout type="info">
 	Adverse media screening is **informational** — a finding doesn't mean the

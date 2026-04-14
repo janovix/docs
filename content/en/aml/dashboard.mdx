@@ -1,52 +1,75 @@
 ---
 title: Dashboard
-description: Overview of the AML dashboard KPIs and real-time compliance metrics
+description: Organization home with KPIs, risk and alert summaries, operation and client stats, and deep links
 ---
 
 import { Callout } from "nextra/components";
 
 # Dashboard
 
-The Dashboard is the first screen you see when you open the AML application. It gives you a real-time snapshot of your compliance posture.
+The **Dashboard** is the **organization home** at `/{orgSlug}` — the first screen after you select an organization. The legacy path `/{orgSlug}/dashboard` **redirects** here.
 
-{/* IMAGE: public/images/aml/dashboard-overview.png - Full dashboard with KPI cards, charts, and recent activity feed */}
+It gives a real-time snapshot of compliance posture: hero KPIs, optional **report-driven** widgets, **alert** and **client/operation** summaries, and quick navigation into filtered lists.
 
-## Key Performance Indicators (KPIs)
+{/* IMAGE: public/images/aml/dashboard-overview.png - Full dashboard with KPI cards, risk/alert summaries, operation and client stat cards */}
 
-The top row of the dashboard shows four KPI cards:
+## Hero KPI cards
 
-| KPI                      | Description                                              |
-| ------------------------ | -------------------------------------------------------- |
-| **Total Clients**        | Number of active clients registered in your organization |
-| **Pending Alerts**       | Alerts in `DETECTED` status awaiting review              |
-| **Operations (30 days)** | Operations recorded in the last 30 days                  |
-| **Notices Due**          | SAT notices that are approaching or past their deadline  |
+The top row surfaces key counts with **deep links** into the right module:
 
-Clicking any KPI card navigates you directly to the relevant module with the appropriate filter pre-applied.
+| Card                              | Typical focus                                                            |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| **Total clients**                 | Active clients → opens **Clients**                                       |
+| **Transactions today** / activity | Today’s operations → **Operations**                                      |
+| **Alerts**                        | Total or active/suspicious-style metric from report summary → **Alerts** |
 
-## Charts and Analytics
+Exact labels can reflect your **vulnerable activity** (from org settings) for the operations-related card.
 
-### Operations Over Time
+## Report-driven widgets
 
-A bar chart showing the volume of operations recorded per day or per week over the selected period. Use this to identify unusual spikes in transaction volume.
+When report summary data is available, the dashboard can show:
 
-### Alert Distribution by Severity
+### Risk indicators
 
-A donut chart showing the breakdown of open alerts by severity level: `CRITICAL`, `HIGH`, `MEDIUM`, and `LOW`.
+- **Compliance score** (percentage with progress bar)
+- **Critical alerts** count
+- **High-risk clients** count
+- **Overdue submissions** (e.g. notices or filings past due)
 
-### Client KYC Status
+### Alert summary
 
-A progress ring showing the percentage of active clients with complete KYC vs. incomplete or expired KYC.
+- Total alerts, **overdue** count, **average resolution** (days)
+- **Counts by severity**: `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`  
+  Cards link into the alerts list with appropriate context.
 
-### Top Activities by Volume
+## Operation stats
 
-A horizontal bar chart ranking your most frequently recorded vulnerable activities by transaction count and total value in the selected period.
+A card summarizing operations for the selected period:
+
+- **Total volume** (formatted in **MXN**)
+- **Suspicious transactions** (when applicable)
+- **Today’s count** and **total operations**
+- Optional **comparison vs last month** (percentage) when comparison data exists
+
+Links go to **Operations** with useful defaults.
+
+## Client stats
+
+- **Total** clients and breakdown: **personas físicas**, **personas morales**, **fideicomisos** (trusts)
+- **New clients in period**, **clients with alerts**
+- Optional **month-over-month** comparison
+
+Links go to **Clients**.
+
+## UMA and clock
+
+The top bar can show a **UMA** reference badge and your preferred **clock** / timezone (from settings). Threshold math in operations and notices still uses the **UMA for the operation date** stored in the system.
 
 {/* IMAGE: public/images/aml/dashboard-filters.png - Date range picker and filter controls in the dashboard header */}
 
-## Date Range Filter
+## Date range filter
 
-The dashboard respects a global date range filter in the top-right corner. You can select:
+The dashboard respects a global **date range** in the header. Typical presets:
 
 - **Last 7 days**
 - **Last 30 days** (default)
@@ -55,20 +78,18 @@ The dashboard respects a global date range filter in the top-right corner. You c
 - **Custom range** (date picker)
 
 <Callout type="info">
-	The selected date range is persisted in the URL as query parameters, so you
-	can share a specific time-window view of the dashboard by copying the URL.
+	The selected range is persisted in the **URL** as query parameters so you can
+	share a specific time window.
 </Callout>
 
-## Recent Activity Feed
+## Activity vs Dashboard
 
-The bottom of the dashboard displays a combined feed of recent events across the platform:
+- **Dashboard** — aggregates, charts, and KPIs at `/{orgSlug}`
+- **[Activity Feed](/en/aml/activity)** — full chronological notification list at `/{orgSlug}/activity`
 
-- New clients registered
-- Operations recorded above threshold
-- Alerts generated
-- Notice submissions
+## AI assistant
 
-Each item links to the corresponding record for quick navigation.
+From the main layout you can open the **AI chat** sidebar to ask questions about workflows and your data (subject to plan limits).
 
 ## What to Do First
 
@@ -77,3 +98,4 @@ If you are setting up Janovix for the first time:
 1. Go to [Settings → Compliance](/en/settings/compliance) and configure your organization's activity code and RFC
 2. Return to the Dashboard — the KPIs will update as you add data
 3. Start [registering your clients](/en/aml/clients)
+4. Review **[Risk Management](/en/aml/risk)** once clients and operations exist

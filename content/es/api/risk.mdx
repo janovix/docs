@@ -1,0 +1,90 @@
+---
+title: API de riesgo
+description: Evaluaciones de riesgo de cliente y organización, metodología, evaluaciones y exportaciones
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# API de riesgo
+
+**Ruta base:** `/api/v1/risk`
+
+Todas las rutas requieren una API key válida (vía `api.janovix.com`) o JWT de sesión y un contexto de **organización activa**, igual que el resto del API AML.
+
+<Callout type="info">
+	Las rutas `POST` que encolan trabajo devuelven **202 Accepted** con `{ "status": "queued", ... }` cuando la cola de evaluación de riesgo está configurada. Si la cola no está disponible en un entorno, algunas rutas pueden ejecutarse de forma síncrona (**200**) — consulta OpenAPI para el contrato exacto.
+</Callout>
+
+## Endpoints
+
+| Método | Ruta                             | Descripción                                                                 |
+| ------ | -------------------------------- | --------------------------------------------------------------------------- |
+| `POST` | `/risk/:clientId/assessment`     | Encolar o ejecutar evaluación de riesgo del cliente                         |
+| `GET`  | `/risk/:clientId/assessment`     | Última evaluación del cliente                                               |
+| `GET`  | `/risk/:clientId/history`        | Historial de evaluaciones del cliente                                       |
+| `POST` | `/risk/batch-assess`             | Encolar reevaluación masiva de la organización                              |
+| `GET`  | `/risk/dashboard`                | Agregados del panel (distribución, pendientes de revisión, instantánea org) |
+| `POST` | `/risk/org-assessment`           | Encolar evaluación EBR de la organización                                   |
+| `GET`  | `/risk/org-assessment`           | Evaluación org activa con elementos y mitigantes                            |
+| `GET`  | `/risk/org-assessment/history`   | Evaluaciones org históricas                                                 |
+| `GET`  | `/risk/org-assessment/evolution` | Evolución por versión para gráficos                                         |
+| `GET`  | `/risk/authority-report`         | Paquete orientado a autoridad (informe estilo GAFI R.1)                     |
+| `GET`  | `/risk/export`                   | Exportar evaluaciones org + cliente en JSON                                 |
+| `GET`  | `/risk/methodology`              | Metodología efectiva (ámbito resuelto)                                      |
+| `PUT`  | `/risk/methodology`              | Guardar anulación de metodología a nivel org                                |
+| `POST` | `/risk/methodology/reset`        | Restablecer metodología org a valores por defecto                           |
+| `GET`  | `/risk/evaluations`              | Lista paginada de evaluaciones de riesgo de clientes                        |
+| `GET`  | `/risk/evaluations/:id`          | Detalle de una evaluación con JSON de factores parseado                     |
+
+## Listar evaluaciones
+
+```
+GET /api/v1/risk/evaluations?page=1&limit=20&riskLevel=HIGH&triggerReason=manual_trigger&search=Garcia&sort=assessedAt&direction=desc
+```
+
+Parámetros de consulta: `page`, `limit` (máx. 100), `search`, `riskLevel`, `triggerReason`, `clientId`, `sort`, `direction`. La respuesta incluye `data`, `pagination` y `filterMeta` (conteos por nivel de riesgo y motivo de disparo).
+
+<Tabs items={['cURL', 'TypeScript']}>
+<Tabs.Tab>
+```bash
+curl "https://api.janovix.com/api/v1/risk/evaluations?page=1&limit=20" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```typescript
+const { data, pagination, filterMeta } = await janovixFetch<{
+  data: RiskEvaluationRow[];
+  pagination: { page: number; limit: number; total: number; totalPages: number };
+  filterMeta: unknown;
+}>("/risk/evaluations?page=1&limit=20");
+```
+</Tabs.Tab>
+</Tabs>
+
+## Disparar evaluación de cliente
+
+```
+POST /api/v1/risk/{clientId}/assessment
+```
+
+Devuelve **202** con `{ "status": "queued", "clientId" }` cuando se encola, o **200** con el cuerpo de la evaluación en ejecución síncrona (p. ej. desarrollo local sin cola).
+
+## Disparar evaluación de la organización
+
+```
+POST /api/v1/risk/org-assessment
+```
+
+Encola un trabajo EBR para la organización activa (**202** cuando la cola está disponible).
+
+## Metodología
+
+- `GET /risk/methodology` — metodología resuelta para la clave de actividad de la org
+- `PUT /risk/methodology` — cuerpo con `name`, `description`, `categories`, `thresholds`, `mitigants` opcionales
+- `POST /risk/methodology/reset` — elimina la anulación org y devuelve la nueva metodología efectiva
+
+## Más información
+
+- [Gestión de riesgos (interfaz AML)](/es/aml/risk)
+- Esquema interactivo: `https://api.janovix.com/docsz`

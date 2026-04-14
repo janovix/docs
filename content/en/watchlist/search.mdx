@@ -9,16 +9,34 @@ import { Callout, Steps } from "nextra/components";
 
 {/* IMAGE: public/images/watchlist/watchlist-search.png - Search interface showing name input field, dataset filter checkboxes (OFAC/UNSC/SAT69B/PEP/Adverse Media), and entity type selector */}
 
-## Basic Search
+## Basic search
 
 <Steps>
-### Enter a Name
-Type the full name (or business name) of the individual or entity you want to screen. For best results:
+### Choose Individual vs Company
+
+Use the **entity type** switch so the form asks for the right **date field** — date of birth for individuals, date of incorporation for organizations.
+
+### Enter a name
+
+Type the full name (or business name). Names are normalized (e.g. uppercased) for matching. The UI requires more than a **3-character** query before submit to avoid noisy searches.
+
+For best results:
+
 - Include the full legal name as it appears on official documents
 - For physical persons: `APELLIDO PATERNO APELLIDO MATERNO Nombre(s)`
-- For companies: Use the complete business name (*razón social*)
+- For companies: Use the complete business name (_razón social_)
 
-### Select Datasets (Optional)
+### Advanced options (optional)
+
+Open **Advanced** to refine the search:
+
+- **Identifiers** — comma-separated IDs (passport, RFC, etc.) for higher precision
+- **Countries** — multi-select nationality / jurisdiction filters
+- **Dates** — birth date (person) or incorporation date (company), depending on entity type
+
+The home screen uses a **fixed similarity threshold (0.875)** in the product — you do not tune it per search from the main form.
+
+### Select datasets (optional)
 
 By default, all datasets are searched. Uncheck any you don't need to speed up results:
 
@@ -28,15 +46,25 @@ By default, all datasets are searched. Uncheck any you don't need to speed up re
 - PEP
 - Adverse Media
 
-### Select Entity Type (Optional)
+Availability of PEP / adverse media blocks can also depend on **organization feature flags**.
 
-Filter by entity type: `person`, `organization`, or leave blank to search both.
+### Run the search
 
-### Run the Search
-
-Click **Search** or press Enter. Synchronous results (OFAC, UNSC, SAT 69-B) appear immediately. Asynchronous results (PEP, Adverse Media) stream in via SSE as they are computed.
+Click **Search** or press Enter. Synchronous results (OFAC, UNSC, SAT 69-B) return first. **PEP** and **Adverse Media** may complete asynchronously and stream progress via **SSE** while you stay on the results route.
 
 </Steps>
+
+## First-time tour
+
+On your first visit, a short **guided tour** (driver.js) highlights the entity switch, search field, advanced panel, and submit button. Dismiss it once; completion is stored in **localStorage**.
+
+## Recent searches
+
+The home page lists your **last five** queries for quick re-open.
+
+## Session handoff
+
+After you submit, the app stores lightweight state in **sessionStorage** so the **query detail** page can paint instantly while the network fetch completes.
 
 ## Identifier Search
 

@@ -7,6 +7,7 @@
 	"watchlist": "Watchlist API",
 	"notices": "Notices API",
 	"reports": "Reports API",
+	"risk": "Risk API",
 	"catalogs": "Catalogs API",
 	"webhooks": "Webhooks"
 }

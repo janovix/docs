@@ -1,0 +1,46 @@
+---
+title: Feed de actividad
+description: Feed de notificaciones por organización con severidad, estado no leído y enlaces profundos
+---
+
+import { Callout } from "nextra/components";
+
+# Feed de actividad
+
+La página **Actividad** (`/{orgSlug}/activity`) es un centro de notificaciones dedicado a tu organización activa. Complementa los avisos en contexto y el control de notificaciones de la barra superior ofreciendo un **historial desplazable** al que puedes volver en cualquier momento.
+
+{/* IMAGE: public/images/aml/activity-feed.png - Página de actividad agrupada por día con estilo por severidad y puntos no leídos */}
+
+## Qué aparece aquí
+
+Los eventos se cargan desde el **servicio de notificaciones** de la organización que tengas seleccionada. Las entradas típicas incluyen:
+
+- Eventos de cumplimiento y del producto con **título**, **cuerpo**, **severidad** opcional y **URL de retorno**
+- Elementos que abren la pantalla AML correspondiente al hacer clic (por ejemplo un cliente, alerta o importación)
+
+## Diseño y comportimiento
+
+- **Agrupados por día** — p. ej. «Hoy», «Ayer», luego fechas completas para días anteriores
+- **Estilo por severidad** — distinción visual entre informativo, advertencia y error
+- **Indicador no leído** — los elementos que aún no has abierto desde el feed pueden mostrar un marcador hasta que interactúes
+- **Clic para navegar** — elegir un elemento sigue su `callbackUrl` dentro de la app AML (mismo comportamiento que en otras notificaciones)
+
+## Desplazamiento infinito
+
+El feed carga más elementos al acercarte al final del scroll (**scroll infinito** con cursor). Si no hay más eventos, llegas al final de la lista.
+
+## Estados vacío y de carga
+
+- Mientras carga la primera página, se muestra un estado de carga
+- Si **no hay notificaciones** en el periodo, ves un estado vacío en lugar de una lista en blanco
+
+<Callout type="info">
+	La actividad es **por organización**. Cambia de organización con el selector
+	del encabezado para ver otro feed. El **Panel** puede seguir mostrando KPIs;
+	usa **Actividad** cuando quieras la cronología de eventos.
+</Callout>
+
+## Relacionado
+
+- **Panel** — KPIs y gráficos en `/{orgSlug}` (inicio de la org; la URL heredada `/dashboard` redirige aquí)
+- Widget de **Notificaciones** en la barra — vista rápida sin salir de la pantalla actual

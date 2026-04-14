@@ -9,6 +9,12 @@ import { Callout } from "nextra/components";
 
 La sección de **Cumplimiento AML** es donde configuras la identidad regulatoria de tu organización — la información que determina los cálculos de umbrales, la generación de avisos al SAT y el comportamiento del autoservicio de KYC.
 
+<Callout type="info">
+	Esta página solo aparece en la barra lateral cuando la organización tiene
+	**acceso al producto AML**. Las organizaciones solo Watchlist usan ajustes de
+	Watchlist y cuenta sin este bloque.
+</Callout>
+
 {/* IMAGE: public/images/settings/settings-compliance.png - Compliance settings page showing obligated subject RFC, activity code selector, self-service mode toggle, expiry hours, and required sections */}
 
 ## Configuración Requerida
@@ -50,6 +56,8 @@ Si tu organización realiza **múltiples actividades vulnerables**, configura la
 | `manual`      | Tus oficiales de cumplimiento pueden crear sesiones KYC bajo demanda para clientes individuales.                     |
 | `automatic`   | Se crea automáticamente una sesión KYC y se envía el correo de invitación cada vez que se registra un nuevo cliente. |
 
+También puedes controlar si se envían **correos de invitación** para sesiones de autoservicio (interruptor junto al modo), según la configuración de correo.
+
 ### Expiración de la Sesión (Horas)
 
 Define cuántas horas permanece válido el enlace de una sesión KYC antes de expirar. El cliente debe completar y enviar su KYC dentro de esta ventana.
@@ -79,7 +87,7 @@ Configura qué secciones del formulario KYC deben completar los clientes antes d
 
 ## Valores UMA
 
-La página de configuración de cumplimiento también muestra el **valor UMA** vigente utilizado para los cálculos de umbrales. Para actualizar o agregar valores UMA futuros, contacta a tu administrador de sistema (requiere acceso a la API mediante `POST /api/v1/uma-values`).
+La página también muestra el **valor UMA** vigente para umbrales (actualización anual, p. ej. **$117.31 MXN/día** en 2026). Para añadir o anular filas anuales, contacta al administrador (API `POST /api/v1/uma-values`).
 
 ## Guardar tu Configuración
 

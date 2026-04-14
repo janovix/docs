@@ -1,80 +1,101 @@
 ﻿---
 title: Panel de Control
-description: Descripción general de KPIs del panel AML y métricas de cumplimiento en tiempo real
+description: Inicio de la organización con KPIs, resúmenes de riesgo y alertas, estadísticas de operaciones y clientes, y enlaces profundos
 ---
 
 import { Callout } from "nextra/components";
 
 # Panel de Control
 
-El Panel de Control es la primera pantalla que ves cuando abres la aplicación AML. Te ofrece una vista en tiempo real de tu postura de cumplimiento.
+El **Panel de Control** es el **inicio de la organización** en `/{orgSlug}` — la primera pantalla tras elegir una organización. La ruta heredada `/{orgSlug}/dashboard` **redirige** aquí.
 
-{/* IMAGE: public/images/aml/dashboard-overview.png - Panel completo con tarjetas KPI, gráficos y feed de actividad reciente */}
+Ofrece una instantánea en tiempo real: KPIs principales, **widgets** opcionales basados en reportes, **resúmenes de alertas** y de **clientes/operaciones**, y accesos rápidos a listas filtradas.
 
-## Indicadores Clave de Rendimiento (KPIs)
+{/* IMAGE: public/images/aml/dashboard-overview.png - Panel completo con tarjetas KPI, resúmenes de riesgo/alertas, tarjetas de estadísticas de operaciones y clientes */}
 
-La fila superior del panel muestra cuatro tarjetas KPI:
+## Tarjetas KPI principales
 
-| KPI                       | Descripción                                                 |
-| ------------------------- | ----------------------------------------------------------- |
-| **Clientes Totales**      | Número de clientes activos registrados en tu organización   |
-| **Alertas Pendientes**    | Alertas en estado `DETECTADA` awaiting review               |
-| **Operaciones (30 días)** | Operaciones registradas en los últimos 30 días              |
-| **Avisos Vencidos**       | Avisos SAT que se aproximan o están pasados su fecha límite |
+La fila superior muestra conteos clave con **enlaces profundos** al módulo adecuado:
 
-Al hacer clic en cualquier tarjeta KPI te navega directamente al módulo relevante con el filtro apropiado pre-aplicado.
+| Tarjeta                           | Enfoque típico                                                                   |
+| --------------------------------- | -------------------------------------------------------------------------------- |
+| **Clientes totales**              | Clientes activos → abre **Clientes**                                             |
+| **Transacciones hoy** / actividad | Operaciones del día → **Operaciones**                                            |
+| **Alertas**                       | Total o métrica estilo activo/sospechoso desde resumen de reportes → **Alertas** |
 
-## Gráficos y Análisis
+Las etiquetas exactas pueden reflejar tu **actividad vulnerable** (según ajustes de la org) en la tarjeta ligada a operaciones.
 
-### Operaciones a lo Largo del Tiempo
+## Widgets basados en reportes
 
-Un gráfico de barras mostrando el volumen de operaciones registradas por día o por semana durante el período seleccionado. Úsalo para identificar picos inusuales en volumen de transacciones.
+Cuando hay datos de resumen de reportes, el panel puede mostrar:
 
-### Distribución de Alertas por Severidad
+### Indicadores de riesgo
 
-Un gráfico de dona mostrando el desglose de alertas abiertas por nivel de severidad: `CRÍTICA`, `ALTA`, `MEDIA` y `BAJA`.
+- **Puntuación de cumplimiento** (porcentaje con barra de progreso)
+- Conteo de **alertas críticas**
+- Conteo de **clientes de alto riesgo**
+- **Presentaciones vencidas** (p. ej. avisos o plazos pasados)
 
-### Estado KYC del Cliente
+### Resumen de alertas
 
-Un anillo de progreso mostrando el porcentaje de clientes activos con KYC completo vs. KYC incompleto o expirado.
+- Total de alertas, conteo **vencidas**, **resolución promedio** (días)
+- **Conteos por severidad**: `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`  
+  Las tarjetas enlazan a la lista de alertas con el contexto adecuado.
 
-### Actividades Principales por Volumen
+## Estadísticas de operaciones
 
-Un gráfico de barras horizontal clasificando tus actividades vulnerables más frecuentemente registradas por cantidad de transacciones y valor total en el período seleccionado.
+Tarjeta que resume operaciones del periodo seleccionado:
 
-{/* IMAGE: public/images/aml/dashboard-filters.png - Selector de rango de fechas y controles de filtro en encabezado del panel */}
+- **Volumen total** (formateado en **MXN**)
+- **Transacciones sospechosas** (cuando aplica)
+- **Conteo de hoy** y **operaciones totales**
+- **Comparación vs mes anterior** (porcentaje) cuando existan datos de comparación
 
-## Filtro de Rango de Fechas
+Los enlaces llevan a **Operaciones** con valores por defecto útiles.
 
-El panel respeta un filtro de rango de fechas global en la esquina superior derecha. Puedes seleccionar:
+## Estadísticas de clientes
+
+- **Total** de clientes y desglose: **personas físicas**, **personas morales**, **fideicomisos**
+- **Clientes nuevos en el periodo**, **clientes con alertas**
+- **Comparación mes a mes** opcional
+
+Los enlaces llevan a **Clientes**.
+
+## UMA y reloj
+
+La barra superior puede mostrar una insignia de referencia **UMA** y tu **reloj** / zona horaria preferidos (desde ajustes). Los umbrales en operaciones y avisos siguen usando la **UMA de la fecha de operación** registrada en el sistema.
+
+{/* IMAGE: public/images/aml/dashboard-filters.png - Selector de rango de fechas y filtros en el encabezado del panel */}
+
+## Filtro de rango de fechas
+
+El panel respeta un **rango de fechas** global en el encabezado. Valores habituales:
 
 - **Últimos 7 días**
-- **Últimos 30 días** (default)
+- **Últimos 30 días** (predeterminado)
 - **Últimos 90 días**
 - **Este año**
-- **Rango personalizado** (date picker)
+- **Rango personalizado** (selector de fechas)
 
 <Callout type="info">
-	El rango de fechas seleccionado se persiste en la URL como parámetros de
-	query, así que puedes compartir una vista de ventana temporal específica del
-	panel copiando la URL.
+	El rango elegido se guarda en la **URL** como parámetros de consulta para
+	poder compartir la vista.
 </Callout>
 
-## Feed de Actividad Reciente
+## Actividad vs panel
 
-La parte inferior del panel muestra un feed combinado de eventos recientes en la plataforma:
+- **Panel** — agregados y KPIs en `/{orgSlug}`
+- **[Feed de actividad](/es/aml/activity)** — lista cronológica completa de notificaciones en `/{orgSlug}/activity`
 
-- Nuevos clientes registrados
-- Operaciones registradas por encima del umbral
-- Alertas generadas
-- Envíos de avisos
+## Asistente con IA
 
-Cada elemento vincula al registro correspondiente para navegación rápida.
+Desde el diseño principal puedes abrir la barra lateral de **chat con IA** para preguntas sobre flujos y tus datos (sujeto a límites del plan).
 
-## Qué Hacer Primero
+## Primeros pasos
 
-Si estás configurando Janovix por primera vez:
+Si configuras Janovix por primera vez:
 
-1. Ve a [Configuración → Cumplimiento](/es/settings/compliance) y configura el código de actividad y RFC de tu organización
-2. Regresa al Panel — los KPIs se actualizarán mientras agregas datos
-3. Comienza [registrando tus clientes](/es/aml/clients)
+1. Ve a [Ajustes → Cumplimiento](/es/settings/compliance) y configura la clave de actividad y RFC de la organización
+2. Vuelve al panel — los KPIs se actualizarán al agregar datos
+3. Empieza a [registrar clientes](/es/aml/clients)
+4. Revisa la **[Gestión de riesgos](/es/aml/risk)** cuando ya haya clientes y operaciones

@@ -81,6 +81,7 @@ return res.json() as Promise<T>;
 const { data } = await janovixFetch<{ data: unknown[] }>("/clients");
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```python
@@ -138,6 +139,7 @@ end
 clients = janovix_request("GET", "/clients")["data"]
 
 ````
+
 </Tabs.Tab>
 <Tabs.Tab>
 ```php
@@ -175,19 +177,19 @@ $clients = janovix_request('GET', '/clients')['data'];
 
 ## Authentication Errors
 
-| HTTP Code | Error                                                 | Cause                                        |
-| --------- | ----------------------------------------------------- | -------------------------------------------- |
-| `401`     | `Missing API key.`                                    | No `Authorization` header or no Bearer token |
-| `401`     | `Invalid API key.`                                    | Key not found in the system                  |
-| `401`     | `Invalid API key format.`                             | Malformed key string                         |
-| `403`     | `This API key has been revoked.`                      | Key was revoked in Settings                  |
-| `403`     | `This API key has expired.`                           | Key passed its expiry date                   |
-| `403`     | `Your subscription plan does not include API access.` | Plan must be Pro or Ultra for API access     |
-| `503`     | `Authentication service unavailable.`                 | Transient — retry with exponential backoff   |
+| HTTP Code | Error                                                 | Cause                                                             |
+| --------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| `401`     | `Missing API key.`                                    | No `Authorization` header or no Bearer token                      |
+| `401`     | `Invalid API key.`                                    | Key not found in the system                                       |
+| `401`     | `Invalid API key format.`                             | Malformed key string                                              |
+| `403`     | `This API key has been revoked.`                      | Key was revoked in Settings                                       |
+| `403`     | `This API key has expired.`                           | Key passed its expiry date                                        |
+| `403`     | `Your subscription plan does not include API access.` | Plan must be **Pro** or **Ultra** (not Business / Watchlist-only) |
+| `503`     | `Authentication service unavailable.`                 | Transient — retry with exponential backoff                        |
 
 ## Plan Requirements
 
-API access requires a **Pro** or **Ultra** subscription. Business plan organizations will receive a `403` when attempting to use the API. Upgrade your plan in [Settings → Billing](/en/settings/billing).
+The **Public API** (`api.janovix.com`) is available on **Pro** and **Ultra**. **Business** and **Watchlist-only** plans receive `403` on gateway routes regardless of key validity. Upgrade in [Settings → Billing](/en/settings/billing) when your contract allows.
 
 ## Best Practices
 

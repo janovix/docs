@@ -11,29 +11,25 @@ Cada búsqueda en la watchlist que realizas se guarda automáticamente como una 
 
 {/* IMAGE: public/images/watchlist/watchlist-history.png - Query history list showing query text, dataset filters used, result count, highest match score, status badge, and timestamp */}
 
-## Lista de Consultas
+## Lista de consultas
 
-La página de Historial de Consultas muestra todas las búsquedas realizadas por los miembros de tu organización, ordenadas de la más reciente a la más antigua. Para cada consulta puedes ver:
+La página **Consultas** muestra las búsquedas de tu organización con **paginación en servidor** (tamaño de página 20) y un **filtro de texto con debounce** (~300 ms) sincronizado con la URL. En pantallas estrechas, las filas pasan a **tarjetas** con la misma información.
 
-| Columna                | Descripción                                                                      |
-| ---------------------- | -------------------------------------------------------------------------------- |
-| **Consulta**           | El nombre o identificador que se buscó                                           |
-| **Conjuntos de datos** | Qué listas se consultaron (OFAC, UNSC, SAT 69-B, PEP, Medios Adversos)           |
-| **Resultados**         | Número total de coincidencias devueltas por encima del umbral                    |
-| **Puntaje Más Alto**   | El puntaje de confianza de la mejor coincidencia en todos los conjuntos de datos |
-| **Estado**             | `PENDING` (resultados asíncronos aún en proceso), `COMPLETE`                     |
-| **Ejecutado por**      | El miembro del equipo que realizó la búsqueda                                    |
-| **Fecha**              | Cuándo se ejecutó la búsqueda                                                    |
+| Columna              | Descripción                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------ |
+| **Consulta**         | Nombre o identificador buscado                                                                   |
+| **Origen**           | De dónde salió la consulta — UI manual de Watchlist, **AML**, **API**, **importación CSV**, etc. |
+| **Usuario**          | Quién la ejecutó (avatar + nombre). Filas de importación pueden mostrar etiqueta **importación** |
+| **Fecha**            | Marca de tiempo                                                                                  |
+| **Estado**           | `PENDING` mientras llegan datasets asíncronos, luego `COMPLETE`                                  |
+| **Badges de riesgo** | Indicadores por lista (OFAC, UNSC, SAT 69-B, PEP, medios adversos) con **color** según severidad |
+| **Exportar**         | **PDF** para consultas completadas (botón en tabla; ancho completo en móvil)                     |
 
-## Filtrar Consultas
+## Filtrar consultas
 
-Filtra el historial de consultas por:
-
-- Rango de fechas
-- Conjunto de datos
-- Miembro del equipo
-- Umbral mínimo de puntaje
-- Estado
+- **Buscar** en el texto de la consulta (URL, debounce)
+- **Filtrar** por tipo de entidad (todos / persona / organización) vía parámetro `filter` en la URL
+- Paginar con **offset** / **limit**
 
 ## Ver los Resultados de una Consulta
 
@@ -57,7 +53,7 @@ Cuando la SHCP realiza una visita de verificación, es posible que se te pida de
 
 ## Retención
 
-Los registros de consultas se conservan de forma indefinida como parte del rastro de auditoría de cumplimiento. Los usuarios regulares no pueden eliminarlos. Solo los administradores del sistema pueden archivar registros de consultas, y el archivado queda registrado en el rastro de auditoría.
+Los registros se conservan como **evidencia de auditoría**. Los usuarios finales normalmente **no pueden borrar** filas del historial; la retención y cualquier **archivo administrativo** dependen de tu despliegue Janovix — trata el historial como inmutable salvo que tu administrador indique lo contrario.
 
 ## Exportar el Historial de Consultas
 
