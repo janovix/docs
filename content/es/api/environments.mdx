@@ -1,0 +1,55 @@
+---
+title: Entornos
+description: Aislamiento de datos con entornos de producción, staging y desarrollo
+---
+
+import { Callout } from "nextra/components";
+
+# Entornos
+
+Janovix proporciona tres entornos aislados — **producción**, **staging** y **desarrollo** — para que puedas construir y probar integraciones sin afectar los datos en vivo. Esto funciona de manera similar al modo test vs. live de Stripe.
+
+## Cómo Funciona
+
+Cada llave de API pertenece a exactamente un entorno. El entorno se determina por el prefijo de la llave:
+
+| Entorno    | Prefijo de Llave | URL Base                         |
+| ---------- | ---------------- | -------------------------------- |
+| Producción | `jnvx_live_`     | `https://api.janovix.com/api/v1` |
+| Staging    | `jnvx_stg_`      | `https://api.janovix.com/api/v1` |
+| Desarrollo | `jnvx_dev_`      | `https://api.janovix.com/api/v1` |
+
+Todos los entornos comparten la misma URL base. La llave de API en sí determina los datos de qué entorno estás leyendo y escribiendo.
+
+## Aislamiento de Datos
+
+Cada entorno tiene su propio almacén de datos completamente aislado. Un cliente creado con una llave de staging no existe en producción, y viceversa:
+
+- **Clientes, operaciones, alertas, avisos y sesiones KYC** están vinculados al entorno de la llave de API utilizada para crearlos.
+- **Búsquedas en listas de vigilancia** se ejecutan contra los mismos datos subyacentes de listas, pero los resultados de búsqueda se almacenan por entorno.
+- **Endpoints de webhook** están vinculados a un entorno. Un endpoint de producción solo recibe eventos de producción.
+
+<Callout type="warning">
+	No existe un mecanismo para copiar o promover datos entre entornos. Cada
+	entorno es un espacio de nombres limpio e independiente.
+</Callout>
+
+## Arquitectura Interna
+
+Cuando el gateway de la API valida tu llave, el identificador de entorno se incrusta en el JWT de corta duración que se emite internamente. Cada servicio posterior (AML, Watchlist, Auth) lee el entorno del JWT y delimita todas las consultas en consecuencia. Esto es completamente transparente para el llamador — el entorno se determina únicamente por la llave de API con la que te autentiques.
+
+## Buenas Prácticas
+
+| Práctica                               | Recomendación                                                                                                             |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Desarrollo para trabajo local**      | Usa llaves `jnvx_dev_` durante el desarrollo. Crea clientes y operaciones de prueba libremente sin ningún riesgo.         |
+| **Staging para pre-producción**        | Usa llaves `jnvx_stg_` en tu pipeline de CI/CD y entorno de QA para validar integraciones antes de ir a producción.       |
+| **Producción para datos reales**       | Usa llaves `jnvx_live_` solo en tus sistemas de producción. Protégelas con un gestor de secretos.                         |
+| **Llaves separadas por entorno**       | Nunca reutilices la misma llave entre entornos. Cada sistema debe usar la llave que corresponda a su etapa de despliegue. |
+| **Prueba webhooks en staging primero** | Registra endpoints de webhook en staging para validar el manejo de payloads antes de habilitarlos en producción.          |
+
+<Callout type="info">
+	**Llaves heredadas:** Las llaves de API con el prefijo anterior `sk_live_`
+	siguen funcionando y se tratan como llaves de producción. Todas las llaves
+	nuevas usan el formato de prefijo `jnvx_`.
+</Callout>

@@ -14,14 +14,15 @@ The Janovix Public API (`api.janovix.com`) uses **organization-scoped API keys**
 <Callout type="info">
 	**Internal JWT flow:** The gateway exchanges your API key for a short-lived
 	JWT (30–60 s) on every request and forwards it to the AML service. This is
-	entirely transparent — you only ever deal with your `sk_live_...` key.
+	entirely transparent — you only ever deal with your API key (e.g.,
+	`jnvx_live_...`).
 </Callout>
 
 ## Creating an API Key
 
 Create API keys in **[auth.janovix.com/settings](https://auth.janovix.com/settings) → API Keys**. See the [API Keys settings guide](/en/settings/api-keys) for full instructions.
 
-Key format: `sk_live_` followed by a random string.
+Key format: `jnvx_live_` (production), `jnvx_stg_` (staging), or `jnvx_dev_` (development) followed by a random string. See [Environments](/en/api/environments) for details.
 
 <Callout type="error">
 	**The full key value is shown only once** — at creation time. Copy it
@@ -30,13 +31,33 @@ Key format: `sk_live_` followed by a random string.
 	repositories.
 </Callout>
 
+## Environments
+
+API keys are scoped to one of three environments: **production**, **staging**, or **development**. The key prefix tells you which environment it belongs to:
+
+| Environment | Prefix       | Purpose                              |
+| ----------- | ------------ | ------------------------------------ |
+| Production  | `jnvx_live_` | Live data and real compliance checks |
+| Staging     | `jnvx_stg_`  | Pre-production testing               |
+| Development | `jnvx_dev_`  | Local development and prototyping    |
+
+Data is **fully isolated** between environments. Clients, operations, and alerts created through a staging key are never visible to production keys, and vice versa. This works similarly to Stripe's test vs. live mode.
+
+To create keys for a specific environment, select the environment tab on the [API Keys settings page](/en/settings/api-keys) before creating the key.
+
+<Callout type="info">
+	**Legacy key format:** Existing keys using the `sk_live_` prefix continue to
+	work and are treated as production keys. New keys use the `jnvx_` prefix
+	format.
+</Callout>
+
 ## Using Your API Key
 
 Include the key in the `Authorization` header of every request as a Bearer token:
 
 ```http
 GET https://api.janovix.com/api/v1/clients
-Authorization: Bearer sk_live_your_api_key_here
+Authorization: Bearer jnvx_live_your_api_key_here
 Content-Type: application/json
 ```
 
@@ -48,7 +69,7 @@ Content-Type: application/json
 <Tabs.Tab>
 ```bash
 curl https://api.janovix.com/api/v1/clients \
-  -H "Authorization: Bearer sk_live_your_api_key_here" \
+  -H "Authorization: Bearer jnvx_live_your_api_key_here" \
   -H "Content-Type: application/json"
 ```
 </Tabs.Tab>

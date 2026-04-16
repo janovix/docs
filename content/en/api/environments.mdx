@@ -1,0 +1,55 @@
+---
+title: Environments
+description: Data isolation with production, staging, and development environments
+---
+
+import { Callout } from "nextra/components";
+
+# Environments
+
+Janovix provides three isolated environments — **production**, **staging**, and **development** — so you can build and test integrations without affecting live data. This works similarly to Stripe's test vs. live mode.
+
+## How It Works
+
+Every API key belongs to exactly one environment. The environment is determined by the key prefix:
+
+| Environment | Key Prefix   | Base URL                         |
+| ----------- | ------------ | -------------------------------- |
+| Production  | `jnvx_live_` | `https://api.janovix.com/api/v1` |
+| Staging     | `jnvx_stg_`  | `https://api.janovix.com/api/v1` |
+| Development | `jnvx_dev_`  | `https://api.janovix.com/api/v1` |
+
+All environments share the same base URL. The API key itself determines which environment's data you are reading and writing.
+
+## Data Isolation
+
+Each environment has its own completely isolated data store. A client created with a staging key does not exist in production, and vice versa:
+
+- **Clients, operations, alerts, notices, and KYC sessions** are all scoped to the environment of the API key used to create them.
+- **Watchlist screenings** run against the same underlying watchlist data, but screening results are stored per-environment.
+- **Webhook endpoints** are scoped to an environment. A production webhook endpoint only receives production events.
+
+<Callout type="warning">
+	There is no mechanism to copy or promote data between environments. Each
+	environment is a clean, independent namespace.
+</Callout>
+
+## Internal Architecture
+
+When the API gateway validates your key, the environment identifier is embedded in the short-lived JWT that is issued internally. Every downstream service (AML, Watchlist, Auth) reads the environment from the JWT and scopes all queries accordingly. This is fully transparent to the caller — the environment is determined solely by the API key you authenticate with.
+
+## Best Practices
+
+| Practice                           | Recommendation                                                                                              |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Development for local work**     | Use `jnvx_dev_` keys during development. Create test clients and operations freely without any risk.        |
+| **Staging for pre-production**     | Use `jnvx_stg_` keys in your CI/CD pipeline and QA environment to validate integrations before going live.  |
+| **Production for real data**       | Use `jnvx_live_` keys only in your production systems. Protect them with a secret manager.                  |
+| **Separate keys per environment**  | Never reuse the same key across environments. Each system should use the key matching its deployment stage. |
+| **Test webhooks in staging first** | Register webhook endpoints in staging to validate payload handling before enabling them in production.      |
+
+<Callout type="info">
+	**Legacy keys:** API keys with the older `sk_live_` prefix continue to work
+	and are treated as production keys. All newly created keys use the `jnvx_`
+	prefix format.
+</Callout>

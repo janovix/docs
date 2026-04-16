@@ -1,0 +1,191 @@
+---
+title: KYC Sessions API
+description: Create, manage, and track Know Your Customer sessions via the API
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# KYC Sessions API
+
+KYC Sessions represent a Know Your Customer verification workflow for a client. A session tracks the lifecycle from initial creation through document submission, review, and final approval or rejection.
+
+## Session Statuses
+
+| Status           | Description                                              |
+| ---------------- | -------------------------------------------------------- |
+| `ACTIVE`         | Session created, waiting for the client to begin         |
+| `IN_PROGRESS`    | Client has started filling out the form                  |
+| `SUBMITTED`      | Client submitted all required documents and information  |
+| `PENDING_REVIEW` | Submitted session awaiting compliance officer review     |
+| `APPROVED`       | Session reviewed and approved                            |
+| `REJECTED`       | Session reviewed and rejected                            |
+| `EXPIRED`        | Session was not completed before the expiration deadline |
+| `REVOKED`        | Session was manually revoked by a compliance officer     |
+
+## Endpoints
+
+### Create a Session
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "clientId": "client_01J...",
+  "type": "individual",
+  "redirectUrl": "https://your-app.com/kyc/complete",
+  "expiresIn": 72
+}
+```
+
+| Field         | Type   | Required | Description                                    |
+| ------------- | ------ | -------- | ---------------------------------------------- |
+| `clientId`    | string | yes      | The client this session belongs to             |
+| `type`        | string | yes      | `"individual"` or `"corporate"`                |
+| `redirectUrl` | string | no       | URL to redirect the client to after submission |
+| `expiresIn`   | number | no       | Hours until the session expires (default: 72)  |
+
+The response includes a `url` field with the self-service link to share with the client.
+
+### List Sessions
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions?clientId=client_01J...&status=PENDING_REVIEW
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+| Parameter  | Type   | Description                    |
+| ---------- | ------ | ------------------------------ |
+| `clientId` | string | Filter by client ID            |
+| `status`   | string | Filter by session status       |
+| `page`     | number | Page number (default: 1)       |
+| `limit`    | number | Results per page (default: 20) |
+
+### Get Session Details
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions/:id
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+Returns the full session object including current status, submitted documents, and review history.
+
+### Approve a Session
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/approve
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "notes": "All documents verified successfully."
+}
+```
+
+### Reject a Session
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/reject
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "reason": "Expired identification document.",
+  "notes": "Passport expired on 2024-12-31."
+}
+```
+
+### Revoke a Session
+
+Revoke an active or in-progress session so the client can no longer submit it.
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/revoke
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "reason": "Duplicate session created in error."
+}
+```
+
+### Get Session Audit Trail
+
+Returns the full history of status changes and actions taken on a session.
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions/:id/events
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+## Code Examples
+
+<Tabs items={['TypeScript', 'Python']}>
+<Tabs.Tab>
+```typescript
+const BASE_URL = "https://api.janovix.com/api/v1";
+
+async function createKycSession(clientId: string) {
+const res = await fetch(`${BASE_URL}/kyc-sessions`, {
+method: "POST",
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+"Content-Type": "application/json",
+},
+body: JSON.stringify({
+clientId,
+type: "individual",
+redirectUrl: "https://your-app.com/kyc/complete",
+}),
+});
+return res.json();
+}
+
+async function getSessionStatus(sessionId: string) {
+const res = await fetch(`${BASE_URL}/kyc-sessions/${sessionId}`, {
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+},
+});
+return res.json();
+}
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import os
+import requests
+
+BASE_URL = "https://api.janovix.com/api/v1"
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": f"Bearer {os.environ['JANOVIX_API_KEY']}",
+    "Content-Type": "application/json",
+})
+
+def create_kyc_session(client_id: str) -> dict:
+    res = session.post(f"{BASE_URL}/kyc-sessions", json={
+        "clientId": client_id,
+        "type": "individual",
+        "redirectUrl": "https://your-app.com/kyc/complete",
+    })
+    res.raise_for_status()
+    return res.json()
+
+def get_session_status(session_id: str) -> dict:
+    res = session.get(f"{BASE_URL}/kyc-sessions/{session_id}")
+    res.raise_for_status()
+    return res.json()
+````
+
+</Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+	KYC session events (`kyc_session.submitted`, `kyc_session.status_changed`) can
+	be delivered via [webhooks](/en/api/webhooks) for real-time notifications when
+	a client completes or a reviewer acts on a session.
+</Callout>

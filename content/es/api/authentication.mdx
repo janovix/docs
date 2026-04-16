@@ -14,15 +14,15 @@ La API Pública de Janovix (`api.janovix.com`) utiliza **llaves de API con alcan
 <Callout type="info">
 	**Flujo interno de JWT:** El gateway intercambia tu llave de API por un JWT de
 	corta duración (30–60 s) en cada solicitud y lo reenvía al servicio AML. Este
-	proceso es completamente transparente — tú solo interactúas con tu llave
-	`sk_live_...`.
+	proceso es completamente transparente — tú solo interactúas con tu llave de
+	API (p. ej., `jnvx_live_...`).
 </Callout>
 
 ## Crear una Llave de API
 
 Crea llaves de API en **[auth.janovix.com/settings](https://auth.janovix.com/settings) → API Keys**. Consulta la [guía de configuración de API Keys](/es/settings/api-keys) para instrucciones completas.
 
-Formato de la llave: `sk_live_` seguido de una cadena aleatoria.
+Formato de la llave: `jnvx_live_` (producción), `jnvx_stg_` (staging) o `jnvx_dev_` (desarrollo) seguido de una cadena aleatoria. Consulta [Entornos](/es/api/environments) para más detalles.
 
 <Callout type="error">
 	**El valor completo de la llave se muestra solo una vez** — al momento de
@@ -31,13 +31,33 @@ Formato de la llave: `sk_live_` seguido de una cadena aleatoria.
 	llaves de API en repositorios de código fuente.
 </Callout>
 
+## Entornos
+
+Las llaves de API están vinculadas a uno de tres entornos: **producción**, **staging** o **desarrollo**. El prefijo de la llave indica a qué entorno pertenece:
+
+| Entorno    | Prefijo      | Propósito                                     |
+| ---------- | ------------ | --------------------------------------------- |
+| Producción | `jnvx_live_` | Datos reales y verificaciones de cumplimiento |
+| Staging    | `jnvx_stg_`  | Pruebas de pre-producción                     |
+| Desarrollo | `jnvx_dev_`  | Desarrollo local y prototipos                 |
+
+Los datos están **completamente aislados** entre entornos. Los clientes, operaciones y alertas creados con una llave de staging nunca son visibles para las llaves de producción, y viceversa. Esto funciona de manera similar al modo test vs. live de Stripe.
+
+Para crear llaves para un entorno específico, selecciona la pestaña del entorno en la [página de configuración de Llaves de API](/es/settings/api-keys) antes de crear la llave.
+
+<Callout type="info">
+	**Formato heredado de llaves:** Las llaves existentes que usan el prefijo
+	`sk_live_` siguen funcionando y se tratan como llaves de producción. Las
+	llaves nuevas usan el formato de prefijo `jnvx_`.
+</Callout>
+
 ## Usar tu Llave de API
 
 Incluye la llave en el encabezado `Authorization` de cada solicitud como token Bearer:
 
 ```http
 GET https://api.janovix.com/api/v1/clients
-Authorization: Bearer sk_live_your_api_key_here
+Authorization: Bearer jnvx_live_your_api_key_here
 Content-Type: application/json
 ```
 
@@ -49,7 +69,7 @@ Content-Type: application/json
 <Tabs.Tab>
 ```bash
 curl https://api.janovix.com/api/v1/clients \
-  -H "Authorization: Bearer sk_live_your_api_key_here" \
+  -H "Authorization: Bearer jnvx_live_your_api_key_here" \
   -H "Content-Type: application/json"
 ```
 </Tabs.Tab>

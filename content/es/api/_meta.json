@@ -1,6 +1,7 @@
 {
 	"index": "Descripción General",
 	"authentication": "Autenticación",
+	"environments": "Entornos",
 	"clients": "API de Clientes",
 	"operations": "API de Operaciones",
 	"alerts": "API de Alertas",
@@ -9,5 +10,6 @@
 	"reports": "API de Reportes",
 	"risk": "API de riesgo",
 	"catalogs": "API de Catálogos",
+	"kyc-sessions": "API de Sesiones KYC",
 	"webhooks": "Webhooks"
 }

@@ -27,7 +27,7 @@ Ingresa un nombre descriptivo para la llave (p. ej., "Integración ERP", "Pipeli
 
 Después de crearla, **el valor completo de la llave se muestra solo una vez**. Cópialo de inmediato y guárdalo en tu gestor de secretos (p. ej., AWS Secrets Manager, HashiCorp Vault, Cloudflare Secrets).
 
-El formato de la llave es: `sk_live_` seguido de una cadena aleatoria.
+El formato de la llave depende del entorno seleccionado (ver abajo).
 
 </Steps>
 
@@ -36,6 +36,24 @@ El formato de la llave es: `sk_live_` seguido de una cadena aleatoria.
 	valor completo de la llave después de su creación. Si pierdes la llave,
 	deberás rotarla. Nunca incluyas llaves de API en repositorios de código
 	fuente.
+</Callout>
+
+## Entornos
+
+La página de Llaves de API tiene tres pestañas de entorno: **Producción**, **Staging** y **Desarrollo**. Cada llave está vinculada al entorno que seleccionas al crearla.
+
+| Entorno    | Prefijo      | Propósito                                     |
+| ---------- | ------------ | --------------------------------------------- |
+| Producción | `jnvx_live_` | Datos reales y flujos de cumplimiento en vivo |
+| Staging    | `jnvx_stg_`  | Pruebas de integración pre-producción         |
+| Desarrollo | `jnvx_dev_`  | Desarrollo local y prototipos                 |
+
+Los datos creados a través de las llaves de cada entorno están **completamente aislados**. Una llave de staging solo puede acceder a datos de staging; nunca toca los registros de producción. Esto hace que sea seguro probar integraciones sin riesgo para los datos en vivo.
+
+<Callout type="info">
+	**Llaves heredadas:** Las llaves existentes con el prefijo `sk_live_` siguen
+	funcionando y se tratan como llaves de producción. Las llaves nuevas se crean
+	con el formato de prefijo `jnvx_`.
 </Callout>
 
 ## Usar una Llave de API

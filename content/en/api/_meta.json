@@ -1,6 +1,7 @@
 {
 	"index": "Overview",
 	"authentication": "Authentication",
+	"environments": "Environments",
 	"clients": "Clients API",
 	"operations": "Operations API",
 	"alerts": "Alerts API",
@@ -9,5 +10,6 @@
 	"reports": "Reports API",
 	"risk": "Risk API",
 	"catalogs": "Catalogs API",
+	"kyc-sessions": "KYC Sessions API",
 	"webhooks": "Webhooks"
 }

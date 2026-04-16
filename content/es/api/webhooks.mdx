@@ -3,23 +3,18 @@ title: Webhooks
 description: Recibe notificaciones de eventos en tiempo real desde la plataforma Janovix
 ---
 
-import { Callout } from "nextra/components";
+import { Callout, Tabs } from "nextra/components";
 
 # Webhooks
 
-<Callout type="info">
-	Los webhooks están en la hoja de ruta y aún no están disponibles. Esta página
-	documenta la API planeada. Suscríbete al registro de cambios para ser
-	notificado cuando se lancen los webhooks.
-</Callout>
+Los webhooks permiten que tus sistemas reciban notificaciones en tiempo real cuando ocurren eventos en Janovix, sin necesidad de consultar la API. Registras un endpoint HTTPS y Janovix envía una solicitud `POST` cada vez que se dispara un evento suscrito.
 
-Los webhooks permiten que tus sistemas reciban notificaciones en tiempo real cuando ocurren eventos en Janovix, sin necesidad de consultar la API periódicamente.
-
-## Eventos Planeados
+## Tipos de Eventos
 
 | Evento                                | Disparador                                                          |
 | ------------------------------------- | ------------------------------------------------------------------- |
 | `client.created`                      | Se registró un nuevo cliente                                        |
+| `client.updated`                      | Se modificaron los datos de un cliente                              |
 | `client.kyc_status_changed`           | Cambió el estado KYC de un cliente                                  |
 | `client.watchlist_screening_complete` | Los resultados de verificación en listas de vigilancia están listos |
 | `operation.created`                   | Se registró una nueva operación                                     |
@@ -30,15 +25,90 @@ Los webhooks permiten que tus sistemas reciban notificaciones en tiempo real cua
 | `kyc_session.submitted`               | Un cliente envió su formulario de autoservicio KYC                  |
 | `kyc_session.status_changed`          | Una sesión KYC fue aprobada o rechazada                             |
 
+## Gestión de Endpoints de Webhooks
+
+Los endpoints están vinculados a un **entorno** específico (producción, staging o desarrollo). Los eventos disparados en un entorno solo se entregan a los endpoints registrados en ese mismo entorno.
+
+### Crear un Endpoint
+
+```http
+POST https://api.janovix.com/api/v1/webhooks/endpoints
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "url": "https://your-server.com/webhooks/janovix",
+  "events": ["client.created", "alert.created"],
+  "description": "Production alert handler"
+}
+```
+
+### Listar Endpoints
+
+```http
+GET https://api.janovix.com/api/v1/webhooks/endpoints
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+### Obtener un Endpoint
+
+```http
+GET https://api.janovix.com/api/v1/webhooks/endpoints/:id
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+### Actualizar un Endpoint
+
+```http
+PUT https://api.janovix.com/api/v1/webhooks/endpoints/:id
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "url": "https://your-server.com/webhooks/janovix-v2",
+  "events": ["client.created", "client.updated", "alert.created"]
+}
+```
+
+### Eliminar un Endpoint
+
+```http
+DELETE https://api.janovix.com/api/v1/webhooks/endpoints/:id
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+### Listar Entregas
+
+Inspecciona los intentos de entrega de tu organización. Útil para depurar entregas fallidas.
+
+```http
+GET https://api.janovix.com/api/v1/webhooks/deliveries
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+### Enviar un Evento de Prueba
+
+Dispara un evento sintético para verificar que tu endpoint es alcanzable y procesa los payloads correctamente.
+
+```http
+POST https://api.janovix.com/api/v1/webhooks/test
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "endpointId": "wh_endpoint_01J...",
+  "eventType": "client.created"
+}
+```
+
 ## Formato del Payload
 
-Todos los payloads de webhook seguirán esta estructura:
+Todos los payloads de webhook siguen esta estructura:
 
 ```json
 {
 	"id": "evt_01J...",
 	"type": "alert.created",
-	"organizationId": "org_01J...",
 	"timestamp": "2025-07-16T10:05:00.000Z",
 	"data": {
 		// El objeto completo del recurso
@@ -46,32 +116,130 @@ Todos los payloads de webhook seguirán esta estructura:
 }
 ```
 
-## Seguridad
+| Campo       | Tipo   | Descripción                                            |
+| ----------- | ------ | ------------------------------------------------------ |
+| `id`        | string | Identificador único del evento (clave de idempotencia) |
+| `type`      | string | Uno de los tipos de evento listados arriba             |
+| `timestamp` | string | Marca de tiempo ISO 8601 de cuando ocurrió el evento   |
+| `data`      | object | El objeto completo del recurso que disparó el evento   |
 
-Los webhooks estarán firmados con una firma HMAC-SHA256. La firma se incluirá en el encabezado `X-Janovix-Signature`.
+## Verificación de Firma
 
+Cada solicitud de webhook incluye dos encabezados para verificar su autenticidad:
+
+| Encabezado            | Descripción                                                     |
+| --------------------- | --------------------------------------------------------------- |
+| `X-Janovix-Signature` | Firma HMAC-SHA256 del cuerpo crudo de la solicitud              |
+| `X-Janovix-Timestamp` | Marca de tiempo Unix (segundos) de cuando se envió la solicitud |
+
+La firma se calcula como `sha256=HMAC-SHA256(webhook_secret, timestamp.body)` donde la marca de tiempo y el cuerpo se concatenan con un separador `.`.
+
+<Callout type="warning">
+	Siempre verifica la firma antes de procesar un payload de webhook. Rechaza
+	solicitudes cuya marca de tiempo sea mayor a 5 minutos para prevenir ataques
+	de repetición.
+</Callout>
+
+<Tabs items={['TypeScript', 'Python', 'Node.js']}>
+<Tabs.Tab>
 ```typescript
 import crypto from "crypto";
 
-function verifyWebhookSignature(
-	payload: string,
-	signature: string,
-	secret: string,
+function verifyWebhook(
+body: string,
+signature: string,
+timestamp: string,
+secret: string,
 ): boolean {
-	const expected = crypto
-		.createHmac("sha256", secret)
-		.update(payload)
-		.digest("hex");
-	return crypto.timingSafeEqual(
-		Buffer.from(signature),
-		Buffer.from(`sha256=${expected}`),
-	);
+const age = Math.abs(Date.now() / 1000 - Number(timestamp));
+if (age > 300) return false;
+
+const expected = crypto
+.createHmac("sha256", secret)
+.update(`${timestamp}.${body}`)
+.digest("hex");
+
+return crypto.timingSafeEqual(
+Buffer.from(signature),
+Buffer.from(`sha256=${expected}`),
+);
 }
-```
 
-## Alternativa Actual: Flujos SSE
+// En tu manejador de solicitudes
+const isValid = verifyWebhook(
+rawBody,
+req.headers["x-janovix-signature"],
+req.headers["x-janovix-timestamp"],
+process.env.WEBHOOK_SECRET,
+);
 
-Mientras los webhooks no estén disponibles, varios endpoints proporcionan actualizaciones en tiempo real mediante **Server-Sent Events (SSE)**:
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import hashlib
+import hmac
+import time
+
+def verify_webhook(body: str, signature: str, timestamp: str, secret: str) -> bool:
+    age = abs(time.time() - int(timestamp))
+    if age > 300:
+        return False
+
+    expected = hmac.new(
+        secret.encode(),
+        f"{timestamp}.{body}".encode(),
+        hashlib.sha256,
+    ).hexdigest()
+
+    return hmac.compare_digest(signature, f"sha256={expected}")
+````
+
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const crypto = require("crypto");
+
+function verifyWebhook(body, signature, timestamp, secret) {
+const age = Math.abs(Date.now() / 1000 - Number(timestamp));
+if (age > 300) return false;
+
+const expected = crypto
+.createHmac("sha256", secret)
+.update(`${timestamp}.${body}`)
+.digest("hex");
+
+return crypto.timingSafeEqual(
+Buffer.from(signature),
+Buffer.from(`sha256=${expected}`),
+);
+}
+
+````
+</Tabs.Tab>
+</Tabs>
+
+## Comportamiento de Reintentos
+
+Si tu endpoint devuelve un código de estado diferente a 2xx o la solicitud expira, Janovix reintenta la entrega hasta **3 intentos** con retroceso exponencial:
+
+| Intento | Retraso      |
+| ------- | ------------ |
+| 1ro     | Inmediato    |
+| 2do     | ~30 segundos |
+| 3ro     | ~5 minutos   |
+
+Después de agotar todos los intentos, la entrega se marca como fallida. Puedes inspeccionar las entregas fallidas a través del endpoint `GET /api/v1/webhooks/deliveries`.
+
+<Callout type="info">
+  Tu endpoint debe devolver un código de estado `200` dentro de 15 segundos.
+  Delega el procesamiento pesado a una cola en segundo plano y confirma
+  la recepción del webhook de inmediato.
+</Callout>
+
+## Flujos SSE (Alternativa)
+
+Además de los webhooks, varios endpoints proporcionan actualizaciones en tiempo real mediante **Server-Sent Events (SSE)** para casos de uso de streaming:
 
 | Endpoint                                   | Descripción                                                 |
 | ------------------------------------------ | ----------------------------------------------------------- |
@@ -82,28 +250,28 @@ Mientras los webhooks no estén disponibles, varios endpoints proporcionan actua
 
 ```typescript
 const es = new EventSource(
-	`https://api.janovix.com/api/v1/imports/${importId}/events`,
-	{
-		// EventSource no admite encabezados personalizados de forma nativa en navegadores.
-		// Para uso en el servidor, usa el paquete npm `eventsource`.
-	},
+  `https://api.janovix.com/api/v1/imports/${importId}/events`,
+  {
+    // EventSource no admite encabezados personalizados de forma nativa en navegadores.
+    // Para uso en el servidor, usa el paquete npm `eventsource`.
+  },
 );
 
 es.addEventListener("progress", (e) => {
-	const data = JSON.parse(e.data);
-	console.log(`Progreso: ${data.processedRows}/${data.totalRows}`);
+  const data = JSON.parse(e.data);
+  console.log(`Progreso: ${data.processedRows}/${data.totalRows}`);
 });
 
 es.addEventListener("complete", () => {
-	console.log("Importación completa");
-	es.close();
+  console.log("Importación completa");
+  es.close();
 });
 
 es.addEventListener("error", (e) => {
-	console.error("Error SSE:", e);
-	es.close();
+  console.error("Error SSE:", e);
+  es.close();
 });
-```
+````
 
 ### Ejemplo SSE (Python)
 

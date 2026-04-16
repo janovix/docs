@@ -27,7 +27,7 @@ Enter a descriptive name for the key (e.g., "ERP Integration", "CI Pipeline", "B
 
 After creation, **the full key value is shown only once**. Copy it immediately and store it in your secret manager (e.g., AWS Secrets Manager, HashiCorp Vault, Cloudflare Secrets).
 
-The key format is: `sk_live_` followed by a random string.
+The key format depends on the selected environment (see below).
 
 </Steps>
 
@@ -35,6 +35,24 @@ The key format is: `sk_live_` followed by a random string.
 	**Store your API key securely.** Janovix never displays the full key value
 	again after creation. If you lose the key, you must rotate it. Never commit
 	API keys to source code repositories.
+</Callout>
+
+## Environments
+
+The API Keys page has three environment tabs: **Production**, **Staging**, and **Development**. Each key is scoped to the environment you select when creating it.
+
+| Environment | Prefix       | Purpose                                 |
+| ----------- | ------------ | --------------------------------------- |
+| Production  | `jnvx_live_` | Live data and real compliance workflows |
+| Staging     | `jnvx_stg_`  | Pre-production integration testing      |
+| Development | `jnvx_dev_`  | Local development and prototyping       |
+
+Data created through each environment's keys is **fully isolated**. A staging key can only access staging data; it never touches production records. This makes it safe to test integrations without risk to live data.
+
+<Callout type="info">
+	**Legacy keys:** Existing keys with the `sk_live_` prefix continue to work and
+	are treated as production keys. New keys are created with the `jnvx_` prefix
+	format.
 </Callout>
 
 ## Using an API Key

@@ -1,0 +1,192 @@
+---
+title: API de Sesiones KYC
+description: Crea, gestiona y rastrea sesiones de Conoce a tu Cliente (KYC) a través de la API
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# API de Sesiones KYC
+
+Las Sesiones KYC representan un flujo de verificación de Conoce a tu Cliente para un cliente. Una sesión rastrea el ciclo de vida desde la creación inicial, pasando por el envío de documentos, la revisión y la aprobación o rechazo final.
+
+## Estados de Sesión
+
+| Estado           | Descripción                                                         |
+| ---------------- | ------------------------------------------------------------------- |
+| `ACTIVE`         | Sesión creada, esperando que el cliente comience                    |
+| `IN_PROGRESS`    | El cliente ha comenzado a completar el formulario                   |
+| `SUBMITTED`      | El cliente envió todos los documentos e información requeridos      |
+| `PENDING_REVIEW` | Sesión enviada en espera de revisión por el oficial de cumplimiento |
+| `APPROVED`       | Sesión revisada y aprobada                                          |
+| `REJECTED`       | Sesión revisada y rechazada                                         |
+| `EXPIRED`        | La sesión no se completó antes de la fecha límite de expiración     |
+| `REVOKED`        | La sesión fue revocada manualmente por un oficial de cumplimiento   |
+
+## Endpoints
+
+### Crear una Sesión
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "clientId": "client_01J...",
+  "type": "individual",
+  "redirectUrl": "https://your-app.com/kyc/complete",
+  "expiresIn": 72
+}
+```
+
+| Campo         | Tipo   | Requerido | Descripción                                        |
+| ------------- | ------ | --------- | -------------------------------------------------- |
+| `clientId`    | string | sí        | El cliente al que pertenece esta sesión            |
+| `type`        | string | sí        | `"individual"` o `"corporate"`                     |
+| `redirectUrl` | string | no        | URL a donde redirigir al cliente después del envío |
+| `expiresIn`   | number | no        | Horas hasta que expire la sesión (por defecto: 72) |
+
+La respuesta incluye un campo `url` con el enlace de autoservicio para compartir con el cliente.
+
+### Listar Sesiones
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions?clientId=client_01J...&status=PENDING_REVIEW
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+| Parámetro  | Tipo   | Descripción                             |
+| ---------- | ------ | --------------------------------------- |
+| `clientId` | string | Filtrar por ID de cliente               |
+| `status`   | string | Filtrar por estado de sesión            |
+| `page`     | number | Número de página (por defecto: 1)       |
+| `limit`    | number | Resultados por página (por defecto: 20) |
+
+### Obtener Detalles de Sesión
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions/:id
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+Devuelve el objeto completo de la sesión incluyendo el estado actual, documentos enviados e historial de revisión.
+
+### Aprobar una Sesión
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/approve
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "notes": "Todos los documentos verificados exitosamente."
+}
+```
+
+### Rechazar una Sesión
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/reject
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "reason": "Documento de identificación expirado.",
+  "notes": "Pasaporte expiró el 2024-12-31."
+}
+```
+
+### Revocar una Sesión
+
+Revoca una sesión activa o en progreso para que el cliente ya no pueda enviarla.
+
+```http
+POST https://api.janovix.com/api/v1/kyc-sessions/:id/revoke
+Authorization: Bearer jnvx_live_your_api_key_here
+Content-Type: application/json
+
+{
+  "reason": "Sesión duplicada creada por error."
+}
+```
+
+### Obtener Pista de Auditoría de la Sesión
+
+Devuelve el historial completo de cambios de estado y acciones realizadas en una sesión.
+
+```http
+GET https://api.janovix.com/api/v1/kyc-sessions/:id/events
+Authorization: Bearer jnvx_live_your_api_key_here
+```
+
+## Ejemplos de Código
+
+<Tabs items={['TypeScript', 'Python']}>
+<Tabs.Tab>
+```typescript
+const BASE_URL = "https://api.janovix.com/api/v1";
+
+async function createKycSession(clientId: string) {
+const res = await fetch(`${BASE_URL}/kyc-sessions`, {
+method: "POST",
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+"Content-Type": "application/json",
+},
+body: JSON.stringify({
+clientId,
+type: "individual",
+redirectUrl: "https://your-app.com/kyc/complete",
+}),
+});
+return res.json();
+}
+
+async function getSessionStatus(sessionId: string) {
+const res = await fetch(`${BASE_URL}/kyc-sessions/${sessionId}`, {
+headers: {
+Authorization: `Bearer ${process.env.JANOVIX_API_KEY}`,
+},
+});
+return res.json();
+}
+
+````
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import os
+import requests
+
+BASE_URL = "https://api.janovix.com/api/v1"
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": f"Bearer {os.environ['JANOVIX_API_KEY']}",
+    "Content-Type": "application/json",
+})
+
+def create_kyc_session(client_id: str) -> dict:
+    res = session.post(f"{BASE_URL}/kyc-sessions", json={
+        "clientId": client_id,
+        "type": "individual",
+        "redirectUrl": "https://your-app.com/kyc/complete",
+    })
+    res.raise_for_status()
+    return res.json()
+
+def get_session_status(session_id: str) -> dict:
+    res = session.get(f"{BASE_URL}/kyc-sessions/{session_id}")
+    res.raise_for_status()
+    return res.json()
+````
+
+</Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+	Los eventos de sesión KYC (`kyc_session.submitted`,
+	`kyc_session.status_changed`) se pueden entregar a través de
+	[webhooks](/es/api/webhooks) para recibir notificaciones en tiempo real cuando
+	un cliente completa o un revisor actúa sobre una sesión.
+</Callout>
