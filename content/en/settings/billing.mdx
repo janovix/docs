@@ -13,7 +13,7 @@ The **Billing** section shows your current subscription plan, feature entitlemen
 
 ## Subscription Plans
 
-Janovix offers four subscription tiers:
+Yenio offers four subscription tiers:
 
 {/* IMAGE: public/images/settings/settings-plans.png - Plan comparison table showing Watchlist, Business, Pro, and Ultra tiers side-by-side with their limits and price */}
 
@@ -44,7 +44,7 @@ The billing page shows your current usage against your plan limits in a **usage 
 | **Watchlist Queries / Day** | Daily limit on watchlist search queries             |
 | **Team Seats**              | Current members vs. seat limit                      |
 
-When you approach a limit, Janovix shows a warning. When you hit a limit, the corresponding action is gated until you upgrade or the billing period resets.
+When you approach a limit, Yenio shows a warning. When you hit a limit, the corresponding action is gated until you upgrade or the billing period resets.
 
 <Callout type="info">
 	**Stripe billing** can be disabled per deployment (feature flag). If billing
@@ -64,7 +64,7 @@ Click **Upgrade Plan** to see available plans and their pricing. Upgrades take e
 
 ### Downgrading
 
-Click **Change Plan** and select a lower tier. Before a downgrade is applied, Janovix may run a **downgrade preparation wizard** that checks seats, usage, and incompatible features so you do not lose access unexpectedly. Downgrades typically take effect at the **end of the current billing period** — confirm the effective date in the UI.
+Click **Change Plan** and select a lower tier. Before a downgrade is applied, Yenio may run a **downgrade preparation wizard** that checks seats, usage, and incompatible features so you do not lose access unexpectedly. Downgrades typically take effect at the **end of the current billing period** — confirm the effective date in the UI.
 
 ### Cancelling
 
@@ -80,14 +80,13 @@ Click **Manage Payment** to open the Stripe Customer Portal where you can:
 - Update billing address
 
 <Callout type="warning">
-	Janovix uses **Stripe** for payment processing. We never store raw card
-	numbers. All payment data is handled by Stripe's PCI-DSS compliant
-	infrastructure.
+	Yenio uses **Stripe** for payment processing. We never store raw card numbers.
+	All payment data is handled by Stripe's PCI-DSS compliant infrastructure.
 </Callout>
 
 ## Trial Abuse Prevention
 
-To ensure fair access to trial plans, Janovix uses card fingerprinting to prevent the same payment method from being used to start multiple trials. Each unique payment method is eligible for one trial per plan tier.
+To ensure fair access to trial plans, Yenio uses card fingerprinting to prevent the same payment method from being used to start multiple trials. Each unique payment method is eligible for one trial per plan tier.
 
 ## Enterprise Licenses
 

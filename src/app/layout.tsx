@@ -25,8 +25,8 @@ const docsMetadataBase =
 export const metadata: Metadata = {
 	metadataBase: new URL(docsMetadataBase),
 	title: {
-		default: "Janovix Documentation",
-		template: "%s – Janovix Docs",
+		default: "Yenio Documentation",
+		template: "%s – Yenio Docs",
 	},
 	manifest: "/site.webmanifest",
 	icons: {
@@ -44,9 +44,9 @@ export const metadata: Metadata = {
 		],
 	},
 	description:
-		"Complete documentation for the Janovix AML compliance platform. User manuals for AML management, Settings, Watchlist screening, and full API integration guide with multi-language examples.",
+		"Complete documentation for the Yenio AML compliance platform. User manuals for AML management, Settings, Watchlist screening, and full API integration guide with multi-language examples.",
 	keywords: [
-		"Janovix",
+		"Yenio",
 		"AML",
 		"KYC",
 		"anti-money laundering",
@@ -56,15 +56,18 @@ export const metadata: Metadata = {
 		"API",
 	],
 	openGraph: {
-		title: "Janovix Documentation",
+		title: "Yenio Documentation",
 		description:
-			"Complete documentation for the Janovix AML compliance platform.",
+			"Complete documentation for the Yenio AML compliance platform.",
 		type: "website",
 	},
 };
 
 export const viewport: Viewport = {
-	themeColor: "#0f766e",
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#f7fbfc" },
+		{ media: "(prefers-color-scheme: dark)", color: "#11171d" },
+	],
 	width: "device-width",
 	initialScale: 1,
 	maximumScale: 5,

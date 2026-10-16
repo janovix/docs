@@ -1,13 +1,13 @@
 ---
 title: Webhooks
-description: Receive real-time event notifications from the Janovix platform
+description: Receive real-time event notifications from the Yenio platform
 ---
 
 import { Callout, Tabs } from "nextra/components";
 
 # Webhooks
 
-Webhooks allow your systems to receive real-time notifications when events occur in Janovix, without polling the API. You register an HTTPS endpoint, and Janovix sends a `POST` request to it whenever a subscribed event fires.
+Webhooks allow your systems to receive real-time notifications when events occur in Yenio, without polling the API. You register an HTTPS endpoint, and Yenio sends a `POST` request to it whenever a subscribed event fires.
 
 ## Event Types
 
@@ -221,7 +221,7 @@ Buffer.from(`sha256=${expected}`),
 
 ## Retry Behavior
 
-If your endpoint returns a non-2xx status code or the request times out, Janovix retries delivery up to **3 attempts** with exponential backoff:
+If your endpoint returns a non-2xx status code or the request times out, Yenio retries delivery up to **3 attempts** with exponential backoff:
 
 | Attempt | Delay        |
 | ------- | ------------ |

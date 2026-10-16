@@ -30,7 +30,7 @@ function toCleanResultUrl(url: string): string {
 	return url;
 }
 
-const GENERIC_TITLES = new Set(["docs", "janovix docs", "documentation"]);
+const GENERIC_TITLES = new Set(["docs", "yenio docs", "documentation"]);
 
 /** Derive a readable title from the URL path when Pagefind returns a generic title (e.g. "Docs" from navbar h1). */
 function resultDisplayTitle(url: string, metaTitle?: string): string {

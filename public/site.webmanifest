@@ -1,5 +1,5 @@
 {
-	"name": "Janovix Documentation",
+	"name": "Yenio Documentation",
 	"short_name": "Docs",
 	"icons": [
 		{
@@ -13,7 +13,7 @@
 			"type": "image/png"
 		}
 	],
-	"theme_color": "#0f766e",
-	"background_color": "#ffffff",
+	"theme_color": "#f7fbfc",
+	"background_color": "#f7fbfc",
 	"display": "standalone"
 }

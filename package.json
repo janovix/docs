@@ -1,10 +1,10 @@
 {
 	"name": "docs",
 	"version": "1.7.0",
-	"description": "Janovix platform documentation — AML, KYC, Watchlist, and API integration guide.",
+	"description": "Yenio platform documentation — AML, KYC, Watchlist, and API integration guide.",
 	"packageManager": "pnpm@10.0.0",
 	"cloudflare": {
-		"label": "Janovix Documentation",
+		"label": "Yenio Documentation",
 		"products": [
 			"Workers"
 		],

@@ -15,10 +15,10 @@ El módulo de **Facturas** te permite importar, gestionar y vincular facturas el
 
 Un CFDI (Comprobante Fiscal Digital por Internet) es el formato estandarizado de factura electrónica en México, obligatorio por el SAT para efectos fiscales. La versión CFDI v4.0 es la versión vigente.
 
-Janovix admite:
+Yenio admite:
 
 - Captura manual de facturas
-- **Parseo de XML** — pega o sube un archivo XML de CFDI y Janovix extrae todos los campos automáticamente
+- **Parseo de XML** — pega o sube un archivo XML de CFDI y Yenio extrae todos los campos automáticamente
 
 ## Importar un CFDI mediante XML
 
@@ -27,7 +27,7 @@ Janovix admite:
 1. Navega a **Transacciones → Facturas** y haz clic en **+ Importar CFDI**
 2. Elige **Parsear XML**
 3. Pega o sube el archivo XML del CFDI
-4. Janovix extrae y llena automáticamente:
+4. Yenio extrae y llena automáticamente:
    - Emisor: RFC, nombre, régimen fiscal
    - Receptor: RFC, nombre, uso del CFDI
    - Datos financieros: subtotal, impuestos, total
@@ -36,7 +36,7 @@ Janovix admite:
 5. Revisa los datos extraídos y haz clic en **Guardar**
 
 <Callout type="info">
-	El UUID (Folio Fiscal) se extrae del nodo TFD del XML del CFDI. Janovix aplica
+	El UUID (Folio Fiscal) se extrae del nodo TFD del XML del CFDI. Yenio aplica
 	unicidad por UUID dentro de tu organización para evitar importaciones
 	duplicadas.
 </Callout>
