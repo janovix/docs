@@ -1,3 +1,10 @@
+# [1.8.0-rc.1](https://github.com/janovix/docs/compare/v1.7.0...v1.8.0-rc.1) (2026-10-16)
+
+
+### Features
+
+* **brand:** rebrand visible Janovix branding to Yenio ([b5c4651](https://github.com/janovix/docs/commit/b5c4651954fb704bac0058121a5a41b74651d289))
+
 # [1.7.0](https://github.com/janovix/docs/compare/v1.6.1...v1.7.0) (2026-02-18)
 
 
