@@ -120,7 +120,7 @@ export default async function Page(props: {
 					<div className="flex items-center gap-3">
 						<Logo variant="logo" width={102} height={16} />
 						<span>
-							© {new Date().getFullYear()} Yenio. Platform for AML compliance
+							© {new Date().getFullYear()} Janovix. Platform for AML compliance
 							and KYC management.
 						</span>
 					</div>

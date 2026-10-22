@@ -10,16 +10,16 @@ const config = {
 	},
 	useNextSeoProps() {
 		return {
-			titleTemplate: "%s – Yenio Docs",
+			titleTemplate: "%s – Janovix Docs",
 		};
 	},
 	head: (
 		<>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			<meta property="og:title" content="Yenio Documentation" />
+			<meta property="og:title" content="Janovix Documentation" />
 			<meta
 				property="og:description"
-				content="Complete guide for the Yenio AML compliance platform — user manuals for AML, Settings, Watchlist, and API integration."
+				content="Complete guide for the Janovix AML compliance platform — user manuals for AML, Settings, Watchlist, and API integration."
 			/>
 		</>
 	),

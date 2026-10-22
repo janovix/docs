@@ -13,7 +13,7 @@ import { Callout, Steps } from "nextra/components";
 
 ## What is a Vulnerable Activity Operation?
 
-An operation is any act, transaction, or service performed in the context of one of the 20 activities listed in Art. 17 of the LFPIORPI. Yenio supports all 20 activity types with activity-specific data fields.
+An operation is any act, transaction, or service performed in the context of one of the 20 activities listed in Art. 17 of the LFPIORPI. Janovix supports all 20 activity types with activity-specific data fields.
 
 ## Supported Activity Types
 
@@ -97,7 +97,7 @@ Click **Record Operation**. The operation is saved and the alert detection rules
 
 ## UMA Calculations
 
-The UMA (Unidad de Medida y Actualización) is updated annually on **February 1** by INEGI (e.g. **$117.31 MXN/day** for 2026). Yenio automatically:
+The UMA (Unidad de Medida y Actualización) is updated annually on **February 1** by INEGI (e.g. **$117.31 MXN/day** for 2026). Janovix automatically:
 
 - Applies the correct UMA value for the **operation date** (not the recording date)
 - Calculates the UMA equivalent for multi-currency operations using the exchange rate on the operation date
@@ -105,12 +105,12 @@ The UMA (Unidad de Medida y Actualización) is updated annually on **February 1*
 
 <Callout type="info">
 	You can view the current and historical UMA values in **Settings →
-	Compliance**. Yenio maintains a complete table of annual UMA values.
+	Compliance**. Janovix maintains a complete table of annual UMA values.
 </Callout>
 
 ## Accumulated Amounts
 
-Art. 17 of the LFPIORPI states that operations with the same client over a **6-month rolling period** that collectively exceed the notice threshold must be reported. Yenio tracks cumulative amounts per client per activity and will trigger an alert when the accumulated total crosses the threshold.
+Art. 17 of the LFPIORPI states that operations with the same client over a **6-month rolling period** that collectively exceed the notice threshold must be reported. Janovix tracks cumulative amounts per client per activity and will trigger an alert when the accumulated total crosses the threshold.
 
 To view a client's accumulated amounts:
 
